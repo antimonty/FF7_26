@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Værktøjskassen – opsamling på arkæologiforløbet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Zilla+Slab:wght@500;700&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --paper:#E8EDE9; --card:#FFFFFF; --soft:#F3F6F4; --ink:#1B2A2F; --muted:#55666A; --line:#C6D0CA;
+  --accent:#1F5FA8; --accent-ink:#FFFFFF;
+  --ok:#23764A; --ok-bg:#E2F1E7; --bad:#A8322A; --bad-bg:#F8E5E2; --hint-bg:#FBF0D6;
+  --m-sr:#6E4A9E; --m-c14:#1F5FA8; --m-dendro:#8A5A2B; --m-strat:#8C6A00; --m-typo:#257566; --m-osteo:#9C3D54; --m-other:#55666A;
+  --gold:#B38A2E; --soil1:#6B5A45; --soil2:#B79A6A; --soil3:#8C7A5C; --char:#3A3431; --sand:#D9C38F; --brick:#A4553A;
+  --serif:'Zilla Slab', Rockwell, 'Roboto Slab', Georgia, serif;
+  --sans:'Atkinson Hyperlegible', 'Segoe UI', Verdana, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#11181A; --card:#1A2326; --soft:#161E21; --ink:#E4ECE9; --muted:#9CAFB0; --line:#34423F;
+    --accent:#7BAAE8; --accent-ink:#0D1824;
+    --ok:#6BC896; --ok-bg:#15301F; --bad:#F08B7F; --bad-bg:#3A1C19; --hint-bg:#342B14;
+    --m-sr:#B397DB; --m-c14:#7BAAE8; --m-dendro:#D39B63; --m-strat:#D8B447; --m-typo:#5DC4AE; --m-osteo:#E28BA1; --m-other:#9CAFB0;
+    --gold:#D9B45A; --soil1:#7A6850; --soil2:#9E8660; --soil3:#6E604A; --char:#2A2523; --sand:#B8A276; --brick:#B4674B;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#11181A; --card:#1A2326; --soft:#161E21; --ink:#E4ECE9; --muted:#9CAFB0; --line:#34423F;
+  --accent:#7BAAE8; --accent-ink:#0D1824;
+  --ok:#6BC896; --ok-bg:#15301F; --bad:#F08B7F; --bad-bg:#3A1C19; --hint-bg:#342B14;
+  --m-sr:#B397DB; --m-c14:#7BAAE8; --m-dendro:#D39B63; --m-strat:#D8B447; --m-typo:#5DC4AE; --m-osteo:#E28BA1; --m-other:#9CAFB0;
+  --gold:#D9B45A; --soil1:#7A6850; --soil2:#9E8660; --soil3:#6E604A; --char:#2A2523; --sand:#B8A276; --brick:#B4674B;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:1.0625rem;line-height:1.55}
+img,svg{max-width:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1,h2,h3,h4{font-family:var(--serif);line-height:1.15;margin:0 0 .4em}
+p{margin:0 0 .8em}
+
+.bar{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--line);background:var(--card)}
+.bar .brand{font-family:var(--serif);font-weight:700;font-size:1.2rem}
+.bar .spacer{flex:1}
+.wrap{max-width:940px;margin:0 auto;padding:24px 20px 60px}
+
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:6px;padding:10px 16px;font-weight:700;cursor:pointer}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.small{padding:6px 10px;font-size:.92rem}
+.linkbtn{background:none;border:0;color:var(--accent);cursor:pointer;padding:4px 0;font-weight:700}
+.say{background:transparent;border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:.85rem;cursor:pointer;color:var(--muted);white-space:nowrap}
+.say:hover{color:var(--ink);border-color:var(--muted)}
+
+/* Forside */
+.hero{margin:18px 0 28px;max-width:62ch}
+.hero h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:700;letter-spacing:-.01em}
+.hero p{font-size:1.15rem;color:var(--muted)}
+.tags{display:grid;grid-template-columns:1fr;gap:18px}
+@media (min-width:720px){.tags{grid-template-columns:1fr 1fr}}
+.tag{position:relative;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:4px 14px 14px 4px;padding:20px 20px 18px 50px;cursor:pointer;display:flex;flex-direction:column;gap:6px}
+.tag::before{content:"";position:absolute;left:17px;top:24px;width:14px;height:14px;border-radius:50%;background:var(--paper);border:2px solid var(--line)}
+.tag:hover{border-color:var(--muted)}
+.tag .nr{font-size:.9rem;color:var(--muted)}
+.tag h3{font-size:1.4rem;margin:0}
+.tag .place{color:var(--muted);font-size:.95rem}
+.tag .teaser{font-size:.98rem;margin:4px 0 6px}
+.tag .foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:auto}
+.status{font-size:.88rem;color:var(--muted)}
+.status.done{color:var(--ok);font-weight:700}
+.stamp{display:inline-block;font-family:var(--serif);font-weight:700;color:var(--c);border:2px solid var(--c);border-radius:4px;padding:1px 9px;transform:rotate(-3deg);font-size:1rem;background:var(--card);white-space:nowrap}
+.stamp.sm{font-size:.82rem;padding:0 6px;border-width:1.5px;transform:none}
+.foot-note{margin-top:36px;color:var(--muted);font-size:.93rem;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+
+/* Sag */
+.casehead{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px}
+.casehead h2{font-size:clamp(1.7rem,4.5vw,2.4rem);margin:0}
+.casehead .place{color:var(--muted)}
+.tabs{display:flex;gap:4px;border-bottom:2px solid var(--line);margin-bottom:20px;overflow-x:auto}
+.tabs button{background:none;border:0;padding:10px 14px;cursor:pointer;font-weight:700;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px}
+.panel + .panel{margin-top:18px}
+.story{font-size:1.1rem;max-width:68ch}
+.finds{margin:6px 0 0;padding-left:1.2em}
+.finds li{margin:3px 0}
+.primer{background:var(--soft);border-left:4px solid var(--c,var(--accent));padding:14px 16px;border-radius:0 8px 8px 0;margin-bottom:18px}
+.primer h3{font-size:1.15rem}
+.primer p{margin:0;max-width:72ch}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.row.between{justify-content:space-between}
+
+.instrument{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:22px;overflow-x:auto}
+.instrument h3{font-size:1.15rem}
+.instrument .cap{font-size:.93rem;color:var(--muted)}
+.instrument svg text{font-family:var(--sans)}
+.datatable{border-collapse:collapse;margin:10px 0 4px;font-size:.97rem}
+.datatable th,.datatable td{border-bottom:1px solid var(--line);padding:6px 12px 6px 0;text-align:left}
+.datatable td.num{font-variant-numeric:tabular-nums;font-weight:700}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.readout{font-size:1.05rem;margin-top:6px}
+.readout b{font-variant-numeric:tabular-nums}
+.meter{height:12px;background:var(--line);border-radius:6px;overflow:hidden;margin-top:6px;max-width:360px}
+.meter > i{display:block;height:100%;background:var(--accent);transition:width .15s}
+.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:8px;overflow:hidden}
+.seg label{padding:6px 12px;cursor:pointer}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg input:checked + span{font-weight:700;color:var(--accent)}
+.seg label:has(input:checked){background:var(--card)}
+.seg input:focus-visible + span{outline:3px solid var(--accent)}
+
+.hot{cursor:pointer}
+.hot circle.hs{fill:var(--accent);fill-opacity:.16;stroke:var(--accent);stroke-width:2}
+.hot.seen circle.hs{fill:var(--ok);fill-opacity:.22;stroke:var(--ok)}
+.hot:hover circle.hs,.hot:focus circle.hs{fill-opacity:.35}
+.obs{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px;min-height:120px}
+.obs h4{font-size:1.1rem}
+.osteo-grid{display:grid;grid-template-columns:1fr;gap:16px}
+@media (min-width:720px){.osteo-grid{grid-template-columns:260px 1fr}}
+.reftabs{display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px}
+@media (min-width:720px){.reftabs{grid-template-columns:1fr 1fr}}
+.refbox{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:.95rem}
+.refbox h4{font-size:1rem}
+.plates{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin:8px 0 14px}
+.plate{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:.88rem}
+.plate b{font-family:var(--serif);font-size:1.05rem}
+.plate.find{border:2px dashed var(--c,var(--accent))}
+.plate svg{display:block;margin:4px 0}
+.plate .d{color:var(--muted)}
+.swords{display:grid;grid-template-columns:1fr;gap:8px;margin:8px 0}
+@media (min-width:720px){.swords{grid-template-columns:1fr 1fr}}
+
+/* Opgaver */
+.q{border:1.5px solid var(--line);border-radius:10px;padding:16px;margin:14px 0;background:var(--card)}
+.q.locked{opacity:.55;background:var(--soft)}
+.q.done{border-color:var(--ok);background:var(--ok-bg)}
+.q .qh{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px}
+.q .qn{font-size:.9rem;color:var(--muted);font-weight:700}
+.q .prompt{font-weight:700;font-size:1.08rem;margin-bottom:10px;max-width:70ch}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{text-align:left;background:var(--soft);border:1.5px solid var(--line);border-radius:8px;padding:11px 14px;cursor:pointer;line-height:1.4}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt.tried{background:var(--bad-bg);border-color:var(--bad);cursor:default}
+.opt.picked{border-color:var(--accent);background:var(--card)}
+.checks{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.checks label{display:flex;gap:10px;align-items:flex-start;padding:8px 12px;border:1.5px solid var(--line);border-radius:8px;background:var(--soft);cursor:pointer}
+.checks input{margin-top:4px;accent-color:var(--accent);width:18px;height:18px}
+.numrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.numrow input{width:9em;padding:9px 10px;border:1.5px solid var(--line);border-radius:6px;background:var(--card);font-variant-numeric:tabular-nums}
+.pool,.seq{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 10px}
+.seq{min-height:46px;padding:8px;border:1.5px dashed var(--line);border-radius:8px}
+.chip{border:1.5px solid var(--line);background:var(--soft);border-radius:6px;padding:7px 11px;cursor:pointer}
+.chip:disabled{opacity:.35;cursor:default}
+.seq .chip{background:var(--card);border-color:var(--accent);cursor:default}
+.fb{margin-top:10px;padding:10px 12px;border-radius:0 6px 6px 0;max-width:72ch}
+.fb.bad{background:var(--bad-bg);border-left:4px solid var(--bad)}
+.fb.hint{background:var(--hint-bg);border-left:4px solid var(--gold)}
+.fb.ok{background:var(--ok-bg);border-left:4px solid var(--ok)}
+.q.done .answer{font-weight:700}
+.q.done .noted{margin-top:6px;font-size:.95rem}
+.tries{font-size:.85rem;color:var(--muted)}
+
+.cards{display:grid;grid-template-columns:1fr;gap:16px}
+.card{border:1.5px solid var(--line);border-radius:10px;padding:16px;background:var(--card)}
+.card.done{border-color:var(--ok)}
+.card .data{background:var(--soft);border-radius:6px;padding:10px 12px;margin:8px 0 4px;max-width:72ch}
+.card .q{margin:10px 0 0;border:0;padding:0;background:transparent}
+.card .q.done{background:transparent}
+
+.evidence{margin-top:24px;border-top:2px solid var(--line);padding-top:14px}
+.evidence h3{font-size:1.15rem}
+.evidence ol{margin:0;padding-left:1.4em}
+.evidence li{margin:5px 0;max-width:75ch}
+.empty{color:var(--muted);font-style:italic}
+.next{margin-top:18px;padding:14px 16px;background:var(--ok-bg);border-radius:8px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+
+/* Rapport */
+.field{margin:0 0 22px}
+.field > label,.field > .lbl{display:block;font-weight:700;font-size:1.05rem;margin-bottom:4px}
+.field .help{color:var(--muted);font-size:.95rem;margin-bottom:6px;max-width:72ch}
+textarea{width:100%;min-height:84px;padding:10px 12px;border:1.5px solid var(--line);border-radius:8px;background:var(--card);resize:vertical;line-height:1.5}
+select{padding:9px 10px;border:1.5px solid var(--line);border-radius:6px;background:var(--card)}
+.claim{border:1.5px solid var(--line);border-radius:10px;padding:14px;margin-bottom:14px;background:var(--soft)}
+.claim h4{font-size:1.05rem}
+.evpick{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}
+.evpick label{display:flex;gap:6px;align-items:center;border:1.5px solid var(--line);border-radius:999px;padding:4px 11px;background:var(--card);cursor:pointer;font-size:.92rem}
+.evpick label:has(input:checked){border-color:var(--accent);background:var(--card);font-weight:700}
+.evpick input{accent-color:var(--accent)}
+.certs{display:flex;gap:6px;flex-wrap:wrap}
+.certs label{border:1.5px solid var(--line);border-radius:6px;padding:5px 12px;cursor:pointer;background:var(--card)}
+.certs label:has(input:checked){border-color:var(--accent);font-weight:700}
+.certs input{accent-color:var(--accent)}
+.errors{background:var(--bad-bg);border-left:4px solid var(--bad);padding:12px 16px;border-radius:0 8px 8px 0;margin-bottom:14px}
+.errors ul{margin:6px 0 0;padding-left:1.2em}
+.evref{font-size:.9rem;color:var(--muted)}
+
+/* Værktøjskassen – ekstra */
+.timeline{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.timeline li{display:grid;grid-template-columns:44px 1fr;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.timeline .n{font-family:var(--serif);font-weight:700;font-size:1.6rem;color:var(--muted);line-height:1}
+.timeline h3{font-size:1.15rem;margin:0 0 4px}
+.timeline p{margin:0 0 8px;max-width:68ch}
+.stamps{display:flex;flex-wrap:wrap;gap:6px}
+.who{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0 6px}
+.who label{display:flex;flex-direction:column;font-weight:700;font-size:.95rem;gap:4px}
+.who input{padding:9px 10px;border:1.5px solid var(--line);border-radius:6px;background:var(--card);min-width:14em}
+.parts{display:grid;grid-template-columns:1fr;gap:12px;margin-top:22px}
+@media (min-width:720px){.parts{grid-template-columns:1fr 1fr}}
+.part{text-align:left;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;cursor:pointer;display:flex;flex-direction:column;gap:4px}
+.part:hover{border-color:var(--muted)}
+.part h3{font-size:1.2rem;margin:0}
+.part p{margin:0;color:var(--muted);font-size:.97rem}
+.four{display:grid;grid-template-columns:1fr;gap:8px;margin:0 0 18px}
+@media (min-width:720px){.four{grid-template-columns:1fr 1fr}}
+.four div{background:var(--soft);border-radius:8px;padding:10px 12px}
+.four b{font-family:var(--serif);font-size:1.05rem}
+.stmt{border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;margin:10px 0;background:var(--card)}
+.stmt.done{border-color:var(--ok);background:var(--ok-bg)}
+.stmt .txt{font-weight:700;margin-bottom:8px;max-width:72ch}
+.stmt .src{font-weight:400;color:var(--muted);font-size:.9rem}
+.pick{display:flex;flex-wrap:wrap;gap:6px}
+.pick button{border:1.5px solid var(--line);background:var(--soft);border-radius:6px;padding:7px 12px;cursor:pointer}
+.pick button:hover:not(:disabled){border-color:var(--accent)}
+.pick button.wrong{background:var(--bad-bg);border-color:var(--bad)}
+.pick button.right{background:var(--card);border-color:var(--ok);font-weight:700}
+.mtabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.mtabs button{border:2px solid var(--c);color:var(--c);background:var(--card);border-radius:6px;padding:5px 11px;cursor:pointer;font-family:var(--serif);font-weight:700}
+.mtabs button[aria-pressed="true"]{background:var(--c);color:var(--card)}
+.mtabs button .ok{margin-left:4px}
+.step{border-top:1px solid var(--line);padding-top:14px;margin-top:16px}
+.step h4{font-size:1.08rem}
+.kk{display:flex;flex-direction:column;gap:8px}
+.kk .row2{display:grid;grid-template-columns:1fr;gap:6px;align-items:center;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;background:var(--soft)}
+@media (min-width:640px){.kk .row2{grid-template-columns:1fr auto}}
+.kk .row2.ok{border-color:var(--ok);background:var(--ok-bg)}
+.kk .row2.bad{border-color:var(--bad);background:var(--bad-bg)}
+.kk .row2 .why{grid-column:1/-1;font-size:.93rem}
+.cmp{width:100%;border-collapse:collapse}
+.cmp th,.cmp td{border-bottom:1px solid var(--line);padding:8px 8px 8px 0;text-align:left;vertical-align:top}
+.cmp select{width:100%;max-width:100%}
+.cmp td.m{white-space:nowrap}
+.cmp tr.ok td{background:var(--ok-bg)}
+.cmp tr.bad td{background:var(--bad-bg)}
+.fact{margin-top:8px;font-size:.97rem}
+.checklist{list-style:none;padding:0;margin:0 0 16px}
+.checklist li{padding:4px 0}
+.checklist .y{color:var(--ok);font-weight:700}
+.checklist .n{color:var(--muted)}
+.sumtable{width:100%;border-collapse:collapse;font-size:.95rem;margin:8px 0 18px}
+.sumtable th,.sumtable td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.sumtable th{background:var(--soft)}
+.dim{color:var(--muted)}
+</style>
+</head>
+<body>
+<header class="bar no-print">
+  <span class="brand">Værktøjskassen</span>
+  <a class="btn ghost small" href="index.html" id="forloebslink" style="text-decoration:none">Forløbet</a>
+  <span class="spacer"></span>
+  <span class="dim" id="whohead"></span>
+</header>
+<main class="wrap" id="app"></main>
+
+<script>
+"use strict";
+const $ = (s, r = document) => r.querySelector(s);
+function h(tag, attrs, ...kids) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v === false || v == null) continue;
+    if (k === 'class') el.className = v;
+    else if (k === 'html') el.innerHTML = v;
+    else if (k.startsWith('on')) el.addEventListener(k.slice(2), v);
+    else el.setAttribute(k, v === true ? '' : v);
+  }
+  for (const k of kids.flat()) { if (k == null || k === false) continue; el.append(k.nodeType ? k : document.createTextNode(String(k))); }
+  return el;
+}
+function shuffle(a) { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; }
+const words = t => ((t || '').match(/[A-Za-zÆØÅæøåÄÖÜäöüéè0-9]{2,}/g) || []).length;
+const canSpeak = 'speechSynthesis' in window;
+function speak(t) { if (!canSpeak) return; try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = 'da-DK'; u.rate = .95; speechSynthesis.speak(u); } catch (e) {} }
+const sayBtn = t => canSpeak ? h('button', { class: 'say', type: 'button', onclick: () => speak(t) }, '🔊 Læs op') : null;
+
+/* ---------- Metoder ---------- */
+const M = {
+  typo:   { name: 'Typologi', c: 'var(--m-typo)' },
+  strat:  { name: 'Stratigrafi', c: 'var(--m-strat)' },
+  dendro: { name: 'Dendrokronologi', c: 'var(--m-dendro)' },
+  c14:    { name: 'Kulstof-14', c: 'var(--m-c14)' },
+  sr:     { name: 'Strontiumanalyse', c: 'var(--m-sr)' },
+  osteo:  { name: 'Human osteologi', c: 'var(--m-osteo)' }
+};
+const MK = Object.keys(M);
+const stamp = k => h('span', { class: 'stamp sm', style: `--c:${M[k].c}` }, M[k].name);
+
+/* ---------- Tilstand ---------- */
+const KEY = 'vaerktoejskassen-v1';
+let S = {};
+try { S = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { S = {}; }
+S = Object.assign({ name: '', klasse: '', trin: {}, m: {}, cmp: { str: {}, lim: {}, done: false }, ev: { rel: '', relWhy: '', first: '', firstWhy: '' }, eg: { clue: {}, debate: false, best: '', bestWhy: '', wonder: '' } }, S);
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+function ms(k) { if (!S.m[k]) S.m[k] = { mat: false, kk: {}, ex: [], exDone: false, how: '' }; return S.m[k]; }
+
+/* =====================================================================
+   INDHOLD
+   ===================================================================== */
+const FORLOEB = [
+  { t: 'Egtvedpigen', what: 'Dokumentar og elevark 1', d: 'Vi fulgte forskerne fra fundet i 1921 til de nye naturvidenskabelige analyser – og så, hvordan de ændrede historien om hende.', m: ['dendro', 'sr', 'osteo', 'typo'] },
+  { t: 'Arkæolog-duellen', what: 'Syv fund fra byernes jord', d: 'Porcelæn, kridtpibe, flintøkse, benskøjte og Perlegade i Sønderborg. Vi så, hvordan arkæologer læser form, stil og jordlag.', m: ['typo', 'strat'] },
+  { t: 'Knogledetektiver', what: '3D-modeller og elevark', d: 'Vi drejede og zoomede på kranie, bækken, lårben og overarm og vurderede alder, udvikling og køn – med en sikkerhed fra 1 til 5.', m: ['osteo'] },
+  { t: 'Laboratoriet', what: 'Seks sager fra jorden', d: 'Vi arbejdede med data fra laboratoriet: aflæste kurver, matchede årringe, ordnede jordlag og regnede på knogler – og skrev rapporter.', m: ['sr', 'c14', 'dendro', 'strat', 'typo', 'osteo'] }
+];
+
+const TRIN = [
+  ['O', 'Observation', 'Hvad ser eller måler forskerne helt fysisk?'],
+  ['A', 'Analyse', 'Hvad viser undersøgelserne i laboratoriet?'],
+  ['F', 'Fortolkning', 'Hvad tror forskerne, at resultatet betyder?'],
+  ['K', 'Konklusion', 'Hvad er den mest sandsynlige samlede forklaring?']
+];
+const STMTS = [
+  { id: 's1', t: 'I kisten ligger en ung kvinde, et snoreskørt, en bælteplade og en lille æske af bark.', src: 'Egtvedpigen', a: 'O', fb: { A: 'Her er intet undersøgt i et laboratorium endnu – forskerne ser bare, hvad der ligger i kisten.' } },
+  { id: 's2', t: 'Den yderste årring i egekisten er fra år 1370 f.Kr.', src: 'Egtvedpigen', a: 'A', fb: { O: 'Man kan ikke se årstallet med det blotte øje. Det kræver en måling og en sammenligning med en referencekurve i laboratoriet.' } },
+  { id: 's3', t: 'Røllike blomstrer om sommeren – så hun blev nok begravet en sommerdag.', src: 'Egtvedpigen', a: 'F', fb: { K: 'Det er én tolkning af ét spor. En konklusion samler mange spor.' } },
+  { id: 's4', t: 'Arkæologen måler lårbenet med et målebånd: 47,2 cm.', src: 'Laboratoriet', a: 'O', fb: { A: 'At måle med et målebånd er en direkte, fysisk observation – ikke en laboratorieundersøgelse.' } },
+  { id: 's5', t: 'Tandemaljen har en anden strontiumværdi end jorden omkring Egtved.', src: 'Egtvedpigen', a: 'A', fb: { F: 'Det er selve måleresultatet. Tolkningen er, hvad den forskel betyder.', O: 'Strontium kan ikke ses – det skal måles i et laboratorium.' } },
+  { id: 's6', t: 'Glatte hænder uden hård hud kan betyde, at manden ikke lavede hårdt arbejde.', src: 'Laboratoriet', a: 'F', fb: { O: 'Glatte hænder er observationen. "Kan betyde" viser, at her tolkes der.' } },
+  { id: 's7', t: 'Der ligger brændte knogler af et lille barn i et tøjbundt ved hendes hoved.', src: 'Egtvedpigen', a: 'O', fb: {} },
+  { id: 's8', t: 'C-14-målingen viser, at der er 74,8 % kulstof-14 tilbage i rebet.', src: 'Laboratoriet', a: 'A', fb: {} },
+  { id: 's9', t: 'Samlet set var Egtvedpigen sandsynligvis en ung kvinde fra en magtfuld slægt, som var vokset op langt væk og blev begravet en sommer omkring 1370 f.Kr.', src: 'Egtvedpigen', a: 'K', fb: { F: 'Læg mærke til, at sætningen samler flere spor: alder, status, strontium, årringe og blomsten. Det gør den til en konklusion.' } },
+  { id: 's10', t: 'Samlet set døde manden i Kalvemosen omkring 450 f.Kr., spiste meget fisk gennem livet og blev sandsynligvis dræbt.', src: 'Laboratoriet', a: 'K', fb: { F: 'Sætningen samler C-14, reservoireffekten og rebet om halsen. Det gør den til en konklusion.' } }
+];
+const TRIN_FB_DEFAULT = {
+  O: 'En observation er noget, man ser eller måler direkte. Er det det, der sker her?',
+  A: 'En analyse er et resultat fra laboratoriet. Er der målt noget her?',
+  F: 'En fortolkning siger, hvad ét resultat måske betyder – ofte med ord som "nok" eller "kan betyde".',
+  K: 'En konklusion samler flere spor til én samlet forklaring.'
+};
+
+const MATS = ['Genstandes form, stil og materiale', 'Jordlag og deres rækkefølge', 'Årringe i træ', 'Organisk materiale: knogler, træ, trækul, hår', 'Tandemalje og hår', 'Menneskers knogler og tænder'];
+const MAT_ANS = { typo: 0, strat: 1, dendro: 2, c14: 3, sr: 4, osteo: 5 };
+
+const HOW_START = {
+  typo: 'Man sammenligner … med …, og fordi former ændrer sig over tid, kan man …',
+  strat: 'Jordlag lægger sig …, så det nederste lag er …',
+  dendro: 'Træer får én årring om året. Man sammenligner …',
+  c14: 'Alt levende optager kulstof-14. Når det dør, …',
+  sr: 'Strontium fra jord og vand kommer ind i tænderne, mens …',
+  osteo: 'Man undersøger knoglerne og tænderne og ser efter …'
+};
+
+const KK = {
+  typo: [
+    ['Om en genstand er ældre eller yngre end andre typer', true],
+    ['Hvilket år en genstand præcis blev lavet', false, 'Typologi giver et tidsrum – fx 200–300 e.Kr. – ikke et bestemt år.'],
+    ['Noget om handel og status – fx at porcelænet kom fra Kina', true],
+    ['Hvor ejeren af genstanden voksede op', false, 'En ting kan være købt, arvet eller byttet. Den siger ikke, hvor ejeren kom fra.']
+  ],
+  strat: [
+    ['Hvilke lag og fund der er ældst og yngst', true],
+    ['Et årstal – uden daterede fund i lagene', false, 'Lagene giver kun en rækkefølge. Årstal kræver fx en mønt eller et stykke træ, der kan dateres.'],
+    ['At en grav er yngre end de lag, den skærer igennem', true],
+    ['Hvem der gravede graven', false, 'Jordlag fortæller om rækkefølge, ikke om personer.']
+  ],
+  dendro: [
+    ['Det præcise år, træet blev fældet – hvis barkkanten er bevaret', true],
+    ['Hvor træet voksede', true],
+    ['Hvor gammel en knogle er', false, 'Knogler har ingen årringe. Til knogler bruger man fx C-14.'],
+    ['Hvor de mennesker, der brugte træet, kom fra', false, 'Tænk på båden fra Hvidesand: norsk træ gør ikke manden til nordmand.']
+  ],
+  c14: [
+    ['Hvor længe siden en plante, et dyr eller et menneske døde', true],
+    ['Alderen på en bronzegenstand eller en sten', false, 'Metal og sten har aldrig levet og optaget kulstof.'],
+    ['Et præcist år helt uden usikkerhed', false, 'Der er altid en usikkerhed, fx ± 30 år.'],
+    ['Om to prøver fra samme fund er lige gamle', true]
+  ],
+  sr: [
+    ['Om en person voksede op et andet sted end der, hvor hun blev begravet', true],
+    ['Præcis hvilken by eller landsby personen kom fra', false, 'Mange områder har samme værdi. Strontium kan udelukke steder, ikke pege på ét.'],
+    ['Hvorfor personen flyttede', false, 'Det kan kemi ikke svare på. Her må vi gætte eller lede efter andre spor.'],
+    ['Hvilke områder personen ikke kan være vokset op i', true]
+  ],
+  osteo: [
+    ['Personens omtrentlige alder og højde', true],
+    ['Personens køn med 100 % sikkerhed', false, 'Køn vurderes som "sandsynligt" – og kan slet ikke bestemmes sikkert hos små børn.'],
+    ['Spor af skader, sygdom og hårdt arbejde', true],
+    ['Hvornår personen levede', false, 'Knoglerne viser livet, ikke tiden. Til det skal man bruge fx C-14.']
+  ]
+};
+
+const EX = [
+  ['eg-kiste', 'Egtvedpigens egekiste', 'Egtvedpigen'],
+  ['eg-taender', 'Egtvedpigens tænder og hår', 'Egtvedpigen'],
+  ['eg-barn', 'Barnets knogler i Egtvedgraven', 'Egtvedpigen'],
+  ['eg-baelte', 'Egtvedpigens bælteplade og dragt', 'Egtvedpigen'],
+  ['pibe', 'Den hollandske kridtpibe', 'Arkæolog-duellen'],
+  ['porcelaen', 'Porcelænsskåret fra Kina', 'Arkæolog-duellen'],
+  ['oekse', 'Den tyknakkede flintøkse', 'Arkæolog-duellen'],
+  ['perlegade', 'Perlegade i Sønderborg', 'Arkæolog-duellen'],
+  ['skoejte', 'Benskøjten i voldgraven', 'Arkæolog-duellen'],
+  ['3d', '3D-knoglerne: kranie, bækken, lårben, overarm', 'Knogledetektiver'],
+  ['l-raeve', 'Kvinden i egekisten', 'Laboratoriet'],
+  ['l-kalve', 'Manden i Kalvemosen', 'Laboratoriet'],
+  ['l-hvide', 'Bådgraven ved Hvidesand', 'Laboratoriet'],
+  ['l-algade', 'Barnet under gulvet', 'Laboratoriet'],
+  ['l-lyng', 'Grav 12 på Lynghøj', 'Laboratoriet'],
+  ['l-kloster', 'Grav 47 ved klosteret', 'Laboratoriet']
+];
+const EX_OK = {
+  typo: ['eg-baelte', 'pibe', 'porcelaen', 'oekse', 'l-lyng', 'l-raeve', 'l-kalve', 'l-hvide'],
+  strat: ['perlegade', 'skoejte', 'l-algade'],
+  dendro: ['eg-kiste', 'l-hvide', 'l-raeve', 'l-algade'],
+  c14: ['l-kalve', 'l-kloster'],
+  sr: ['eg-taender', 'l-raeve', 'l-kloster'],
+  osteo: ['eg-barn', 'eg-taender', '3d', 'l-kloster', 'l-raeve', 'l-kalve', 'l-hvide', 'l-algade', 'l-lyng']
+};
+const exName = id => (EX.find(e => e[0] === id) || [, id])[1];
+
+const STR = {
+  typo: 'Kan bruges på næsten alle genstande – også uden et laboratorium',
+  strat: 'Viser rækkefølgen af alt på et udgravningssted',
+  dendro: 'Kan give det helt præcise år',
+  c14: 'Kan datere alt, der har levet, op til ca. 50.000 år tilbage',
+  sr: 'Kan afsløre, at et menneske har flyttet sig',
+  osteo: 'Fortæller om selve menneskets krop og liv'
+};
+const LIM = {
+  typo: 'Giver kun et tidsrum og kræver mange sammenligningsfund',
+  strat: 'Giver ingen årstal alene',
+  dendro: 'Kræver træ med mange årringe',
+  c14: 'Virker ikke på metal og sten – og har altid en usikkerhed',
+  sr: 'Kan ikke pege på ét bestemt sted',
+  osteo: 'Kan ikke sige, hvornår personen levede'
+};
+
+const CLUES = [
+  { id: 'aarringe', t: 'Årringene i kisten', ok: ['dendro'], fact: 'Egetræet til kisten blev fældet i 1370 f.Kr. Hun blev begravet kort efter.' },
+  { id: 'roellike', t: 'Rølliken (blomsten)', ok: ['none'], fact: 'Røllike blomstrer om sommeren, så hun blev nok begravet en sommerdag. Det er botanik – en metode uden for vores seks.' },
+  { id: 'tand', t: 'Tandemaljen', ok: ['sr', 'osteo'], fact: 'Tænderne viser, at hun var ca. 16–18 år (osteologi). Strontium i emaljen viser, at hun voksede op et andet sted end Egtved.' },
+  { id: 'haar', t: 'Håret', ok: ['sr'], fact: 'Håret voksede i hendes sidste ca. to år. Strontium langs håret tyder på, at hun rejste frem og tilbage over lange afstande.' },
+  { id: 'dragt', t: 'Dragten og bæltet', ok: ['typo'], fact: 'Snoreskørtet og den store bælteplade af bronze passer med typer fra ældre bronzealder og viser høj status.' },
+  { id: 'barn', t: 'Barnets knogler', ok: ['osteo'], fact: 'I et tøjbundt lå brændte knogler af et barn på ca. 5–6 år. Hvem barnet var, ved vi ikke.' }
+];
+
+/* =====================================================================
+   FREMSKRIDT
+   ===================================================================== */
+const p1Done = () => STMTS.every(s => S.trin[s.id]);
+const mDone = k => { const m = ms(k); return m.mat && KK[k].every((_, i) => m.kk[i] === 'ok') && m.exDone && words(m.how) >= 8; };
+const p2Count = () => MK.filter(mDone).length;
+const p3Done = () => S.cmp.done && S.ev.rel && S.ev.first && words(S.ev.relWhy) >= 4 && words(S.ev.firstWhy) >= 4;
+const p4Done = () => CLUES.every(c => S.eg.clue[c.id]) && S.eg.debate && S.eg.best && words(S.eg.bestWhy) >= 4 && words(S.eg.wonder) >= 3;
+
+/* =====================================================================
+   VISNINGER
+   ===================================================================== */
+const app = $('#app');
+const TABS = [['start', 'Forløbet'], ['trin', '1 De fire trin'], ['kasse', '2 Værktøjskassen'], ['sammen', '3 Sammenlign'], ['egtved', '4 Egtvedpigen igen'], ['min', 'Min værktøjskasse']];
+function go(tab, arg) {
+  if (canSpeak) speechSynthesis.cancel();
+  $('#whohead').textContent = S.name ? S.name + (S.klasse ? ', ' + S.klasse : '') : '';
+  app.replaceChildren();
+  const nav = h('div', { class: 'tabs no-print', role: 'tablist' });
+  TABS.forEach(([k, n]) => nav.append(h('button', { role: 'tab', type: 'button', 'aria-selected': k === tab ? 'true' : 'false', onclick: () => go(k) }, n)));
+  app.append(nav);
+  const body = h('div'); app.append(body);
+  ({ start: vStart, trin: vTrin, kasse: vKasse, sammen: vSammen, egtved: vEgtved, min: vMin })[tab](body, arg);
+  window.scrollTo(0, 0);
+}
+const nextBtn = (tab, label) => h('div', { class: 'next' }, h('span', {}, 'Godt. Den del er færdig.'), h('button', { class: 'btn', type: 'button', onclick: () => go(tab) }, label));
+
+/* ---------- Forløbet ---------- */
+function vStart(el) {
+  el.append(h('section', { class: 'hero', style: 'margin-top:4px' },
+    h('h1', {}, 'Hvordan ved vi det?'),
+    h('p', {}, 'Vi har undersøgt mennesker, der levede for tusinder af år siden – uden at de har efterladt ét skrevet ord. Her samler I op på alt det, vi har lavet, og bygger jeres egen værktøjskasse med arkæologens seks metoder.')));
+  const nm = h('input', { type: 'text', value: S.name, autocomplete: 'off' }); nm.addEventListener('input', () => { S.name = nm.value; save(); $('#whohead').textContent = S.name; });
+  const kl = h('input', { type: 'text', value: S.klasse, autocomplete: 'off', style: 'min-width:6em' }); kl.addEventListener('input', () => { S.klasse = kl.value; save(); });
+  el.append(h('div', { class: 'who' }, h('label', {}, 'Navn(e)', nm), h('label', {}, 'Klasse', kl)));
+  el.append(h('h2', { style: 'font-size:1.5rem;margin-top:22px' }, 'Det har vi lavet'));
+  el.append(h('ol', { class: 'timeline' }, FORLOEB.map((f, i) => h('li', {}, h('span', { class: 'n' }, String(i + 1)),
+    h('div', {}, h('h3', {}, f.t, h('span', { class: 'dim', style: 'font-family:var(--sans);font-weight:400;font-size:.95rem' }, ' – ' + f.what)), h('p', {}, f.d), h('div', { class: 'stamps' }, f.m.map(stamp)))))));
+  el.append(h('h2', { style: 'font-size:1.5rem;margin-top:28px' }, 'Opsamlingen'));
+  const parts = [
+    ['trin', '1 De fire trin', 'Skeln mellem observation, analyse, fortolkning og konklusion.', p1Done() ? 'Færdig' : `${Object.keys(S.trin).length} af ${STMTS.length}`],
+    ['kasse', '2 Værktøjskassen', 'Hvad kan hver metode – og hvad kan den ikke?', `${p2Count()} af 6 metoder`],
+    ['sammen', '3 Sammenlign', 'Styrker, begrænsninger og jeres egen vurdering.', p3Done() ? 'Færdig' : 'Ikke færdig'],
+    ['egtved', '4 Egtvedpigen igen', 'Brug værktøjskassen på det fund, vi startede med.', p4Done() ? 'Færdig' : 'Ikke færdig']
+  ];
+  el.append(h('div', { class: 'parts' }, parts.map(([k, t, d, s]) => h('button', { class: 'part', type: 'button', onclick: () => go(k) }, h('h3', {}, t), h('p', {}, d), h('span', { class: 'status' + (s === 'Færdig' || s === '6 af 6 metoder' ? ' done' : '') }, s)))));
+  el.append(h('div', { class: 'next', style: 'background:var(--soft);margin-top:18px' }, h('span', {}, 'Til sidst samles alt i "Min værktøjskasse", som I kan hente og aflevere.'), h('button', { class: 'btn', type: 'button', onclick: () => go('trin') }, 'Start med del 1')));
+}
+
+/* ---------- 1 De fire trin ---------- */
+function vTrin(el) {
+  const p = h('div', { class: 'panel' });
+  p.append(h('h3', {}, 'De fire trin'));
+  p.append(h('p', { class: 'dim', style: 'max-width:70ch' }, 'Når man arbejder videnskabeligt, skal man skelne skarpt mellem, hvad man ser, hvad man måler, hvad man tror, og hvad man samlet konkluderer. Sæt hver sætning fra forløbet på det rigtige trin.'));
+  p.append(h('div', { class: 'four' }, TRIN.map(([k, n, d]) => h('div', {}, h('b', {}, n), h('div', {}, d)))));
+  const list = h('div'); p.append(list); el.append(p);
+  function draw() {
+    list.replaceChildren();
+    STMTS.forEach(s => {
+      const done = S.trin[s.id];
+      const box = h('div', { class: 'stmt' + (done ? ' done' : '') }, h('div', { class: 'txt' }, s.t, ' ', h('span', { class: 'src' }, '(' + s.src + ')')));
+      const pick = h('div', { class: 'pick' }), fb = h('div', { 'aria-live': 'polite' });
+      TRIN.forEach(([k, n]) => {
+        const b = h('button', { type: 'button', class: done && k === s.a ? 'right' : '', disabled: done ? true : null }, n);
+        b.addEventListener('click', () => {
+          if (k === s.a) { S.trin[s.id] = true; save(); draw(); }
+          else { b.classList.add('wrong'); b.disabled = true; fb.replaceChildren(h('div', { class: 'fb bad' }, (s.fb && s.fb[k]) || TRIN_FB_DEFAULT[k])); }
+        });
+        pick.append(b);
+      });
+      box.append(pick, fb); list.append(box);
+    });
+    if (p1Done()) list.append(nextBtn('kasse', 'Videre til værktøjskassen'));
+  }
+  draw();
+}
+
+/* ---------- 2 Værktøjskassen ---------- */
+function vKasse(el, k) {
+  k = k || MK.find(x => !mDone(x)) || 'typo';
+  const m = ms(k);
+  el.append(h('div', { class: 'mtabs', role: 'group', 'aria-label': 'Vælg metode' }, MK.map(x => h('button', { type: 'button', style: `--c:${M[x].c}`, 'aria-pressed': x === k ? 'true' : 'false', onclick: () => go('kasse', x) }, M[x].name, mDone(x) ? h('span', { class: 'ok' }, '✓') : null))));
+  const p = h('div', { class: 'panel' });
+  p.append(h('div', { class: 'row between' }, h('h3', { style: 'font-size:1.5rem;margin:0' }, M[k].name), h('span', { class: 'dim' }, `${p2Count()} af 6 metoder færdige`)));
+  el.append(p);
+
+  // A: materiale
+  const a = h('div', { class: 'step' }, h('h4', {}, 'Hvad undersøger man?'));
+  const aPick = h('div', { class: 'pick' }), aFb = h('div', { 'aria-live': 'polite' });
+  MATS.forEach((t, i) => {
+    const b = h('button', { type: 'button', class: m.mat && i === MAT_ANS[k] ? 'right' : '', disabled: m.mat ? true : null }, t);
+    b.addEventListener('click', () => {
+      if (i === MAT_ANS[k]) { m.mat = true; save(); go('kasse', k); }
+      else { b.classList.add('wrong'); b.disabled = true; aFb.replaceChildren(h('div', { class: 'fb bad' }, 'Det bruger en anden metode. Hvilket materiale arbejder ' + M[k].name.toLowerCase() + ' med?')); }
+    });
+    aPick.append(b);
+  });
+  a.append(aPick, aFb); p.append(a);
+
+  // B: kan / kan ikke
+  const b = h('div', { class: 'step' }, h('h4', {}, 'Hvad kan metoden – og hvad kan den IKKE?'));
+  const kk = h('div', { class: 'kk' });
+  KK[k].forEach(([t, can, why], i) => {
+    const st = m.kk[i];
+    const row = h('div', { class: 'row2' + (st === 'ok' ? ' ok' : st === 'bad' ? ' bad' : '') }, h('span', {}, t));
+    const pk = h('div', { class: 'pick' });
+    [[true, 'Kan'], [false, 'Kan ikke']].forEach(([v, n]) => {
+      const bt = h('button', { type: 'button', class: st === 'ok' && v === can ? 'right' : '', disabled: st === 'ok' ? true : null }, n);
+      bt.addEventListener('click', () => { m.kk[i] = v === can ? 'ok' : 'bad'; save(); go('kasse', k); setTimeout(() => { const r = document.querySelectorAll('.kk .row2')[i]; if (r) r.scrollIntoView({ block: 'center' }); }, 0); });
+      pk.append(bt);
+    });
+    row.append(pk);
+    if (st === 'bad') row.append(h('div', { class: 'why' }, can ? 'Jo, det kan metoden faktisk. Tænk på eksemplerne fra forløbet.' : why));
+    if (st === 'ok' && !can && why) row.append(h('div', { class: 'why' }, why));
+    kk.append(row);
+  });
+  b.append(kk); p.append(b);
+
+  // C: eksempler
+  const c = h('div', { class: 'step' }, h('h4', {}, 'Hvor mødte vi metoden i forløbet?'), h('p', { class: 'cap dim' }, 'Vælg de eksempler, hvor metoden blev brugt. Mindst to.'));
+  const checks = h('div', { class: 'checks' });
+  const inputs = EX.map(([id, t, src]) => { const i = h('input', { type: 'checkbox', checked: m.ex.includes(id) ? true : null, disabled: m.exDone ? true : null }); checks.append(h('label', {}, i, h('span', {}, t, ' ', h('span', { class: 'dim' }, '(' + src + ')')))); return [id, i]; });
+  const cFb = h('div', { 'aria-live': 'polite' });
+  c.append(checks);
+  if (m.exDone) c.append(h('div', { class: 'fb ok' }, 'Godt – eksemplerne passer.'));
+  else c.append(h('button', { class: 'btn', type: 'button', onclick: () => {
+    const picked = inputs.filter(([, i]) => i.checked).map(([id]) => id);
+    const wrong = picked.filter(id => !EX_OK[k].includes(id));
+    if (picked.length < 2) { cFb.replaceChildren(h('div', { class: 'fb hint' }, 'Vælg mindst to eksempler.')); return; }
+    if (wrong.length) { cFb.replaceChildren(h('div', { class: 'fb bad' }, `"${exName(wrong[0])}" brugte ikke ${M[k].name.toLowerCase()}. Fjern det og prøv igen.`)); return; }
+    m.ex = picked; m.exDone = true; save(); go('kasse', k);
+  } }, 'Tjek eksempler'), cFb);
+  p.append(c);
+
+  // D: egen forklaring
+  const d = h('div', { class: 'step' }, h('h4', {}, 'Hvordan fungerer metoden? Forklar med jeres egne ord'));
+  const ta = h('textarea', { placeholder: HOW_START[k] }); ta.value = m.how;
+  const cnt = h('div', { class: 'cap dim' });
+  const upd = () => { const n = words(ta.value); cnt.textContent = n >= 8 ? '✓ Forklaringen er med.' : `Skriv mindst 8 ord (${n} indtil videre).`; };
+  ta.addEventListener('input', () => { m.how = ta.value; save(); upd(); });
+  ta.addEventListener('change', () => { if (mDone(k)) go('kasse', k); });
+  upd(); d.append(ta, cnt); p.append(d);
+
+  if (mDone(k)) {
+    const nk = MK.find(x => !mDone(x));
+    p.append(h('div', { class: 'next' }, h('span', {}, M[k].name + ' er med i værktøjskassen.'), nk ? h('button', { class: 'btn', type: 'button', onclick: () => go('kasse', nk) }, 'Næste metode: ' + M[nk].name) : h('button', { class: 'btn', type: 'button', onclick: () => go('sammen') }, 'Videre til del 3')));
+  }
+}
+
+/* ---------- 3 Sammenlign ---------- */
+function vSammen(el) {
+  const p = h('div', { class: 'panel' });
+  p.append(h('h3', {}, 'Sammenligning af metoder'));
+  p.append(h('p', { class: 'dim', style: 'max-width:70ch' }, 'Vælg den største styrke og den største begrænsning for hver metode. Hver mulighed bruges kun én gang.'));
+  const strOpts = shuffle(MK), limOpts = shuffle(MK);
+  const tb = h('tbody');
+  const rows = MK.map(k => {
+    const s1 = h('select', { 'aria-label': 'Styrke for ' + M[k].name }, h('option', { value: '' }, 'Vælg …'), strOpts.map(x => h('option', { value: x }, STR[x])));
+    const s2 = h('select', { 'aria-label': 'Begrænsning for ' + M[k].name }, h('option', { value: '' }, 'Vælg …'), limOpts.map(x => h('option', { value: x }, LIM[x])));
+    s1.value = S.cmp.str[k] || ''; s2.value = S.cmp.lim[k] || '';
+    s1.addEventListener('change', () => { S.cmp.str[k] = s1.value; S.cmp.done = false; save(); });
+    s2.addEventListener('change', () => { S.cmp.lim[k] = s2.value; S.cmp.done = false; save(); });
+    const tr = h('tr', { class: S.cmp.done ? 'ok' : '' }, h('td', { class: 'm' }, stamp(k)), h('td', {}, s1), h('td', {}, s2));
+    tb.append(tr); return [k, tr];
+  });
+  p.append(h('div', { style: 'overflow-x:auto' }, h('table', { class: 'cmp' }, h('thead', {}, h('tr', {}, h('th', {}, 'Metode'), h('th', {}, 'Største styrke'), h('th', {}, 'Største begrænsning'))), tb)));
+  const fb = h('div', { 'aria-live': 'polite' });
+  p.append(h('div', { class: 'row', style: 'margin-top:10px' }, h('button', { class: 'btn', type: 'button', onclick: () => {
+    let bad = 0; rows.forEach(([k, tr]) => { const ok = S.cmp.str[k] === k && S.cmp.lim[k] === k; tr.className = ok ? 'ok' : 'bad'; if (!ok) bad++; });
+    if (!bad) { S.cmp.done = true; save(); fb.replaceChildren(h('div', { class: 'fb ok' }, 'Alle seks rækker passer.')); }
+    else fb.replaceChildren(h('div', { class: 'fb bad' }, `${bad} ${bad === 1 ? 'række passer' : 'rækker passer'} ikke endnu. De røde rækker skal rettes. Tip: Tænk på, hvad I svarede under "kan ikke" i værktøjskassen.`));
+  } }, 'Tjek tabellen')), fb);
+  el.append(p);
+
+  const q = h('div', { class: 'panel' }, h('h3', {}, 'Arkæologens metodevurdering'), h('p', { class: 'dim', style: 'max-width:70ch' }, 'Her er der ikke ét rigtigt svar. Det vigtige er, at I begrunder med noget fra forløbet.'));
+  const sel = (key) => { const s = h('select', {}, h('option', { value: '' }, 'Vælg metode …'), MK.map(x => h('option', { value: x }, M[x].name))); s.value = S.ev[key]; s.addEventListener('change', () => { S.ev[key] = s.value; save(); }); return s; };
+  const ta = (key, ph) => { const t = h('textarea', { placeholder: ph }); t.value = S.ev[key]; t.addEventListener('input', () => { S.ev[key] = t.value; save(); }); return t; };
+  q.append(h('div', { class: 'field' }, h('label', {}, '1. Hvilken metode synes I er mest pålidelig?'), sel('rel'), h('div', { class: 'help', style: 'margin-top:8px' }, 'Hvorfor?'), ta('relWhy', 'Vi synes, den er mest pålidelig, fordi … Det så vi fx i …')));
+  q.append(h('div', { class: 'field' }, h('label', {}, '2. Hvilken metode ville I vælge først, hvis I fandt en ukendt grav?'), sel('first'), h('div', { class: 'help', style: 'margin-top:8px' }, 'Hvorfor?'), ta('firstWhy', 'Vi ville starte med …, fordi …')));
+  q.append(h('button', { class: 'btn', type: 'button', onclick: () => { if (p3Done()) go('egtved'); else fb2.replaceChildren(h('div', { class: 'fb hint' }, !S.cmp.done ? 'Tabellen øverst skal tjekkes og passe først.' : 'Vælg en metode og skriv en begrundelse på mindst 4 ord til begge spørgsmål.')); } }, 'Videre til del 4'));
+  const fb2 = h('div', { 'aria-live': 'polite' }); q.append(fb2);
+  el.append(q);
+}
+
+/* ---------- 4 Egtvedpigen igen ---------- */
+function vEgtved(el) {
+  const intro = 'Vi startede forløbet med Egtvedpigen. Nu kender I alle seks metoder. For hvert spor i graven: Hvilken metode fik forskerne til at få noget ud af sporet?';
+  const p = h('div', { class: 'panel' });
+  p.append(h('div', { class: 'row between' }, h('h3', {}, 'Brug værktøjskassen på Egtvedpigen'), sayBtn(intro)));
+  p.append(h('p', { style: 'max-width:70ch' }, intro));
+  const list = h('div'); p.append(list); el.append(p);
+  const opts = [...MK.map(k => [k, M[k].name]), ['none', 'Ingen af de seks']];
+  function draw() {
+    list.replaceChildren();
+    CLUES.forEach(c => {
+      const done = S.eg.clue[c.id];
+      const box = h('div', { class: 'stmt' + (done ? ' done' : '') }, h('div', { class: 'txt' }, c.t));
+      const pick = h('div', { class: 'pick' }), fb = h('div', { 'aria-live': 'polite' });
+      opts.forEach(([k, n]) => {
+        const b = h('button', { type: 'button', class: done && (done === k) ? 'right' : '', disabled: done ? true : null }, n);
+        b.addEventListener('click', () => {
+          if (c.ok.includes(k)) { S.eg.clue[c.id] = k; save(); draw(); }
+          else { b.classList.add('wrong'); b.disabled = true; fb.replaceChildren(h('div', { class: 'fb bad' }, k === 'none' ? 'Jo, én af de seks metoder blev brugt på dette spor.' : `${n} blev ikke brugt på dette spor. Hvilket materiale er det?`)); }
+        });
+        pick.append(b);
+      });
+      box.append(pick, fb);
+      if (done) box.append(h('div', { class: 'fact' }, c.fact));
+      list.append(box);
+    });
+  }
+  draw();
+
+  const d = h('div', { class: 'panel' });
+  d.append(h('h3', {}, 'Ny forskning ryster konklusionen'));
+  const deb = 'I 2019 foreslog to danske forskere, at moderne landbrugskalk kan have ændret strontium i dansk jord. Så kan de "lokale" referenceværdier være forkerte – og Egtvedpigen kan måske godt være vokset op i Danmark alligevel. Hvad betyder det for konklusionen om, at hun kom fra Sydtyskland?';
+  d.append(h('div', { class: 'row between' }, h('p', { style: 'max-width:70ch;margin:0' }, deb), sayBtn(deb)));
+  const dFb = h('div', { 'aria-live': 'polite' });
+  const dOpts = [
+    ['Konklusionen bliver mindre sikker. Den går fra "sandsynligt" mod "muligt", indtil nye undersøgelser kan afgøre det.', true],
+    ['At strontiumanalyse er noget pjat, som vi skal glemme.', false, 'Metoden er god nok – men resultatet afhænger af referencekortet. Når kortet er usikkert, bliver konklusionen det også.'],
+    ['At hun helt sikkert var dansk.', false, 'Kritikken viser, at det er muligt – ikke at det er bevist. Man kan ikke erstatte én skråsikker konklusion med en anden.']
+  ];
+  const dp = h('div', { class: 'opts', style: 'margin-top:10px' });
+  shuffle(dOpts).forEach(([t, ok, fb]) => {
+    const b = h('button', { class: 'opt' + (S.eg.debate && ok ? ' picked' : ''), type: 'button', disabled: S.eg.debate ? true : null }, (S.eg.debate && ok ? '✓ ' : '') + t);
+    b.addEventListener('click', () => { if (ok) { S.eg.debate = true; save(); go('egtved'); } else { b.classList.add('tried'); b.disabled = true; dFb.replaceChildren(h('div', { class: 'fb bad' }, fb)); } });
+    dp.append(b);
+  });
+  d.append(dp, dFb);
+  if (S.eg.debate) d.append(h('div', { class: 'fb ok' }, 'Præcis. Sådan arbejder videnskaben: Nye data kan gøre en konklusion stærkere eller svagere. Derfor er det vigtigt at sige, hvor sikker man er.'));
+  el.append(d);
+
+  const v = h('div', { class: 'panel' }, h('h3', {}, 'Arkæologens vurdering'));
+  const bs = h('select', {}, h('option', { value: '' }, 'Vælg spor …'), CLUES.map(c => h('option', { value: c.id }, c.t)), h('option', { value: 'andet' }, 'Noget andet'));
+  bs.value = S.eg.best; bs.addEventListener('change', () => { S.eg.best = bs.value; save(); });
+  const ta = (key, ph) => { const t = h('textarea', { placeholder: ph }); t.value = S.eg[key]; t.addEventListener('input', () => { S.eg[key] = t.value; save(); }); return t; };
+  v.append(h('div', { class: 'field' }, h('label', {}, 'Hvilket spor var det vigtigste?'), bs, h('div', { class: 'help', style: 'margin-top:8px' }, 'Begrund jeres valg: Hvorfor er netop dette bevis det stærkeste?'), ta('bestWhy', 'Det stærkeste bevis er …, fordi …')));
+  v.append(h('div', { class: 'field' }, h('label', {}, 'Hvad undrer I jer stadig over?'), ta('wonder', 'Vi undrer os over …')));
+  const vFb = h('div', { 'aria-live': 'polite' });
+  v.append(h('button', { class: 'btn', type: 'button', onclick: () => { if (p4Done()) go('min'); else vFb.replaceChildren(h('div', { class: 'fb hint' }, 'Løs alle seks spor og spørgsmålet om ny forskning, vælg det vigtigste spor, og skriv en begrundelse og en undren.')); } }, 'Se min værktøjskasse'), vFb);
+  el.append(v);
+}
+
+/* ---------- Min værktøjskasse ---------- */
+function esc(t) { const d = document.createElement('div'); d.textContent = t == null ? '' : String(t); return d.innerHTML; }
+function buildHandout() {
+  const date = new Date().toLocaleDateString('da-DK');
+  const e = t => t && t.trim() ? esc(t.trim()) : '<span class="blank">—</span>';
+  const rows = MK.map(k => {
+    const m = ms(k);
+    const kan = KK[k].filter(x => x[1]).map(x => '<li>' + esc(x[0]) + '</li>').join('');
+    const ikke = KK[k].filter(x => !x[1]).map(x => '<li>' + esc(x[0]) + '</li>').join('');
+    return `<tr><th>${esc(M[k].name)}</th><td>${m.mat ? esc(MATS[MAT_ANS[k]]) : '<span class="blank">—</span>'}</td><td>${e(m.how)}</td><td><ul>${m.kk && KK[k].every((_, i) => m.kk[i] === 'ok') ? kan : ''}</ul></td><td><ul>${m.kk && KK[k].every((_, i) => m.kk[i] === 'ok') ? ikke : ''}</ul></td><td>${m.exDone ? m.ex.map(x => esc(exName(x))).join('<br>') : '<span class="blank">—</span>'}</td></tr>`;
+  }).join('');
+  const cmp = MK.map(k => `<tr><th>${esc(M[k].name)}</th><td>${S.cmp.done ? esc(STR[k]) : '<span class="blank">—</span>'}</td><td>${S.cmp.done ? esc(LIM[k]) : '<span class="blank">—</span>'}</td></tr>`).join('');
+  const bestName = S.eg.best === 'andet' ? 'Noget andet' : (CLUES.find(c => c.id === S.eg.best) || {}).t || '';
+  const clues = CLUES.map(c => `<li><b>${esc(c.t)}:</b> ${S.eg.clue[c.id] ? esc(c.fact) : '<span class="blank">—</span>'}</li>`).join('');
+  return `<!DOCTYPE html><html lang="da"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Min værktøjskasse – ${esc(S.name || 'arkæologi')}</title>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Zilla+Slab:wght@500;700&display=swap" rel="stylesheet">
+<style>
+body{font-family:'Atkinson Hyperlegible','Segoe UI',Arial,sans-serif;color:#1B2A2F;margin:0;background:#E8EDE9;font-size:11pt;line-height:1.4}
+.page{background:#fff;max-width:277mm;margin:12px auto;padding:14mm 14mm}
+h1,h2{font-family:'Zilla Slab',Georgia,serif;margin:0 0 .3em}
+h1{font-size:22pt}h2{font-size:15pt;margin-top:1.1em}
+.meta{color:#55666A;margin-bottom:10px}
+table{width:100%;border-collapse:collapse;margin:6px 0}
+th,td{border:1px solid #9FB0AA;padding:5px 7px;text-align:left;vertical-align:top}
+thead th{background:#EEF2EF}
+tbody th{white-space:nowrap}
+ul{margin:0;padding-left:1.1em}
+.four{display:grid;grid-template-columns:1fr 1fr;gap:4px 18px}
+.blank{color:#9FB0AA}
+.box{border:1px solid #9FB0AA;border-radius:6px;padding:8px 10px;margin:6px 0}
+.pb{break-before:page;page-break-before:always}
+.tools{position:fixed;right:14px;bottom:12px}
+.tools button{font:inherit;background:#1F5FA8;color:#fff;border:0;border-radius:6px;padding:8px 14px;cursor:pointer}
+@media print{@page{size:A4 landscape;margin:10mm}body{background:#fff}.page{margin:0;padding:0;max-width:none}.tools{display:none}}
+</style></head><body>
+<div class="page">
+<h1>Min værktøjskasse: arkæologens metoder</h1>
+<div class="meta">Navn: ${e(S.name)} &nbsp; Klasse: ${e(S.klasse)} &nbsp; Dato: ${date}</div>
+<h2>De fire trin</h2>
+<div class="four">${TRIN.map(([, n, d]) => `<div><b>${n}:</b> ${esc(d)}</div>`).join('')}</div>
+<h2>Arkæologens værktøjskasse</h2>
+<table><thead><tr><th>Metode</th><th>Hvad undersøger man?</th><th>Hvordan fungerer metoden?</th><th>Hvad kan den fortælle?</th><th>Hvad kan den IKKE fortælle?</th><th>Eksempler fra forløbet</th></tr></thead><tbody>${rows}</tbody></table>
+<h2 class="pb">Sammenligning af metoder</h2>
+<table><thead><tr><th>Metode</th><th>Største styrke</th><th>Største begrænsning</th></tr></thead><tbody>${cmp}</tbody></table>
+<h2>Arkæologens metodevurdering</h2>
+<div class="box"><b>Mest pålidelige metode:</b> ${S.ev.rel ? esc(M[S.ev.rel].name) : '<span class="blank">—</span>'}<br>Hvorfor: ${e(S.ev.relWhy)}</div>
+<div class="box"><b>Første metode ved en ukendt grav:</b> ${S.ev.first ? esc(M[S.ev.first].name) : '<span class="blank">—</span>'}<br>Hvorfor: ${e(S.ev.firstWhy)}</div>
+<h2>Egtvedpigen igen</h2>
+<ul>${clues}</ul>
+<div class="box"><b>Ny forskning:</b> ${S.eg.debate ? 'Kritikken fra 2019 gør konklusionen om, at hun kom fra Sydtyskland, mindre sikker – fra "sandsynligt" mod "muligt".' : '<span class="blank">—</span>'}</div>
+<div class="box"><b>Vigtigste spor:</b> ${e(bestName)}<br>Begrundelse: ${e(S.eg.bestWhy)}</div>
+<div class="box"><b>Det undrer vi os stadig over:</b> ${e(S.eg.wonder)}</div>
+</div>
+<div class="tools"><button onclick="window.print()">Udskriv / gem som PDF</button></div>
+</body></html>`;
+}
+const inClaude = !!(window.claude && typeof window.claude.use === 'function');
+let dlP = null;
+const getDl = () => dlP || (dlP = inClaude ? Promise.resolve(window.claude.use('downloads')).catch(() => null) : Promise.resolve(null));
+const slug = t => (t || '').toLowerCase().replace(/æ/g, 'ae').replace(/ø/g, 'oe').replace(/å/g, 'aa').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+async function saveHandout(btn) {
+  const status = btn.parentElement.querySelector('.dlstatus') || btn.parentElement.appendChild(h('span', { class: 'dlstatus cap', 'aria-live': 'polite' }));
+  const html = buildHandout(), fn = 'vaerktoejskassen-' + (slug(S.name) || 'elev') + (S.klasse ? '-' + slug(S.klasse) : '') + '.html';
+  btn.disabled = true;
+  try {
+    const dl = await getDl();
+    if (dl) { try { await dl.save({ filename: fn, data: html }); status.textContent = 'Filen er gemt.'; } catch (e) { status.textContent = e && e.code === 'declined' ? 'Download blev annulleret.' : 'Download er ikke muligt her lige nu.'; } }
+    else if (inClaude) status.textContent = 'Download er ikke muligt i denne visning.';
+    else { const url = URL.createObjectURL(new Blob([html], { type: 'text/html' })); const a = h('a', { href: url, download: fn }); document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 10000); status.textContent = 'Filen er hentet – se under Overførsler.'; }
+  } finally { btn.disabled = false; }
+}
+function vMin(el) {
+  const p = h('div', { class: 'panel' });
+  p.append(h('h3', {}, 'Min værktøjskasse'));
+  const items = [['De fire trin', p1Done(), 'trin'], ['Værktøjskassen (' + p2Count() + ' af 6 metoder)', p2Count() === 6, 'kasse'], ['Sammenligning og vurdering', p3Done(), 'sammen'], ['Egtvedpigen igen', p4Done(), 'egtved']];
+  p.append(h('ul', { class: 'checklist' }, items.map(([t, ok, k]) => h('li', {}, h('span', { class: ok ? 'y' : 'n' }, ok ? '✓ ' : '○ '), t, ok ? null : h('button', { class: 'linkbtn', type: 'button', style: 'margin-left:8px', onclick: () => go(k) }, 'Gør færdig')))));
+  if (!S.name) p.append(h('div', { class: 'fb hint', style: 'margin-bottom:12px' }, 'Husk at skrive jeres navne under "Forløbet", så de kommer med på arket.'));
+  p.append(h('p', { class: 'dim', style: 'max-width:70ch' }, 'Alt samles i ét ark, der svarer til elevark 2 og 3. I kan hente det som en fil og aflevere det i Teams, eller åbne det og gemme det som PDF.'));
+  p.append(h('div', { class: 'row' }, h('button', { class: 'btn', type: 'button', onclick: ev => saveHandout(ev.currentTarget) }, 'Hent min værktøjskasse')));
+  el.append(p);
+  // forhåndsvisning
+  const prev = h('div', { class: 'panel' }, h('h3', {}, 'Forhåndsvisning'));
+  const t = h('table', { class: 'sumtable' }, h('thead', {}, h('tr', {}, h('th', {}, 'Metode'), h('th', {}, 'Hvordan fungerer den?'), h('th', {}, 'Eksempler'))),
+    h('tbody', {}, MK.map(k => { const m = ms(k); return h('tr', {}, h('td', {}, stamp(k)), h('td', {}, m.how || h('span', { class: 'dim' }, '—')), h('td', {}, m.exDone ? m.ex.map(exName).join(', ') : h('span', { class: 'dim' }, '—'))); })));
+  prev.append(h('div', { style: 'overflow-x:auto' }, t));
+  let armed = false;
+  const reset = h('button', { class: 'btn ghost small', type: 'button' }, 'Nulstil alt');
+  reset.addEventListener('click', () => { if (!armed) { armed = true; reset.textContent = 'Klik igen for at slette alt'; setTimeout(() => { armed = false; reset.textContent = 'Nulstil alt'; }, 4000); return; } try { localStorage.removeItem(KEY); } catch (e) {} location.reload(); });
+  prev.append(h('div', { class: 'row', style: 'margin-top:12px' }, reset));
+  el.append(prev);
+}
+
+go('start');
+</script>
+</body>
+</html>

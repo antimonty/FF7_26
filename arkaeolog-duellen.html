@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arkæolog-duellen – eleverne mod lærerne</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Zilla+Slab:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --paper:#E8EDE9; --card:#FFFFFF; --soft:#F3F6F4; --ink:#1B2A2F; --muted:#55666A; --line:#C6D0CA;
+  --accent:#1F5FA8; --accent-ink:#FFFFFF; --ok:#23764A; --ok-bg:#E2F1E7; --bad:#A8322A; --bad-bg:#F8E5E2; --gold:#B38A2E; --hint-bg:#FBF0D6;
+  --p1:#1F5FA8; --p2:#9C3D54;
+  --serif:'Zilla Slab', Rockwell, 'Roboto Slab', Georgia, serif;
+  --sans:'Atkinson Hyperlegible', 'Segoe UI', Verdana, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#11181A; --card:#1A2326; --soft:#161E21; --ink:#E4ECE9; --muted:#9CAFB0; --line:#34423F;
+    --accent:#7BAAE8; --accent-ink:#0D1824; --ok:#6BC896; --ok-bg:#15301F; --bad:#F08B7F; --bad-bg:#3A1C19; --gold:#D9B45A; --hint-bg:#342B14;
+    --p1:#7BAAE8; --p2:#E28BA1;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#11181A; --card:#1A2326; --soft:#161E21; --ink:#E4ECE9; --muted:#9CAFB0; --line:#34423F;
+  --accent:#7BAAE8; --accent-ink:#0D1824; --ok:#6BC896; --ok-bg:#15301F; --bad:#F08B7F; --bad-bg:#3A1C19; --gold:#D9B45A; --hint-bg:#342B14;
+  --p1:#7BAAE8; --p2:#E28BA1;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:1.0625rem;line-height:1.55}
+button{font:inherit;color:inherit}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--serif);line-height:1.15;margin:0 0 .4em}
+p{margin:0 0 .8em}
+.bar{display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid var(--line);background:var(--card)}
+.bar .brand{font-family:var(--serif);font-weight:700;font-size:1.15rem}
+.bar .spacer{flex:1}
+.bar .status{color:var(--muted);font-size:.95rem;cursor:default;user-select:none}
+.wrap{max-width:900px;margin:0 auto;padding:24px 20px 70px}
+.btn{display:inline-block;background:var(--accent);color:var(--accent-ink);border:0;border-radius:6px;padding:11px 18px;font-weight:700;cursor:pointer;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.small{padding:6px 10px;font-size:.92rem}
+.kicker{color:var(--muted);margin-bottom:2px}
+h1{font-size:clamp(2rem,5.5vw,3rem)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.between{justify-content:space-between}
+.score{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 18px}
+.pill{border:2px solid var(--c);color:var(--c);border-radius:999px;padding:3px 12px;font-weight:700;background:var(--card);font-variant-numeric:tabular-nums}
+.video{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--soft);margin:12px 0 18px}
+.video iframe{display:block;width:100%;aspect-ratio:16/9;border:0;background:#000}
+.video .ph{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:14px 16px}
+.turn{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.turn .who{font-family:var(--serif);font-weight:700;font-size:1.5rem;color:var(--c)}
+.turn .stripe{flex:1;height:4px;border-radius:2px;background:var(--c);opacity:.35}
+.cat{color:var(--muted);margin-bottom:14px}
+.bets{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px}
+@media (min-width:600px){.bets{grid-template-columns:1fr 1fr}}
+.bet{text-align:left;border:2px solid var(--line);background:var(--soft);border-radius:10px;padding:16px 18px;cursor:pointer}
+.bet:hover{border-color:var(--accent)}
+.bet b{font-family:var(--serif);font-size:1.3rem;display:block}
+.bet span{color:var(--muted)}
+.q{font-weight:700;font-size:1.2rem;margin:4px 0 14px;max-width:70ch}
+.chosen-bet{color:var(--muted);font-size:.95rem;margin-bottom:6px}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{text-align:left;background:var(--soft);border:1.5px solid var(--line);border-radius:8px;padding:12px 14px;cursor:pointer;line-height:1.4}
+.opt:hover{border-color:var(--accent)}
+.opt[aria-pressed="true"]{border-color:var(--accent);background:var(--card);box-shadow:inset 0 0 0 1.5px var(--accent);font-weight:700}
+.tag{display:inline-block;font-size:.8rem;font-weight:700;border:1.5px solid var(--muted);color:var(--muted);border-radius:4px;padding:0 6px;margin-right:8px;vertical-align:1px}
+.next{margin-top:16px}
+.results{display:grid;grid-template-columns:1fr;gap:14px;margin:12px 0 4px}
+@media (min-width:700px){.results{grid-template-columns:1fr 1fr}}
+.res{border:1.5px solid var(--line);border-top:5px solid var(--c);border-radius:10px;padding:14px 16px;background:var(--card)}
+.res h3{font-size:1.15rem;color:var(--c);margin-bottom:4px}
+.verdict{font-weight:700;margin-bottom:6px}
+.verdict.good{color:var(--ok)} .verdict.bad{color:var(--bad)}
+.said{background:var(--soft);border-radius:6px;padding:10px 12px;margin-top:8px;font-size:.98rem}
+.said b{display:block;font-size:.9rem;color:var(--muted)}
+.final{text-align:center}
+.final .big{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;margin:16px 0}
+.final .big div{font-family:var(--serif);font-size:1.3rem}
+.final .big strong{display:block;font-size:2.6rem;color:var(--c);font-variant-numeric:tabular-nums}
+.pot{background:var(--hint-bg);border-left:5px solid var(--gold);border-radius:0 10px 10px 0;padding:14px 18px;text-align:left;margin-top:14px}
+.rules{margin-top:18px;color:var(--muted);font-size:.95rem}
+.step{display:none}.step.on{display:block}
+.sure{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}
+.sure p{font-weight:700;margin-bottom:8px}
+.method{display:inline-block;font-size:.82rem;font-weight:700;border:1.5px solid var(--muted);color:var(--muted);border-radius:4px;padding:0 6px;margin-left:6px}
+.why{margin-top:8px;font-size:.97rem;background:var(--bad-bg);border-radius:6px;padding:8px 12px}
+.calib{margin-top:14px;text-align:left}
+.calib table{border-collapse:collapse;margin:6px auto 0}
+.calib td,.calib th{border-bottom:1px solid var(--line);padding:5px 12px;text-align:left}
+</style>
+</head>
+<body>
+<header class="bar">
+  <a class="btn ghost small" href="index.html">Forløbet</a>
+  <span class="brand">Arkæolog-duellen</span>
+  <span class="spacer"></span>
+  <span class="status" id="status" title=""></span>
+</header>
+<main class="wrap">
+  <div class="kicker" id="kicker"></div>
+  <h1 id="casename"></h1>
+  <div class="score" aria-live="polite"><span class="pill" style="--c:var(--p1)">Spiller 1: <span id="sc1">0</span> point</span><span class="pill" style="--c:var(--p2)">Spiller 2: <span id="sc2">0</span> point</span></div>
+
+  <section class="step panel" id="s1">
+    <h2 style="font-size:1.35rem">Se videoen sammen</h2>
+    <p>Høretelefoner i. Læg mærke til, hvordan arkæologen finder frem til sine svar – I skal bruge det om lidt.</p>
+    <div class="video" id="video"></div>
+    <button class="btn" type="button" onclick="go(2)">Videoen er set – videre til spiller 1</button>
+    <p class="rules">Hver spiller får sit eget spørgsmål. Når du har valgt et svar, siger du, hvor sikker du er. Jo sikrere du er, jo flere point kan du vinde – og tabe.</p>
+  </section>
+
+  <section class="step panel" id="s2"></section>
+  <section class="step panel" id="s3"></section>
+
+  <section class="step panel" id="s4">
+    <h2 style="font-size:1.35rem">Hvem ramte rigtigt?</h2>
+    <div class="results" id="results"></div>
+    <button class="btn next" type="button" id="nextcase" onclick="nextCase()">Næste sag</button>
+  </section>
+
+  <section class="step panel final" id="s5">
+    <h2 id="wintxt" style="font-size:1.8rem"></h2>
+    <div class="big"><div style="--c:var(--p1)">Spiller 1<strong id="f1">0</strong></div><div style="--c:var(--p2)">Spiller 2<strong id="f2">0</strong></div></div>
+    <div class="calib" id="calib"></div>
+    <div class="pot"><b>Klasseindsamling til karamelpuljen:</b><br>I leverer tilsammen <b id="ftot">0</b> point til klassens samlede score mod lærerne. Råb jeres tal op til læreren ved tavlen!</div>
+  </section>
+</main>
+<script>
+"use strict";
+const data = [
+ {
+  "name": "Porcelænsskåret fra Kina",
+  "c1": "Oprindelse og metode",
+  "m1": "Typologi",
+  "q1": "Hvordan kan arkæologen se, at skåret er lavet i Kina?",
+  "o1": [
+   {
+    "t": "Det lå i et jordlag sammen med andre ting fra Asien, så det må være kinesisk.",
+    "ok": false,
+    "fb": "Andre fund i laget kan give et hint, men de siger ikke, hvor netop dette skår er lavet. Selve skåret skal undersøges."
+   },
+   {
+    "t": "Det tynde, hvide porcelæn og bemalingen ligner kendt kinesisk porcelæn – og man kunne endnu ikke lave porcelæn i Europa.",
+    "ok": true,
+    "fb": ""
+   },
+   {
+    "t": "Skåret er C-14-dateret, og alderen passer med Kinahandelen.",
+    "ok": false,
+    "fb": "Brændt ler og porcelæn har ikke optaget kulstof som noget levende. Det kan ikke C-14-dateres."
+   },
+   {
+    "t": "Leret er dansk, men mønstret er kopieret efter kinesiske forbilleder.",
+    "ok": false,
+    "fb": "Europæerne kopierede senere kinesisk porcelæn, men på det tidspunkt kunne man ikke lave porcelæn i Europa."
+   }
+  ],
+  "clue1": "»Det er skårets typologi – det hvide, tynde porcelæn og den helt særlige bemaling – der afslører, at det er lavet i Kina. Man kunne slet ikke fremstille porcelæn i Europa på det tidspunkt.«",
+  "c2": "Historisk fortolkning",
+  "m2": "Fortolkning",
+  "q2": "Hvad fortæller skåret om København for ca. 300 år siden?",
+  "o2": [
+   {
+    "t": "At de fleste københavnere spiste af porcelæn til hverdag.",
+    "ok": false,
+    "fb": "Porcelæn var dyrt og sjældent. Ét skår viser, at nogen havde råd – ikke at alle havde."
+   },
+   {
+    "t": "At porcelænet sandsynligvis kom til byen som krigsbytte.",
+    "ok": false,
+    "fb": "Intet ved skåret peger på krig. Handel er den enkleste forklaring på importvarer."
+   },
+   {
+    "t": "At byen var koblet på en global luksushandel. En rejse til Kina og hjem tog omkring et år, så porcelæn var et statussymbol.",
+    "ok": true,
+    "fb": ""
+   },
+   {
+    "t": "At porcelænet blev lavet i København af kinesiske håndværkere.",
+    "ok": false,
+    "fb": "Der er ingen spor af porcelænsproduktion i byen på det tidspunkt. Skåret er importeret."
+   }
+  ],
+  "clue2": "»Fundet viser, hvordan København var koblet på den globale luksushandel for 300 år siden. En handelsrejse til Kina tog dengang et helt år, så porcelænskopper var statussymboler for eliten.«",
+  "vid": "qvOsP5ayafA"
+ },
+ {
+  "name": "Læderskosålen",
+  "c1": "Typologi og mode",
+  "m1": "Typologi",
+  "q1": "Hvad ved sålen tyder på, at skoen tilhørte en voksen mand?",
+  "o1": [
+   {
+    "t": "Den brede, firkantede snude. I 1700-tallet havde mænds sko firkantede snuder, mens kvinders var spidse.",
+    "ok": true,
+    "fb": ""
+   },
+   {
+    "t": "Størrelsen – store fødder betyder en mand.",
+    "ok": false,
+    "fb": "Størrelsen siger noget om voksen eller barn, men store kvindefødder og små mandefødder findes. Formen er et bedre spor."
+   },
+   {
+    "t": "Sålen er meget slidt, og mænd gik mere end kvinder.",
+    "ok": false,
+    "fb": "Slid viser, at skoen er brugt meget – ikke hvem der gik i den."
+   },
+   {
+    "t": "Læderet er tykt, og kraftigt læder var til mænd.",
+    "ok": false,
+    "fb": "Tykkelsen siger mere om, hvad skoen skulle bruges til, end om ejerens køn."
+   }
+  ],
+  "clue1": "»Når vi kigger på formen – altså typologien – ser vi en bred, firkantet snude. I 1700-tallet dikterede moden, at mænd gik med firkantede snuder, mens kvinder gik med spidse.«",
+  "c2": "Funktion og slid",
+  "m2": "Slidsporsanalyse",
+  "q2": "Hvad fortæller hælen om skoen og dens ejer?",
+  "o2": [
+   {
+    "t": "At ejeren var lav og ville se højere ud.",
+    "ok": false,
+    "fb": "Hæle var mode for mange. Én sko siger ikke noget om én persons højde."
+   },
+   {
+    "t": "At skoen kun blev brugt til fest, fordi hæle var upraktiske.",
+    "ok": false,
+    "fb": "Hælen skånede faktisk sålen og holdt foden fri af snavs. Den var praktisk i byens gader."
+   },
+   {
+    "t": "At ejeren arbejdede på marken.",
+    "ok": false,
+    "fb": "Hæle i byens gader peger på bylivet og på status – ikke på markarbejde."
+   },
+   {
+    "t": "At hælen løftede bæreren over gadesnavset, skånede sålen – og samtidig var et synligt statussymbol.",
+    "ok": true,
+    "fb": ""
+   }
+  ],
+  "clue2": "»Hælen tjente to formål: Den løftede bæreren op over det værste skidt i gaden og forlængede skoens levetid, men den var i høj grad også et synligt statussymbol i bybilledet.«",
+  "vid": "Ochn9hadzYQ"
+ },
+ {
+  "name": "Vægesaksen af jern",
+  "c1": "Redskabets form",
+  "m1": "Typologi",
+  "q1": "Hvad var den lille kasse på saksens blad til?",
+  "o1": [
+   {
+    "t": "Til at opbevare ekstra væger.",
+    "ok": false,
+    "fb": "Kassen er for lille, og den sidder lige der, hvor saksen klipper. Hvad falder ned, når man klipper?"
+   },
+   {
+    "t": "Den fangede den afklippede, glødende vægestump, så den ikke faldt på gulvet og startede en brand.",
+    "ok": true,
+    "fb": ""
+   },
+   {
+    "t": "Den gjorde saksen tungere, så den lå stabilt på bordet.",
+    "ok": false,
+    "fb": "Så ville man bare lave saksen tykkere. Kassens form og placering peger på noget, der skal fanges."
+   },
+   {
+    "t": "Det var pynt, der viste, at ejeren var rig.",
+    "ok": false,
+    "fb": "Nogle sakse var pyntede, men kassen findes på næsten alle vægesakse – også de helt enkle."
+   }
+  ],
+  "clue1": "»Læg mærke til metalkassen på bladet: Når man klippede den brændende væge af lyset, faldt den glødende stump direkte ind i kassen, så man undgik, at den faldt på gulvet og startede en brand.«",
+  "c2": "Hverdagen for 300 år siden",
+  "m2": "Fortolkning",
+  "q2": "Hvorfor lå der en vægesaks i næsten alle hjem i 1700-tallets København?",
+  "o2": [
+   {
+    "t": "Fordi stearinlys var billige, og man brændte mange lys.",
+    "ok": false,
+    "fb": "Almindelige hjem brugte tællelys af dyrefedt. Bivokslys var dyre. Det er tællelysets egenskaber, der forklarer saksen."
+   },
+   {
+    "t": "Fordi saksen også blev brugt til at klippe stof og papir.",
+    "ok": false,
+    "fb": "Kassen på bladet gør den upraktisk til andet end væger. Den er et specialværktøj."
+   },
+   {
+    "t": "Tællelys af dyrefedt osede og skulle trimmes ofte for at give ordentligt lys.",
+    "ok": true,
+    "fb": ""
+   },
+   {
+    "t": "Fordi en brandlov krævede, at alle hjem havde en.",
+    "ok": false,
+    "fb": "Der var brandregler i byen, men fundet viser et praktisk behov i hverdagen, ikke en lov."
+   }
+  ],
+  "clue2": "»Tællelys lavet af oksefedt var datidens primære lyskilde. Vægen brændte urent og osede voldsomt – hvis ikke man trimmede vægen hvert tiende minut, sodede hele stuen til.«",
+  "vid": "k7aX92eN3z4"
+ },
+ {
+  "name": "Den hollandske kridtpibe",
+  "c1": "Datering ud fra form",
+  "m1": "Typologi",
+  "q1": "Hvorfor kan pibehovedets størrelse bruges til at datere piben til midten af 1600-tallet?",
+  "o1": [
+   {
+    "t": "Fordi små ting altid er ældre end store ting.",
+    "ok": false,
+    "fb": "Det gælder ikke generelt. Det er kendskabet til netop pibernes udvikling, der gør størrelsen brugbar."
+   },
+   {
+    "t": "Fordi piben lå dybt i jorden.",
+    "ok": false,
+    "fb": "Dybden siger kun noget i forhold til de andre lag på stedet. Spørgsmålet handler om pibens form."
+   },
+   {
+    "t": "Fordi leret kan C-14-dateres.",
+    "ok": false,
+    "fb": "Brændt ler har ikke optaget kulstof som noget levende. Det kan ikke C-14-dateres."
+   },
+   {
+    "t": "Pibehoveder var små, da tobak var dyrt. Senere blev de større – så størrelsen følger tiden.",
+    "ok": true,
+    "fb": ""
+   }
+  ],
+  "clue1": "»I 1600-tallet var tobak fra Den Nye Verden en voldsomt dyr luksusvare. Pibehovederne blev derfor lavet bittesmå – man røg kun få gram ad gangen for ikke at spilde en formue.«",
+  "c2": "Kildekritik",
+  "m2": "Typologi",
+  "q2": "Hvordan kan man vide, at piben er lavet i Gouda i Holland?",
+  "o2": [
+   {
+    "t": "Leret har samme farve som hollandsk ler.",
+    "ok": false,
+    "fb": "Hvidt pibeler blev brugt mange steder. Farven alene kan ikke pege på én by."
+   },
+   {
+    "t": "Stemplet på pibens hæl kan slås op i registre over pibemagernes mærker i Gouda.",
+    "ok": true,
+    "fb": ""
+   },
+   {
+    "t": "Formen er typisk hollandsk.",
+    "ok": false,
+    "fb": "Formen kan pege på en tid og et område, men ikke på én bestemt by. Det kan stemplet."
+   },
+   {
+    "t": "Der lå hollandske mønter ved siden af.",
+    "ok": false,
+    "fb": "Mønter kan hjælpe med at datere laget, men de siger ikke, hvor piben blev lavet."
+   }
+  ],
+  "clue2": "»Under pibens hæl finder vi pibemagerens stempel. I byen Gouda førte man præcise registre over pibemagernes varemærker, og vi kan slå stemplet op og finde det præcise værksted.«",
+  "vid": "fBOChqW9kPs"
+ },
+ {
+  "name": "Den tyknakkede flintøkse",
+  "c1": "Typologi og stil",
+  "m1": "Typologi",
+  "q1": "Hvad ved øksen viser, at den er fra bondestenalderen?",
+  "o1": [
+   {
+    "t": "Den tykke, firkantede nakke og de slebne, glatte flader. Jægerstenalderens flintøkser blev ikke slebet.",
+    "ok": true,
+    "fb": ""
+   },
+   {
+    "t": "At den er af flint – det brugte man kun i bondestenalderen.",
+    "ok": false,
+    "fb": "Flint blev brugt i hele stenalderen, også af jægerne. Det er bearbejdningen, der er forskellen."
+   },
+   {
+    "t": "At den er meget slidt.",
+    "ok": false,
+    "fb": "Slid viser brug, ikke tid. En gammel økse kan være ubrugt, og en yngre kan være meget slidt."
+   },
+   {
+    "t": "At den er stor og tung.",
+    "ok": false,
+    "fb": "Størrelse varierer meget. Det er nakkens form og slibningen, typologien bygger på."
+   }
+  ],
+  "clue1": "»Den tykke nakke og de fint slebne flader er typologiens klare tale: Jægerstenalderens økser var råt tilhuggede, men bondestenalderens bønder sleb deres økser spejlglatte.«",
+  "c2": "Slidspor",
+  "m2": "Slidsporsanalyse",
+  "q2": "Hvad fortæller slidsporene og den korte æg om øksens liv?",
+  "o2": [
+   {
+    "t": "At den blev lavet kort fra starten.",
+    "ok": false,
+    "fb": "Den opslebne æg viser, at øksen engang har været længere."
+   },
+   {
+    "t": "At den blev brugt som våben i krig.",
+    "ok": false,
+    "fb": "Hakkene i æggen passer med hårdt træ. Andet brug kan ikke udelukkes, men sporene peger på skovfældning."
+   },
+   {
+    "t": "At den har fældet mange træer og er blevet slebet op igen og igen, så den blev kortere.",
+    "ok": true,
+    "fb": ""
+   },
+   {
+    "t": "At den var mislykket og blev kasseret med det samme.",
+    "ok": false,
+    "fb": "En kasseret økse ville ikke være slebet op igen og igen."
+   }
+  ],
+  "clue2": "»Øksen er blevet meget kortere end en fabriksny økse. Slidsporene viser, at æggen er hakket i stykker mod hårdt træ og slebet op igen utallige gange for at rydde skov til marker.«",
+  "vid": "L5evdg7p-kw"
+ },
+ {
+  "name": "Benskøjten i voldgraven",
+  "c1": "Bevaringsforhold",
+  "m1": "Bevaringsforhold",
+  "q1": "Hvorfor har knoglen overlevet i over 300 år uden at rådne?",
+  "o1": [
+   {
+    "t": "Knogler holder altid i mange hundrede år.",
+    "ok": false,
+    "fb": "I almindelig, iltrig jord kan knogler forsvinde helt. Bevaringen afhænger af jorden."
+   },
+   {
+    "t": "Vandet i voldgraven var salt, og salt konserverer.",
+    "ok": false,
+    "fb": "Salt kan konservere mad, men her er det manglen på ilt, der gør forskellen."
+   },
+   {
+    "t": "Den lå dybt, hvor der var koldt hele året.",
+    "ok": false,
+    "fb": "Kulde bremser nedbrydningen lidt, men det afgørende er, at der ikke var ilt."
+   },
+   {
+    "t": "Den lå i vådt, iltfrit mudder i bunden af voldgraven. Uden ilt kan de bakterier, der nedbryder, ikke leve.",
+    "ok": true,
+    "fb": ""
+   }
+  ],
+  "clue1": "»Iltfrie, våde mudderlag i en voldgrav – det vi kalder anaerobe forhold – er fantastiske. Uden ilt kan forrådnelsesbakterier ikke overleve, og så bevares ben, læder og træ i århundreder.«",
+  "c2": "Bearbejdning og slid",
+  "m2": "Slidsporsanalyse",
+  "q2": "Hvordan kan man se, at knoglen var en skøjte og ikke bare køkkenaffald?",
+  "o2": [
+   {
+    "t": "Knoglen er meget glat og hvid.",
+    "ok": false,
+    "fb": "Mange knogler bliver glatte af at ligge i vand. Det er bearbejdningen, der viser brugen."
+   },
+   {
+    "t": "Der er boret huller til snører, og undersiden er slidt helt flad af isen.",
+    "ok": true,
+    "fb": ""
+   },
+   {
+    "t": "Den er fra et stort dyr, og store knogler blev brugt til skøjter.",
+    "ok": false,
+    "fb": "Dyrearten siger ikke, hvad knoglen blev brugt til. Spor af bearbejdning gør."
+   },
+   {
+    "t": "Den lå i voldgraven, hvor man skøjtede om vinteren.",
+    "ok": false,
+    "fb": "Findestedet passer, men køkkenaffald havnede også i voldgraven. Knoglen selv skal vise brugen."
+   }
+  ],
+  "clue2": "»Dette er ikke bare et suppeben. Man har boret huller i begge ender til snører, og kigger man på undersiden, er den slidt helt plan af friktionen mod frossent vand.«",
+  "vid": "nzxHLWY2qnE"
+ },
+ {
+  "name": "Perlegade i Sønderborg",
+  "c1": "Udgravning i felten",
+  "m1": "Stratigrafi",
+  "q1": "Hvordan graver arkæologerne sig ned gennem brandtomten?",
+  "o1": [
+   {
+    "t": "De graver et dybt hul først for hurtigt at finde de ældste ting.",
+    "ok": false,
+    "fb": "Så ødelægger man lagene ovenover – og mister rækkefølgen, som er selve beviset."
+   },
+   {
+    "t": "De fjerner lagene ét ad gangen oppefra, fra det yngste til det ældste, og dokumenterer hvert lag.",
+    "ok": true,
+    "fb": ""
+   },
+   {
+    "t": "De fjerner al jorden med gravemaskine og kigger bagefter.",
+    "ok": false,
+    "fb": "Maskiner kan fjerne moderne fyld øverst, men de arkæologiske lag udgraves i hånden, lag for lag."
+   },
+   {
+    "t": "De graver kun der, hvor metaldetektoren bipper.",
+    "ok": false,
+    "fb": "Metaldetektoren finder kun metal. De fleste spor – jordlag, fundamenter, keramik – er ikke af metal."
+   }
+  ],
+  "clue1": "»I stratigrafien følger vi superpositionsprincippet: De øverste lag er de nyeste, og jo dybere vi graver systematisk ned, desto længere tilbage i Sønderborgs historie bevæger vi os.«",
+  "c2": "Bygninger i jorden",
+  "m2": "Stratigrafi",
+  "q2": "Hvad fortæller kampestenene og munkestenene i bunden af udgravningen?",
+  "o2": [
+   {
+    "t": "At der lå en borg på stedet.",
+    "ok": false,
+    "fb": "Fundamenterne passer i størrelse og form med almindelige byhuse, ikke med en borg."
+   },
+   {
+    "t": "At husene blev bygget efter branden.",
+    "ok": false,
+    "fb": "Stenene ligger under brandlaget. Det, der ligger nederst, er ældst."
+   },
+   {
+    "t": "At gaden først blev bebygget i 1900-tallet.",
+    "ok": false,
+    "fb": "Munkesten og kampestensfundamenter hører til middelalderen – og de ligger dybest."
+   },
+   {
+    "t": "At der lå to gavlhuse fra middelalderen, før en af byens store brande.",
+    "ok": true,
+    "fb": ""
+   }
+  ],
+  "clue2": "»Dybest nede rammer vi middelalderens fundamenter: Store kampesten og munkesten, der viser, at der her lå to tætbyggede gavlhuse, som blev jævnet med jorden under en af byens store brande.«",
+  "vid": "H-G8M0y6A38"
+ }
+];
+const SURE = { m: ['Muligt', 50, 0], p: ['Sandsynligt', 100, 50], s: ['Sikkert', 200, 150] };
+let idx = 0, step = 1, s1 = 0, s2 = 0, prev = [0, 0];
+let r = {};
+const log = { 1: [], 2: [] };
+const $ = id => document.getElementById(id);
+function h(tag, attrs, ...kids) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) { if (v == null || v === false) continue; if (k === 'class') el.className = v; else if (k.startsWith('on')) el.addEventListener(k.slice(2), v); else el.setAttribute(k, v); }
+  for (const k of kids.flat()) { if (k == null || k === false) continue; el.append(k.nodeType ? k : document.createTextNode(String(k))); }
+  return el;
+}
+function go(n) {
+  step = n;
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('on'));
+  $('s' + n).classList.add('on');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function score() { $('sc1').textContent = s1; $('sc2').textContent = s2; }
+
+function playerStep(p) {
+  const c = data[idx], box = $('s' + (p + 1));
+  const col = p === 1 ? 'var(--p1)' : 'var(--p2)';
+  const q = p === 1 ? c.q1 : c.q2, opts = p === 1 ? c.o1 : c.o2;
+  const nextBtn = h('button', { class: 'btn next', type: 'button', hidden: true, onclick: () => p === 1 ? go(3) : verdict() }, p === 1 ? 'Lås svaret – spiller 2 er næste' : 'Lås svaret – se dommen');
+  const sureBox = h('div', { class: 'sure', hidden: true }, h('p', {}, 'Hvor sikker er du?'));
+  const sureRow = h('div', { class: 'bets', style: 'grid-template-columns:repeat(auto-fit,minmax(170px,1fr))' });
+  Object.entries(SURE).forEach(([k, [n, g, l]]) => {
+    const b = h('button', { class: 'bet', type: 'button', 'aria-pressed': 'false' }, h('b', {}, n), h('span', {}, `+${g} ved rigtigt svar. ${l ? '−' + l + ' ved forkert.' : 'Intet tab.'}`));
+    b.addEventListener('click', () => { sureRow.querySelectorAll('.bet').forEach(x => { x.setAttribute('aria-pressed', 'false'); x.style.borderColor = ''; }); b.setAttribute('aria-pressed', 'true'); b.style.borderColor = 'var(--accent)'; r['s' + p] = k; nextBtn.hidden = false; });
+    sureRow.append(b);
+  });
+  sureBox.append(sureRow);
+  const optBox = h('div', { class: 'opts' });
+  opts.forEach(o => {
+    const b = h('button', { class: 'opt', type: 'button', 'aria-pressed': 'false' }, o.t);
+    b.addEventListener('click', () => { optBox.querySelectorAll('.opt').forEach(x => x.setAttribute('aria-pressed', 'false')); b.setAttribute('aria-pressed', 'true'); r['o' + p] = o; sureBox.hidden = false; });
+    optBox.append(b);
+  });
+  box.replaceChildren(
+    h('div', { class: 'turn', style: `--c:${col}` }, h('span', { class: 'who' }, 'Spiller ' + p), h('span', { class: 'stripe' })),
+    h('div', { class: 'cat' }, 'Kategori: ' + (p === 1 ? c.c1 : c.c2)),
+    h('div', { class: 'q' }, q), optBox, sureBox, nextBtn);
+}
+
+function loadCase(i) {
+  const c = data[i];
+  $('kicker').textContent = `Sag ${i + 1} af ${data.length}`;
+  $('status').textContent = `Sag ${i + 1} af ${data.length}`;
+  $('casename').textContent = c.name;
+  const v = $('video');
+  const url = `https://www.youtube.com/watch?v=${c.vid}`;
+  v.replaceChildren(h('div', { class: 'ph' }, h('span', {}, 'Video om fundet'),
+    h('span', { class: 'row' },
+      h('button', { class: 'btn small', type: 'button', onclick: () => v.replaceChildren(h('iframe', { src: `https://www.youtube-nocookie.com/embed/${c.vid}?autoplay=1&rel=0`, title: 'Video: ' + c.name, allow: 'autoplay; encrypted-media; fullscreen', allowfullscreen: '' }), h('div', { class: 'ph' }, h('span', {}, ''), h('a', { href: url, target: '_blank', rel: 'noopener' }, 'Åbn på YouTube'))) }, 'Vis videoen her'),
+      h('a', { href: url, target: '_blank', rel: 'noopener' }, 'Åbn på YouTube'))));
+  r = {};
+  playerStep(1); playerStep(2);
+  go(1);
+}
+
+const delta = p => { const [, g, l] = SURE[r['s' + p]]; return r['o' + p].ok ? g : -l; };
+function verdict() {
+  const c = data[idx];
+  prev = [s1, s2];
+  s1 = Math.max(0, s1 + delta(1)); s2 = Math.max(0, s2 + delta(2)); score();
+  log[1][idx] = [r.s1, r.o1.ok]; log[2][idx] = [r.s2, r.o2.ok];
+  const card = (p, clue, meth) => {
+    const o = r['o' + p], d = delta(p);
+    return h('div', { class: 'res', style: `--c:${p === 1 ? 'var(--p1)' : 'var(--p2)'}` },
+      h('h3', {}, 'Spiller ' + p),
+      h('div', { class: 'verdict ' + (o.ok ? 'good' : 'bad') }, o.ok ? 'Rigtig analyse' : 'Forkert vurdering', ' ',
+        h('span', { style: 'color:var(--muted);font-weight:400' }, `(${SURE[r['s' + p]][0].toLowerCase()}: ${d > 0 ? '+' : d < 0 ? '−' : '±'}${Math.abs(d)})`)),
+      o.ok ? null : h('div', { class: 'why' }, o.fb),
+      h('div', { class: 'said' }, h('b', {}, 'Arkæologen siger', h('span', { class: 'method' }, meth)), clue));
+  };
+  $('results').replaceChildren(card(1, c.clue1, c.m1), card(2, c.clue2, c.m2));
+  $('nextcase').textContent = idx === data.length - 1 ? 'Se slutresultatet' : `Videre til sag ${idx + 2}`;
+  go(4);
+}
+function nextCase() { idx++; if (idx < data.length) loadCase(idx); else final(); }
+function final() {
+  $('kicker').textContent = 'Efterforskningen er slut';
+  $('status').textContent = 'Slut';
+  $('casename').textContent = 'Slutresultat';
+  $('f1').textContent = s1; $('f2').textContent = s2; $('ftot').textContent = s1 + s2;
+  $('wintxt').textContent = s1 > s2 ? 'Spiller 1 vinder bordets karamel!' : s2 > s1 ? 'Spiller 2 vinder bordets karamel!' : 'Uafgjort ved bordet!';
+  const rows = Object.entries(SURE).map(([k, [n]]) => {
+    const cell = p => { const e = log[p].filter(x => x && x[0] === k); return e.length ? `${e.filter(x => x[1]).length} af ${e.length} rigtige` : '–'; };
+    return h('tr', {}, h('td', {}, n), h('td', {}, cell(1)), h('td', {}, cell(2)));
+  });
+  $('calib').replaceChildren(h('p', { style: 'text-align:center;font-weight:700;margin:0' }, 'Hvor gode var I til at vurdere jer selv?'),
+    h('table', {}, h('tr', {}, h('th', {}, 'Da I sagde …'), h('th', {}, 'Spiller 1'), h('th', {}, 'Spiller 2')), rows),
+    h('p', { style: 'text-align:center;color:var(--muted);margin:8px 0 0' }, 'En god arkæolog har næsten altid ret, når hun siger "sikkert" – og tør sige "muligt", når beviserne er svage.'));
+  go(5);
+}
+/* Lærerens skjulte tilbageknap: klik på "Sag x af y" øverst til højre, eller tryk B */
+function back() {
+  if (step === 2) go(1);
+  else if (step === 3) go(2);
+  else if (step === 4) { [s1, s2] = prev; score(); go(3); }
+}
+$('status').addEventListener('click', back);
+window.addEventListener('keydown', e => { if (e.key === 'b' || e.key === 'B') back(); });
+loadCase(0);
+</script>
+</body>
+</html>

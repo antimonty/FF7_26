@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arkæologens værktøjskasse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Zilla+Slab:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --paper:#E8EDE9; --card:#FFFFFF; --soft:#F3F6F4; --ink:#1B2A2F; --muted:#55666A; --line:#C6D0CA;
+  --accent:#1F5FA8; --accent-ink:#FFFFFF; --ok:#23764A; --ok-bg:#E2F1E7; --gold:#B38A2E; --hint-bg:#FBF0D6;
+  --t-O:#257566; --t-A:#1F5FA8; --t-F:#8C6A00; --t-K:#9C3D54;
+  --serif:'Zilla Slab', Rockwell, 'Roboto Slab', Georgia, serif;
+  --sans:'Atkinson Hyperlegible', 'Segoe UI', Verdana, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#11181A; --card:#1A2326; --soft:#161E21; --ink:#E4ECE9; --muted:#9CAFB0; --line:#34423F;
+    --accent:#7BAAE8; --accent-ink:#0D1824; --ok:#6BC896; --ok-bg:#15301F; --gold:#D9B45A; --hint-bg:#342B14;
+    --t-O:#5DC4AE; --t-A:#7BAAE8; --t-F:#D8B447; --t-K:#E28BA1;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#11181A; --card:#1A2326; --soft:#161E21; --ink:#E4ECE9; --muted:#9CAFB0; --line:#34423F;
+  --accent:#7BAAE8; --accent-ink:#0D1824; --ok:#6BC896; --ok-bg:#15301F; --gold:#D9B45A; --hint-bg:#342B14;
+  --t-O:#5DC4AE; --t-A:#7BAAE8; --t-F:#D8B447; --t-K:#E28BA1;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:1.0625rem;line-height:1.55}
+button,input,textarea{font:inherit;color:inherit}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--serif);line-height:1.15;margin:0 0 .4em}
+p{margin:0 0 .8em}
+.bar{display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid var(--line);background:var(--card)}
+.bar .brand{font-family:var(--serif);font-weight:700;font-size:1.15rem}
+.bar .spacer{flex:1}
+.bar .saved{color:var(--muted);font-size:.9rem}
+.wrap{max-width:860px;margin:0 auto;padding:24px 20px 70px}
+.btn{display:inline-block;background:var(--accent);color:var(--accent-ink);border:0;border-radius:6px;padding:10px 16px;font-weight:700;cursor:pointer;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.small{padding:6px 10px;font-size:.92rem}
+.kicker{color:var(--muted);margin-bottom:4px}
+h1{font-size:clamp(2rem,5.5vw,3rem)}
+.intro{color:var(--muted);max-width:66ch}
+.who{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0 8px}
+.who label{display:flex;flex-direction:column;font-weight:700;font-size:.95rem;gap:4px}
+.who input{padding:9px 10px;border:1.5px solid var(--line);border-radius:6px;background:var(--card);min-width:14em}
+.progress{color:var(--muted);font-size:.95rem;margin-bottom:6px}
+.sec{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:18px 0}
+.sec > h2{font-size:1.45rem}
+.sec .task{background:var(--soft);border-radius:8px;padding:10px 12px;margin-bottom:12px;max-width:70ch}
+.q{margin:16px 0 0}
+.q > .lbl{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;font-weight:700;margin-bottom:6px;max-width:72ch}
+.tag{font-size:.78rem;font-weight:700;border:1.5px solid var(--c);color:var(--c);border-radius:4px;padding:0 6px;white-space:nowrap}
+textarea{width:100%;min-height:74px;padding:10px 12px;border:1.5px solid var(--line);border-radius:8px;background:var(--card);resize:vertical;line-height:1.5}
+textarea.short{min-height:46px}
+input.line{width:100%;padding:9px 11px;border:1.5px solid var(--line);border-radius:8px;background:var(--card)}
+.three{display:grid;grid-template-columns:1fr;gap:6px}
+.choices{display:flex;flex-wrap:wrap;gap:6px}
+.choices button{border:1.5px solid var(--line);background:var(--soft);border-radius:6px;padding:8px 13px;cursor:pointer}
+.choices button:hover{border-color:var(--accent)}
+.choices button[aria-pressed="true"]{border-color:var(--accent);background:var(--card);font-weight:700;box-shadow:inset 0 0 0 1px var(--accent)}
+.choices button[aria-pressed="true"]::before{content:"✓ "}
+.other{margin-top:8px}
+.scale{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.scale button{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);background:var(--soft);cursor:pointer;font-weight:700}
+.scale button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.scale .end{color:var(--muted);font-size:.9rem}
+.model{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--soft)}
+.model .ph{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:12px 14px}
+.model iframe{display:block;width:100%;aspect-ratio:16/10;border:0;background:#000}
+.gloss{background:var(--hint-bg);border-left:4px solid var(--gold);border-radius:0 10px 10px 0;padding:14px 18px;margin:18px 0}
+.gloss dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 14px}
+.gloss dt{font-weight:700}
+.gloss dd{margin:0}
+.done{background:var(--ok-bg);border-left:4px solid var(--ok);border-radius:0 10px 10px 0;padding:14px 18px;margin:22px 0}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.status{color:var(--muted);font-size:.93rem}
+@media print{body{background:#fff}.bar,.no-print{display:none!important}.sec{break-inside:avoid;border-color:#999}.model iframe{display:none}}
+</style>
+</head>
+<body>
+<header class="bar no-print">
+  <a class="btn ghost small" href="../index.html">Forløbet</a>
+  <span class="brand">Elevark</span>
+  <span class="spacer"></span>
+  <span class="saved" id="saved" aria-live="polite"></span>
+</header>
+<main class="wrap" id="app"></main>
+<script>
+"use strict";
+const SPEC = {"key": "opsamling-elevark-2-3", "file": "opsamling-elevark-vaerktoejskasse-og-sammenligning", "kicker": "Opsamling, elevark 2 og 3", "title": "Arkæologens værktøjskasse", "intro": "Hvordan ved vi noget om mennesker, der levede for tusinder af år siden, når de ikke har efterladt sig skriftlige kilder? Beskriv de seks metoder, sammenlign dem, og giv din egen vurdering.", "sections": [{"h": "Metode 1: Typologi", "items": [{"type": "short", "id": "e1a", "label": "Hvad undersøger man?"}, {"type": "text", "id": "e1b", "label": "Hvordan fungerer metoden?"}, {"type": "short", "id": "e1c", "label": "Hvad kan metoden fortælle?"}, {"type": "short", "id": "e1d", "label": "Hvad kan metoden IKKE fortælle?"}, {"type": "short", "id": "e1e", "label": "Eksempel fra undervisningen"}]}, {"h": "Metode 2: Stratigrafi", "items": [{"type": "short", "id": "e2a", "label": "Hvad undersøger man?"}, {"type": "text", "id": "e2b", "label": "Hvordan fungerer metoden?"}, {"type": "short", "id": "e2c", "label": "Hvad kan metoden fortælle?"}, {"type": "short", "id": "e2d", "label": "Hvad kan metoden IKKE fortælle?"}, {"type": "short", "id": "e2e", "label": "Eksempel fra undervisningen"}]}, {"h": "Metode 3: Dendrokronologi", "items": [{"type": "short", "id": "e3a", "label": "Hvad undersøger man?"}, {"type": "text", "id": "e3b", "label": "Hvordan fungerer metoden?"}, {"type": "short", "id": "e3c", "label": "Hvad kan metoden fortælle?"}, {"type": "short", "id": "e3d", "label": "Hvad kan metoden IKKE fortælle?"}, {"type": "short", "id": "e3e", "label": "Eksempel fra undervisningen"}]}, {"h": "Metode 4: Kulstof-14", "items": [{"type": "short", "id": "e4a", "label": "Hvad undersøger man?"}, {"type": "text", "id": "e4b", "label": "Hvordan fungerer metoden?"}, {"type": "short", "id": "e4c", "label": "Hvad kan metoden fortælle?"}, {"type": "short", "id": "e4d", "label": "Hvad kan metoden IKKE fortælle?"}, {"type": "short", "id": "e4e", "label": "Eksempel fra undervisningen"}]}, {"h": "Metode 5: Strontiumanalyse", "items": [{"type": "short", "id": "e5a", "label": "Hvad undersøger man?"}, {"type": "text", "id": "e5b", "label": "Hvordan fungerer metoden?"}, {"type": "short", "id": "e5c", "label": "Hvad kan metoden fortælle?"}, {"type": "short", "id": "e5d", "label": "Hvad kan metoden IKKE fortælle?"}, {"type": "short", "id": "e5e", "label": "Eksempel fra undervisningen"}]}, {"h": "Metode 6: Human osteologi", "items": [{"type": "short", "id": "e6a", "label": "Hvad undersøger man?"}, {"type": "text", "id": "e6b", "label": "Hvordan fungerer metoden?"}, {"type": "short", "id": "e6c", "label": "Hvad kan metoden fortælle?"}, {"type": "short", "id": "e6d", "label": "Hvad kan metoden IKKE fortælle?"}, {"type": "short", "id": "e6e", "label": "Eksempel fra undervisningen"}]}, {"h": "Sammenligning af metoder", "items": [{"type": "short", "id": "c1s", "label": "Typologi: største styrke"}, {"type": "short", "id": "c1b", "label": "Typologi: største begrænsning"}, {"type": "short", "id": "c2s", "label": "Stratigrafi: største styrke"}, {"type": "short", "id": "c2b", "label": "Stratigrafi: største begrænsning"}, {"type": "short", "id": "c3s", "label": "Dendrokronologi: største styrke"}, {"type": "short", "id": "c3b", "label": "Dendrokronologi: største begrænsning"}, {"type": "short", "id": "c4s", "label": "Kulstof-14: største styrke"}, {"type": "short", "id": "c4b", "label": "Kulstof-14: største begrænsning"}, {"type": "short", "id": "c5s", "label": "Strontiumanalyse: største styrke"}, {"type": "short", "id": "c5b", "label": "Strontiumanalyse: største begrænsning"}, {"type": "short", "id": "c6s", "label": "Human osteologi: største styrke"}, {"type": "short", "id": "c6b", "label": "Human osteologi: største begrænsning"}]}, {"h": "Arkæologens metodevurdering", "items": [{"type": "choice", "id": "r1", "label": "1. Hvilken metode synes du er mest pålidelig?", "options": ["Typologi", "Stratigrafi", "Dendrokronologi", "Kulstof-14", "Strontiumanalyse", "Human osteologi"]}, {"type": "text", "id": "r1w", "label": "Hvorfor?"}, {"type": "choice", "id": "r2", "label": "2. Hvilken metode ville du vælge først, hvis du fandt en ukendt grav?", "options": ["Typologi", "Stratigrafi", "Dendrokronologi", "Kulstof-14", "Strontiumanalyse", "Human osteologi"]}, {"type": "text", "id": "r2w", "label": "Hvorfor?"}]}], "glossary": [["Observation", "Hvad ser eller måler forskerne helt fysisk?"], ["Analyse", "Hvad viser undersøgelserne i laboratoriet?"], ["Fortolkning", "Hvad tror forskerne, at resultatet betyder?"], ["Konklusion", "Hvad er den mest sandsynlige samlede forklaring?"]]};
+const TRIN = { O: ['Observation', 'var(--t-O)'], A: ['Analyse', 'var(--t-A)'], F: ['Fortolkning', 'var(--t-F)'], K: ['Konklusion', 'var(--t-K)'] };
+function h(tag, attrs, ...kids) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v === false || v == null) continue;
+    if (k === 'class') el.className = v;
+    else if (k.startsWith('on')) el.addEventListener(k.slice(2), v);
+    else el.setAttribute(k, v === true ? '' : v);
+  }
+  for (const k of kids.flat()) { if (k == null || k === false) continue; el.append(k.nodeType ? k : document.createTextNode(String(k))); }
+  return el;
+}
+const KEY = 'elevark-' + SPEC.key;
+let A = {};
+try { A = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { A = {}; }
+let saveT;
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(A)); } catch (e) {}
+  const s = document.getElementById('saved'); s.textContent = 'Gemt'; clearTimeout(saveT); saveT = setTimeout(() => s.textContent = '', 1500);
+  updProgress();
+}
+const allQs = () => SPEC.sections.flatMap(s => s.items.filter(i => i.type !== 'model'));
+function filled(q) {
+  const v = A[q.id];
+  if (q.type === 'three') return Array.isArray(v) && v.some(x => x && x.trim());
+  if (q.type === 'choice') return Array.isArray(v) ? v.length > 0 : !!v;
+  return v != null && String(v).trim() !== '';
+}
+function updProgress() { const p = document.getElementById('progress'); if (p) { const qs = allQs(); p.textContent = `${qs.filter(filled).length} af ${qs.length} felter udfyldt`; } }
+
+function field(q) {
+  const wrap = h('div', { class: 'q' });
+  const lbl = h('div', { class: 'lbl' }, h('span', {}, q.label), q.trin ? h('span', { class: 'tag', style: `--c:${TRIN[q.trin][1]}` }, TRIN[q.trin][0]) : null);
+  if (q.type === 'model') {
+    const box = h('div', { class: 'model' });
+    const ph = h('div', { class: 'ph' }, h('span', {}, q.label));
+    if (q.uid) {
+      ph.append(h('span', { class: 'row' },
+        h('button', { class: 'btn small', type: 'button', onclick: () => { box.replaceChildren(h('iframe', { src: `https://sketchfab.com/models/${q.uid}/embed?autostart=1&ui_infos=0&ui_watermark=0`, title: q.label, allow: 'autoplay; fullscreen; xr-spatial-tracking', allowfullscreen: true }), h('div', { class: 'ph' }, h('span', { class: 'status' }, 'Drej med musen eller fingeren. Zoom med scroll eller to fingre.'), h('a', { href: q.href, target: '_blank', rel: 'noopener' }, 'Åbn i nyt vindue'))); } }, 'Vis 3D-modellen her'),
+        h('a', { href: q.href, target: '_blank', rel: 'noopener' }, 'Åbn i nyt vindue')));
+    } else ph.append(h('a', { class: 'btn small', href: q.href, target: '_blank', rel: 'noopener' }, 'Åbn modellerne'));
+    box.append(ph); wrap.append(box); return wrap;
+  }
+  wrap.append(lbl);
+  if (q.type === 'text' || q.type === 'short') {
+    const t = h('textarea', { class: q.type === 'short' ? 'short' : '', placeholder: q.ph || '', 'aria-label': q.label });
+    t.value = A[q.id] || ''; t.addEventListener('input', () => { A[q.id] = t.value; save(); });
+    wrap.append(t);
+  }
+  if (q.type === 'three') {
+    const v = Array.isArray(A[q.id]) ? A[q.id] : ['', '', ''];
+    const box = h('div', { class: 'three' });
+    [0, 1, 2].forEach(i => { const inp = h('input', { class: 'line', type: 'text', placeholder: `Detalje ${i + 1}`, 'aria-label': `${q.label} ${i + 1}` }); inp.value = v[i] || ''; inp.addEventListener('input', () => { v[i] = inp.value; A[q.id] = v; save(); }); box.append(inp); });
+    wrap.append(box);
+  }
+  if (q.type === 'choice') {
+    const box = h('div', { class: 'choices', role: 'group', 'aria-label': q.label });
+    const cur = () => q.multi ? (Array.isArray(A[q.id]) ? A[q.id] : []) : A[q.id];
+    let otherInp = null;
+    const draw = () => {
+      box.replaceChildren();
+      q.options.forEach(o => {
+        const on = q.multi ? cur().includes(o) : cur() === o;
+        box.append(h('button', { type: 'button', 'aria-pressed': on ? 'true' : 'false', onclick: () => {
+          if (q.multi) { const c = cur(); A[q.id] = on ? c.filter(x => x !== o) : [...c, o]; }
+          else A[q.id] = on ? '' : o;
+          save(); draw();
+        } }, o));
+      });
+      if (otherInp) otherInp.hidden = !(q.multi ? cur().includes(q.other) : cur() === q.other);
+    };
+    wrap.append(box);
+    if (q.other) { otherInp = h('input', { class: 'line other', type: 'text', placeholder: 'Skriv hvad …', 'aria-label': q.other }); otherInp.value = A[q.id + '_other'] || ''; otherInp.addEventListener('input', () => { A[q.id + '_other'] = otherInp.value; save(); }); wrap.append(otherInp); }
+    draw();
+  }
+  if (q.type === 'scale') {
+    const box = h('div', { class: 'scale', role: 'group', 'aria-label': q.label });
+    const draw = () => { box.replaceChildren(h('span', { class: 'end' }, 'Usikker'), [1, 2, 3, 4, 5].map(n => h('button', { type: 'button', 'aria-pressed': A[q.id] === n ? 'true' : 'false', onclick: () => { A[q.id] = A[q.id] === n ? null : n; save(); draw(); } }, String(n))), h('span', { class: 'end' }, 'Helt sikker')); };
+    draw(); wrap.append(box);
+  }
+  return wrap;
+}
+
+function esc(t) { const d = document.createElement('div'); d.textContent = t == null ? '' : String(t); return d.innerHTML.replace(/\n/g, '<br>'); }
+function answerHtml(q) {
+  const v = A[q.id], blank = '<span class="blank">—</span>';
+  if (q.type === 'three') return Array.isArray(v) && v.some(x => x && x.trim()) ? '<ol>' + v.filter(x => x && x.trim()).map(x => '<li>' + esc(x) + '</li>').join('') + '</ol>' : blank;
+  if (q.type === 'choice') {
+    let list = q.multi ? (Array.isArray(v) ? v : []) : (v ? [v] : []);
+    list = list.map(x => x === q.other && A[q.id + '_other'] ? x + ': ' + A[q.id + '_other'] : x);
+    return list.length ? esc(list.join(', ')) : blank;
+  }
+  if (q.type === 'scale') return v ? `${v} af 5` : blank;
+  return v && String(v).trim() ? esc(v) : blank;
+}
+function buildFile() {
+  const secs = SPEC.sections.map(s => `<section><h2>${esc(s.h)}</h2>${s.task ? `<p class="task">${esc(s.task)}</p>` : ''}${s.items.filter(q => q.type !== 'model').map(q => `<div class="qa"><div class="ql">${esc(q.label)}${q.trin ? ` <span class="tag">${TRIN[q.trin][0]}</span>` : ''}</div><div class="an">${answerHtml(q)}</div></div>`).join('')}</section>`).join('');
+  return `<!DOCTYPE html><html lang="da"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${esc(SPEC.title)} – ${esc(A._name || '')}</title>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Zilla+Slab:wght@500;700&display=swap" rel="stylesheet">
+<style>body{font-family:'Atkinson Hyperlegible','Segoe UI',Arial,sans-serif;color:#1B2A2F;background:#E8EDE9;margin:0;line-height:1.45}
+.page{background:#fff;max-width:190mm;margin:12px auto;padding:14mm}
+h1,h2{font-family:'Zilla Slab',Georgia,serif;margin:0 0 .3em}h1{font-size:22pt}h2{font-size:14pt;margin-top:1.1em;border-bottom:1.5px solid #1B2A2F;padding-bottom:3px}
+.meta{color:#55666A;margin-bottom:8px}.task{color:#55666A;font-style:italic}
+.qa{margin:8px 0;break-inside:avoid}.ql{font-weight:700}.an{border-left:3px solid #C6D0CA;padding:2px 0 2px 10px;margin-top:2px}
+.an ol{margin:0;padding-left:1.2em}.tag{font-size:8pt;border:1px solid #55666A;border-radius:3px;padding:0 4px;font-weight:700;color:#55666A}
+.blank{color:#9FB0AA}section{break-inside:auto}
+.tools{position:fixed;right:14px;bottom:12px}.tools button{font:inherit;background:#1F5FA8;color:#fff;border:0;border-radius:6px;padding:8px 14px;cursor:pointer}
+@media print{@page{size:A4;margin:12mm}body{background:#fff}.page{margin:0;padding:0;max-width:none}.tools{display:none}}</style></head><body>
+<div class="page"><h1>${esc(SPEC.title)}</h1><div class="meta">Navn: ${esc(A._name || '')} &nbsp; Klasse: ${esc(A._klasse || '')} &nbsp; Dato: ${new Date().toLocaleDateString('da-DK')}</div>${secs}</div>
+<div class="tools"><button onclick="window.print()">Udskriv / gem som PDF</button></div></body></html>`;
+}
+const slug = t => (t || '').toLowerCase().replace(/æ/g, 'ae').replace(/ø/g, 'oe').replace(/å/g, 'aa').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const inClaude = !!(window.claude && typeof window.claude.use === 'function');
+async function download(btn) {
+  const st = btn.parentElement.querySelector('.status') || btn.parentElement.appendChild(h('span', { class: 'status', 'aria-live': 'polite' }));
+  const html = buildFile(), fn = SPEC.file + '-' + (slug(A._name) || 'elev') + (A._klasse ? '-' + slug(A._klasse) : '') + '.html';
+  if (inClaude) {
+    try { const dl = await window.claude.use('downloads'); if (!dl) throw 0; await dl.save({ filename: fn, data: html }); st.textContent = 'Filen er gemt.'; }
+    catch (e) { st.textContent = e && e.code === 'declined' ? 'Download blev annulleret.' : 'Download er ikke muligt i denne visning.'; }
+    return;
+  }
+  const url = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+  const a = h('a', { href: url, download: fn }); document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 10000);
+  st.textContent = 'Filen er hentet – se under Overførsler. Aflever den i Teams.';
+}
+
+function render() {
+  const app = document.getElementById('app');
+  app.replaceChildren();
+  app.append(h('div', { class: 'kicker' }, SPEC.kicker), h('h1', {}, SPEC.title), h('p', { class: 'intro' }, SPEC.intro));
+  const nm = h('input', { type: 'text', autocomplete: 'off' }); nm.value = A._name || ''; nm.addEventListener('input', () => { A._name = nm.value; save(); });
+  const kl = h('input', { type: 'text', autocomplete: 'off', style: 'min-width:6em' }); kl.value = A._klasse || ''; kl.addEventListener('input', () => { A._klasse = kl.value; save(); });
+  app.append(h('div', { class: 'who' }, h('label', {}, 'Navn', nm), h('label', {}, 'Klasse', kl)));
+  app.append(h('div', { class: 'progress', id: 'progress' }));
+  SPEC.sections.forEach(s => {
+    const sec = h('section', { class: 'sec' }, h('h2', {}, s.h));
+    if (s.task) sec.append(h('p', { class: 'task' }, h('b', {}, 'Opgave: '), s.task));
+    s.items.forEach(q => sec.append(field(q)));
+    app.append(sec);
+  });
+  if (SPEC.glossary) app.append(h('aside', { class: 'gloss' }, h('h3', { style: 'font-size:1.1rem' }, 'Ordforklaringer'), h('dl', {}, SPEC.glossary.map(([t, d]) => [h('dt', {}, t), h('dd', {}, d)]))));
+  const done = h('div', { class: 'done no-print' }, h('h3', { style: 'font-size:1.15rem' }, 'Færdig?'), h('p', {}, 'Dine svar gemmes automatisk i browseren. Når du er færdig, henter du arket som en fil og afleverer det i Teams.'));
+  let armed = false;
+  const reset = h('button', { class: 'btn ghost small', type: 'button' }, 'Ryd arket');
+  reset.addEventListener('click', () => { if (!armed) { armed = true; reset.textContent = 'Klik igen for at slette alle svar'; setTimeout(() => { armed = false; reset.textContent = 'Ryd arket'; }, 4000); return; } A = {}; try { localStorage.removeItem(KEY); } catch (e) {} render(); });
+  done.append(h('div', { class: 'row' }, h('button', { class: 'btn', type: 'button', onclick: e => download(e.currentTarget) }, 'Hent det udfyldte ark'), inClaude ? null : h('button', { class: 'btn ghost', type: 'button', onclick: () => window.print() }, 'Udskriv'), reset));
+  app.append(done);
+  updProgress();
+}
+render();
+</script>
+</body>
+</html>

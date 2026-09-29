@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Laboratoriet – seks sager fra jorden</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Zilla+Slab:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --paper:#E8EDE9; --card:#FFFFFF; --soft:#F3F6F4; --ink:#1B2A2F; --muted:#55666A; --line:#C6D0CA;
+  --accent:#1F5FA8; --accent-ink:#FFFFFF;
+  --ok:#23764A; --ok-bg:#E2F1E7; --bad:#A8322A; --bad-bg:#F8E5E2; --hint-bg:#FBF0D6;
+  --m-sr:#6E4A9E; --m-c14:#1F5FA8; --m-dendro:#8A5A2B; --m-strat:#8C6A00; --m-typo:#257566; --m-osteo:#9C3D54; --m-other:#55666A;
+  --gold:#B38A2E; --soil1:#6B5A45; --soil2:#B79A6A; --soil3:#8C7A5C; --char:#3A3431; --sand:#D9C38F; --brick:#A4553A;
+  --serif:'Zilla Slab', Rockwell, 'Roboto Slab', Georgia, serif;
+  --sans:'Atkinson Hyperlegible', 'Segoe UI', Verdana, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#11181A; --card:#1A2326; --soft:#161E21; --ink:#E4ECE9; --muted:#9CAFB0; --line:#34423F;
+    --accent:#7BAAE8; --accent-ink:#0D1824;
+    --ok:#6BC896; --ok-bg:#15301F; --bad:#F08B7F; --bad-bg:#3A1C19; --hint-bg:#342B14;
+    --m-sr:#B397DB; --m-c14:#7BAAE8; --m-dendro:#D39B63; --m-strat:#D8B447; --m-typo:#5DC4AE; --m-osteo:#E28BA1; --m-other:#9CAFB0;
+    --gold:#D9B45A; --soil1:#7A6850; --soil2:#9E8660; --soil3:#6E604A; --char:#2A2523; --sand:#B8A276; --brick:#B4674B;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#11181A; --card:#1A2326; --soft:#161E21; --ink:#E4ECE9; --muted:#9CAFB0; --line:#34423F;
+  --accent:#7BAAE8; --accent-ink:#0D1824;
+  --ok:#6BC896; --ok-bg:#15301F; --bad:#F08B7F; --bad-bg:#3A1C19; --hint-bg:#342B14;
+  --m-sr:#B397DB; --m-c14:#7BAAE8; --m-dendro:#D39B63; --m-strat:#D8B447; --m-typo:#5DC4AE; --m-osteo:#E28BA1; --m-other:#9CAFB0;
+  --gold:#D9B45A; --soil1:#7A6850; --soil2:#9E8660; --soil3:#6E604A; --char:#2A2523; --sand:#B8A276; --brick:#B4674B;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:1.0625rem;line-height:1.55}
+img,svg{max-width:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1,h2,h3,h4{font-family:var(--serif);line-height:1.15;margin:0 0 .4em}
+p{margin:0 0 .8em}
+
+.bar{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--line);background:var(--card)}
+.bar .brand{font-family:var(--serif);font-weight:700;font-size:1.2rem}
+.bar .spacer{flex:1}
+.wrap{max-width:940px;margin:0 auto;padding:24px 20px 60px}
+
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:6px;padding:10px 16px;font-weight:700;cursor:pointer}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.small{padding:6px 10px;font-size:.92rem}
+.linkbtn{background:none;border:0;color:var(--accent);cursor:pointer;padding:4px 0;font-weight:700}
+.say{background:transparent;border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:.85rem;cursor:pointer;color:var(--muted);white-space:nowrap}
+.say:hover{color:var(--ink);border-color:var(--muted)}
+
+/* Forside */
+.hero{margin:18px 0 28px;max-width:62ch}
+.hero h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:700;letter-spacing:-.01em}
+.hero p{font-size:1.15rem;color:var(--muted)}
+.tags{display:grid;grid-template-columns:1fr;gap:18px}
+@media (min-width:720px){.tags{grid-template-columns:1fr 1fr}}
+.tag{position:relative;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:4px 14px 14px 4px;padding:20px 20px 18px 50px;cursor:pointer;display:flex;flex-direction:column;gap:6px}
+.tag::before{content:"";position:absolute;left:17px;top:24px;width:14px;height:14px;border-radius:50%;background:var(--paper);border:2px solid var(--line)}
+.tag:hover{border-color:var(--muted)}
+.tag .nr{font-size:.9rem;color:var(--muted)}
+.tag h3{font-size:1.4rem;margin:0}
+.tag .place{color:var(--muted);font-size:.95rem}
+.tag .teaser{font-size:.98rem;margin:4px 0 6px}
+.tag .foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:auto}
+.status{font-size:.88rem;color:var(--muted)}
+.status.done{color:var(--ok);font-weight:700}
+.stamp{display:inline-block;font-family:var(--serif);font-weight:700;color:var(--c);border:2px solid var(--c);border-radius:4px;padding:1px 9px;transform:rotate(-3deg);font-size:1rem;background:var(--card);white-space:nowrap}
+.stamp.sm{font-size:.82rem;padding:0 6px;border-width:1.5px;transform:none}
+.foot-note{margin-top:36px;color:var(--muted);font-size:.93rem;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+
+/* Sag */
+.casehead{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px}
+.casehead h2{font-size:clamp(1.7rem,4.5vw,2.4rem);margin:0}
+.casehead .place{color:var(--muted)}
+.tabs{display:flex;gap:4px;border-bottom:2px solid var(--line);margin-bottom:20px;overflow-x:auto}
+.tabs button{background:none;border:0;padding:10px 14px;cursor:pointer;font-weight:700;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px}
+.panel + .panel{margin-top:18px}
+.story{font-size:1.1rem;max-width:68ch}
+.finds{margin:6px 0 0;padding-left:1.2em}
+.finds li{margin:3px 0}
+.primer{background:var(--soft);border-left:4px solid var(--c,var(--accent));padding:14px 16px;border-radius:0 8px 8px 0;margin-bottom:18px}
+.primer h3{font-size:1.15rem}
+.primer p{margin:0;max-width:72ch}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.row.between{justify-content:space-between}
+
+.instrument{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:22px;overflow-x:auto}
+.instrument h3{font-size:1.15rem}
+.instrument .cap{font-size:.93rem;color:var(--muted)}
+.instrument svg text{font-family:var(--sans)}
+.datatable{border-collapse:collapse;margin:10px 0 4px;font-size:.97rem}
+.datatable th,.datatable td{border-bottom:1px solid var(--line);padding:6px 12px 6px 0;text-align:left}
+.datatable td.num{font-variant-numeric:tabular-nums;font-weight:700}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.readout{font-size:1.05rem;margin-top:6px}
+.readout b{font-variant-numeric:tabular-nums}
+.meter{height:12px;background:var(--line);border-radius:6px;overflow:hidden;margin-top:6px;max-width:360px}
+.meter > i{display:block;height:100%;background:var(--accent);transition:width .15s}
+.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:8px;overflow:hidden}
+.seg label{padding:6px 12px;cursor:pointer}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg input:checked + span{font-weight:700;color:var(--accent)}
+.seg label:has(input:checked){background:var(--card)}
+.seg input:focus-visible + span{outline:3px solid var(--accent)}
+
+.hot{cursor:pointer}
+.hot circle.hs{fill:var(--accent);fill-opacity:.16;stroke:var(--accent);stroke-width:2}
+.hot.seen circle.hs{fill:var(--ok);fill-opacity:.22;stroke:var(--ok)}
+.hot:hover circle.hs,.hot:focus circle.hs{fill-opacity:.35}
+.obs{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px;min-height:120px}
+.obs h4{font-size:1.1rem}
+.osteo-grid{display:grid;grid-template-columns:1fr;gap:16px}
+@media (min-width:720px){.osteo-grid{grid-template-columns:260px 1fr}}
+.reftabs{display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px}
+@media (min-width:720px){.reftabs{grid-template-columns:1fr 1fr}}
+.refbox{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:.95rem}
+.refbox h4{font-size:1rem}
+.plates{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin:8px 0 14px}
+.plate{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:.88rem}
+.plate b{font-family:var(--serif);font-size:1.05rem}
+.plate.find{border:2px dashed var(--c,var(--accent))}
+.plate svg{display:block;margin:4px 0}
+.plate .d{color:var(--muted)}
+.swords{display:grid;grid-template-columns:1fr;gap:8px;margin:8px 0}
+@media (min-width:720px){.swords{grid-template-columns:1fr 1fr}}
+
+/* Opgaver */
+.q{border:1.5px solid var(--line);border-radius:10px;padding:16px;margin:14px 0;background:var(--card)}
+.q.locked{opacity:.55;background:var(--soft)}
+.q.done{border-color:var(--ok);background:var(--ok-bg)}
+.q .qh{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px}
+.q .qn{font-size:.9rem;color:var(--muted);font-weight:700}
+.q .prompt{font-weight:700;font-size:1.08rem;margin-bottom:10px;max-width:70ch}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{text-align:left;background:var(--soft);border:1.5px solid var(--line);border-radius:8px;padding:11px 14px;cursor:pointer;line-height:1.4}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt.tried{background:var(--bad-bg);border-color:var(--bad);cursor:default}
+.opt.picked{border-color:var(--accent);background:var(--card)}
+.checks{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.checks label{display:flex;gap:10px;align-items:flex-start;padding:8px 12px;border:1.5px solid var(--line);border-radius:8px;background:var(--soft);cursor:pointer}
+.checks input{margin-top:4px;accent-color:var(--accent);width:18px;height:18px}
+.numrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.numrow input{width:9em;padding:9px 10px;border:1.5px solid var(--line);border-radius:6px;background:var(--card);font-variant-numeric:tabular-nums}
+.pool,.seq{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 10px}
+.seq{min-height:46px;padding:8px;border:1.5px dashed var(--line);border-radius:8px}
+.chip{border:1.5px solid var(--line);background:var(--soft);border-radius:6px;padding:7px 11px;cursor:pointer}
+.chip:disabled{opacity:.35;cursor:default}
+.seq .chip{background:var(--card);border-color:var(--accent);cursor:default}
+.fb{margin-top:10px;padding:10px 12px;border-radius:0 6px 6px 0;max-width:72ch}
+.fb.bad{background:var(--bad-bg);border-left:4px solid var(--bad)}
+.fb.hint{background:var(--hint-bg);border-left:4px solid var(--gold)}
+.fb.ok{background:var(--ok-bg);border-left:4px solid var(--ok)}
+.q.done .answer{font-weight:700}
+.q.done .noted{margin-top:6px;font-size:.95rem}
+.tries{font-size:.85rem;color:var(--muted)}
+
+.cards{display:grid;grid-template-columns:1fr;gap:16px}
+.card{border:1.5px solid var(--line);border-radius:10px;padding:16px;background:var(--card)}
+.card.done{border-color:var(--ok)}
+.card .data{background:var(--soft);border-radius:6px;padding:10px 12px;margin:8px 0 4px;max-width:72ch}
+.card .q{margin:10px 0 0;border:0;padding:0;background:transparent}
+.card .q.done{background:transparent}
+
+.evidence{margin-top:24px;border-top:2px solid var(--line);padding-top:14px}
+.evidence h3{font-size:1.15rem}
+.evidence ol{margin:0;padding-left:1.4em}
+.evidence li{margin:5px 0;max-width:75ch}
+.empty{color:var(--muted);font-style:italic}
+.next{margin-top:18px;padding:14px 16px;background:var(--ok-bg);border-radius:8px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+
+/* Rapport */
+.field{margin:0 0 22px}
+.field > label,.field > .lbl{display:block;font-weight:700;font-size:1.05rem;margin-bottom:4px}
+.field .help{color:var(--muted);font-size:.95rem;margin-bottom:6px;max-width:72ch}
+textarea{width:100%;min-height:84px;padding:10px 12px;border:1.5px solid var(--line);border-radius:8px;background:var(--card);resize:vertical;line-height:1.5}
+select{padding:9px 10px;border:1.5px solid var(--line);border-radius:6px;background:var(--card)}
+.claim{border:1.5px solid var(--line);border-radius:10px;padding:14px;margin-bottom:14px;background:var(--soft)}
+.claim h4{font-size:1.05rem}
+.evpick{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}
+.evpick label{display:flex;gap:6px;align-items:center;border:1.5px solid var(--line);border-radius:999px;padding:4px 11px;background:var(--card);cursor:pointer;font-size:.92rem}
+.evpick label:has(input:checked){border-color:var(--accent);background:var(--card);font-weight:700}
+.evpick input{accent-color:var(--accent)}
+.certs{display:flex;gap:6px;flex-wrap:wrap}
+.certs label{border:1.5px solid var(--line);border-radius:6px;padding:5px 12px;cursor:pointer;background:var(--card)}
+.certs label:has(input:checked){border-color:var(--accent);font-weight:700}
+.certs input{accent-color:var(--accent)}
+.errors{background:var(--bad-bg);border-left:4px solid var(--bad);padding:12px 16px;border-radius:0 8px 8px 0;margin-bottom:14px}
+.errors ul{margin:6px 0 0;padding-left:1.2em}
+.evref{font-size:.9rem;color:var(--muted)}
+
+/* Slides */
+.slides{display:flex;flex-direction:column;gap:18px}
+.slide{background:#FFFFFF;color:#1B2A2F;border:1px solid var(--line);border-radius:6px;aspect-ratio:16/9;padding:4% 5%;overflow:hidden;display:flex;flex-direction:column}
+.slide .sk{font-size:.9rem;color:#55666A;margin-bottom:.4em}
+.slide h2{font-size:clamp(1.3rem,3.2vw,2.2rem);margin-bottom:.5em;color:#1B2A2F}
+.slide p,.slide li{font-size:clamp(.8rem,1.6vw,1.1rem)}
+.slide .cols{display:grid;grid-template-columns:3fr 2fr;gap:5%;flex:1;min-height:0}
+.slide ul{padding-left:1.1em;margin:0}
+.slide .cert{display:inline-block;font-size:.78em;font-weight:700;border:1.5px solid currentColor;border-radius:4px;padding:0 6px;margin-right:6px;vertical-align:1px}
+.slide .cert.s{color:#23764A}.slide .cert.p{color:#1F5FA8}.slide .cert.m{color:#8C6A00}
+.slide .stamp{background:#fff}
+.slide .small{font-size:.85em;color:#55666A}
+.guide{background:var(--hint-bg);border-left:5px solid var(--gold);border-radius:0 10px 10px 0;padding:14px 18px;margin-bottom:18px}
+.guide h4{font-size:1.1rem;margin-bottom:4px}
+.guide p{margin:0;max-width:72ch}
+.demo-entry{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;width:100%;text-align:left;background:var(--card);border:2px dashed var(--gold);border-radius:14px;padding:18px 22px;margin-bottom:22px;cursor:pointer}
+.demo-entry:hover{border-style:solid}
+.demo-entry h3{font-size:1.3rem;margin:0 0 2px}
+.demo-entry p{margin:0;color:var(--muted);max-width:60ch}
+details.expert{margin-top:18px;background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:14px 18px}
+details.expert summary{cursor:pointer;font-weight:700;font-family:var(--serif);font-size:1.15rem}
+details.expert p{max-width:72ch;margin-top:10px}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+@media print{
+  @page{size:A4 landscape;margin:12mm}
+  body{background:#fff;color:#000}
+  .no-print{display:none!important}
+  .wrap{max-width:none;padding:0}
+  .slides{gap:0}
+  .slide{border:0;border-radius:0;aspect-ratio:auto;height:180mm;padding:0;break-after:page;page-break-after:always}
+  .slide:last-child{break-after:auto;page-break-after:auto}
+  .slide h2{font-size:30pt}
+  .slide p,.slide li{font-size:15pt}
+}
+</style>
+</head>
+<body>
+<header class="bar no-print">
+  <span class="brand">Laboratoriet</span>
+  <a class="btn ghost small" href="index.html" id="forloebslink" style="text-decoration:none">Forløbet</a>
+  <span class="spacer"></span>
+  <button class="btn ghost small" id="homebtn" hidden>Alle sager</button>
+</header>
+<main class="wrap" id="app"></main>
+
+<script>
+"use strict";
+/* ---------- Hjælpere ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+function h(tag, attrs, ...kids) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v === false || v == null) continue;
+    if (k === 'class') el.className = v;
+    else if (k === 'html') el.innerHTML = v;
+    else if (k === 'style') el.setAttribute('style', v);
+    else if (k.startsWith('on')) el.addEventListener(k.slice(2), v);
+    else el.setAttribute(k, v === true ? '' : v);
+  }
+  for (const k of kids.flat()) {
+    if (k == null || k === false) continue;
+    el.append(k.nodeType ? k : document.createTextNode(String(k)));
+  }
+  return el;
+}
+const dk = (n, d) => n.toFixed(d).replace('.', ',');
+function shuffle(a) { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; }
+function parseNum(s) { if (s == null) return NaN; s = String(s).trim().replace(/\s/g, '').replace(',', '.').replace(/^−/, '-'); return s === '' ? NaN : Number(s); }
+
+const canSpeak = 'speechSynthesis' in window;
+function speak(text) {
+  if (!canSpeak) return;
+  try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = 'da-DK'; u.rate = .95; speechSynthesis.speak(u); } catch (e) {}
+}
+function sayBtn(getText) { return canSpeak ? h('button', { class: 'say', type: 'button', 'aria-label': 'Læs op', onclick: () => speak(typeof getText === 'function' ? getText() : getText) }, '🔊 Læs op') : null; }
+
+/* ---------- Metoder ---------- */
+const METHODS = {
+  sr:     { name: 'Strontiumisotopanalyse', short: 'Strontium',       c: 'var(--m-sr)' },
+  c14:    { name: 'Kulstof-14 (C-14)',      short: 'Kulstof-14',      c: 'var(--m-c14)' },
+  dendro: { name: 'Dendrokronologi',        short: 'Dendrokronologi', c: 'var(--m-dendro)' },
+  strat:  { name: 'Stratigrafi',            short: 'Stratigrafi',     c: 'var(--m-strat)' },
+  typo:   { name: 'Typologi',               short: 'Typologi',        c: 'var(--m-typo)' },
+  osteo:  { name: 'Human osteologi',        short: 'Osteologi',       c: 'var(--m-osteo)' },
+  bot:    { name: 'Botanik',                short: 'Botanik',         c: 'var(--m-other)' },
+  grav:   { name: 'Gravskik',               short: 'Gravskik',        c: 'var(--m-other)' },
+  tekstil:{ name: 'Tekstil',                short: 'Tekstil',         c: 'var(--m-other)' },
+};
+const stamp = (m, sm) => h('span', { class: 'stamp' + (sm ? ' sm' : ''), style: `--c:${METHODS[m].c}` }, METHODS[m].short);
+
+/* ---------- Tilstand ---------- */
+const KEY = 'laboratoriet-v2';
+let S = { cases: {} };
+try { const raw = localStorage.getItem(KEY); if (raw) S = JSON.parse(raw) || S; } catch (e) {}
+if (!S.cases) S.cases = {};
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+function cs(id) { if (!S.cases[id]) S.cases[id] = { done: {}, notes: [], draft: {}, report: false }; return S.cases[id]; }
+function addNote(id, text, method) { const c = cs(id); if (!c.notes.some(n => n.text === text)) c.notes.push({ text, method }); save(); }
+
+/* =====================================================================
+   SAGERNE (opdigtede, men metoderne og tallene er realistiske)
+   ===================================================================== */
+const CASES = [
+/* ---------------- 1 STRONTIUM ---------------- */
+{
+  id: 'raevehoej', nr: '01', method: 'sr', widget: 'sr',
+  title: 'Kvinden i egekisten', place: 'Rævehøj, Midtjylland',
+  teaser: 'En ung kvinde i en egekiste med en bælteplade af bronze. Der findes ingen bronze i dansk jord. Hvor kom hun fra?',
+  story: [
+    'En gammel gravhøj ved Rævehøj skal undersøges, før der bygges en ny vej. Inde i højen ligger en udhulet egestamme – en kiste. Den sure jord i højen har næsten opløst knoglerne, men tænder, hår, uldtøj og en stor bælteplade af bronze er bevaret.',
+    'Arkæologerne undrer sig. Kobber og tin, som bronze laves af, findes ikke i Danmark. Og bæltepladens mønster ligner fund længere mod syd. Var hun lokal – eller kom hun et andet sted fra?'
+  ],
+  finds: ['Tre kindtænder: 1., 2. og 3. kindtand', 'Egekiste med bark på ydersiden', 'Uldtøj og hår', 'Bælteplade af bronze med spiralmønster'],
+  primer: 'Strontium findes i jord og vand, og mængden afhænger af, hvor gamle bjergarterne er. Det, et barn spiser og drikker, sætter et kemisk "stempel" i tandemaljen, mens tanden dannes – og det stempel ændrer sig ikke bagefter. Forskellige tænder dannes i forskellige aldre. Derfor kan man følge, om en person har skiftet område som barn.',
+  questions: [
+    { id: 'q1', type: 'choice', prompt: 'Hvorfor måler man strontium i tandemalje og ikke i knogler?',
+      options: [
+        { t: 'Tandemaljen dannes i barndommen og ændrer sig ikke bagefter. Den er et arkiv over, hvor man voksede op.', ok: true },
+        { t: 'Tandemalje indeholder mere strontium, så målingen bliver mere præcis.', fb: 'Det handler ikke om mængden, men om hvornår emaljen dannes. Hvornår i livet bliver en tand til?' },
+        { t: 'Knogler kan ikke måles, fordi de er for gamle.', fb: 'Alderen er ikke problemet. Knogler ombygges hele livet og kan optage strontium fra jorden efter døden. Emalje gør ikke.' }
+      ],
+      note: 'Tandemalje dannes i barndommen og ændrer sig ikke – den viser, hvor personen voksede op (strontium).' },
+    { id: 'q2', type: 'multi', prompt: 'Første kindtand (M1) måler 0,7132. Hvilke områder passer med den værdi? Sæt flueben ved alle, der passer.',
+      options: [
+        { t: 'Findestedet (Rævehøj)' }, { t: 'Nordtyske slette' }, { t: 'Bornholm', ok: true }, { t: 'Mellemtyske bjerge', ok: true }, { t: 'Sydnorsk grundfjeld' }
+      ],
+      hint: 'Find 0,7132 på den vandrette skala og se, hvilke farvede felter den lodrette streg går igennem.',
+      note: 'M1 (0–3 år) = 0,7132. Passer med Bornholm eller Mellemtyske bjerge – ikke med findestedet (strontium).' },
+    { id: 'q3', type: 'multi', prompt: 'Tredje kindtand (M3) måler 0,7097. Hvilke områder passer med den?',
+      options: [
+        { t: 'Findestedet (Rævehøj)', ok: true }, { t: 'Nordtyske slette', ok: true }, { t: 'Bornholm' }, { t: 'Mellemtyske bjerge' }, { t: 'Sydnorsk grundfjeld' }
+      ],
+      hint: 'Brug skalaen igen. Nogle felter overlapper hinanden – så kan én værdi passe med flere områder.',
+      note: 'M3 (9–15 år) = 0,7097. Passer med findestedet eller Nordtyske slette (strontium).' },
+    { id: 'q4', type: 'choice', prompt: 'Hvornår i livet skiftede hun område?',
+      options: [
+        { t: 'Omkring 8–9-årsalderen – efter M2 var færdig, men før M3 begyndte at dannes.', ok: true },
+        { t: 'Allerede som spæd, før hun var 3 år.', fb: 'M1 og M2 har næsten samme høje værdi. Hun må altså have boet samme slags sted fra 0 til ca. 8 år.' },
+        { t: 'Som voksen, efter hun var 16 år.', fb: 'M3 er færdigdannet ved ca. 15 år – og viser allerede den lave værdi. Flytningen skete før.' },
+        { t: 'Det kan man slet ikke se.', fb: 'Jo, groft. Sammenlign tændernes værdier med hvornår hver tand dannes (tabellen under skalaen).' }
+      ],
+      note: 'Hun flyttede omkring 8–9-årsalderen: M1 og M2 har høje værdier, M3 har en lav, lokal værdi (strontium).' },
+    { id: 'q5', type: 'choice', prompt: 'En journalist skriver: "Forskere beviser: Kvinden fra Rævehøj var fra Bornholm." Har journalisten ret?',
+      options: [
+        { t: 'Nej. Værdien passer med to målte områder – og der kan findes andre steder med samme værdi, som ikke er målt. Strontium kan udelukke steder, men ikke pege på ét sikkert sted.', ok: true },
+        { t: 'Ja. Bornholm ligger tættest på Danmark, så det er det mest sandsynlige.', fb: 'Afstand er et argument, men laboratoriedata kan ikke skelne mellem Bornholm og Mellemtyskland. "Beviser" er for stærkt.' },
+        { t: 'Nej, for strontium siger ingenting om geografi.', fb: 'Strontium siger en hel del om geografi – den udelukker fx findestedet og Norge. Men hvor præcist kan den pege?' }
+      ],
+      note: 'Strontium kan udelukke områder, men ikke pege på ét bestemt sted. Hun voksede op et sted med ældre bjergarter end findestedet (strontium).' }
+  ],
+  cards: [
+    { id: 'k1', method: 'dendro', title: 'Kisten', data: 'Kisten er en udhulet egestamme. Barken sidder stadig på. Den yderste årring er dannet i 1391 f.v.t., og der er ingen vækst efter den. Træet er fældet i vinteren 1391/90 f.v.t.',
+      q: { id: 'k1q', type: 'choice', prompt: 'Hvad fortæller det om, hvornår hun blev begravet?',
+        options: [
+          { t: 'Sandsynligvis kort efter 1391/90 f.v.t. En kiste som denne blev lavet af frisk træ.', ok: true },
+          { t: 'Hun blev født i 1391 f.v.t.', fb: 'Årringene fortæller, hvornår træet blev fældet – ikke hvornår hun blev født.' },
+          { t: 'Præcis i 1391 f.v.t. Det er helt sikkert.', fb: 'Tæt på, men "helt sikkert" er for stærkt. Vi ved, hvornår træet blev fældet – ikke om kisten blev brugt samme år.' }
+        ],
+        note: 'Kistens træ er fældet vinteren 1391/90 f.v.t. Begravelsen skete sandsynligvis kort efter (dendrokronologi).' } },
+    { id: 'k2', method: 'osteo', title: 'Tænderne', data: 'Tredje kindtand (visdomstanden) er brudt frem, men har næsten intet slid. Rødderne er lige netop færdige. Visdomstændernes rødder bliver normalt færdige mellem 18 og 22 år.',
+      q: { id: 'k2q', type: 'choice', prompt: 'Hvor gammel var hun omtrent, da hun døde?',
+        options: [
+          { t: 'Ca. 18–22 år', ok: true },
+          { t: 'Ca. 10–14 år', fb: 'Så ville visdomstanden ikke være brudt frem endnu.' },
+          { t: 'Ca. 40–50 år', fb: 'Så ville tænderne være tydeligt slidte.' }
+        ],
+        note: 'Hun døde som ung, ca. 18–22 år gammel (osteologi, tandudvikling).' } },
+    { id: 'k3', method: 'typo', title: 'Bæltepladen', data: 'Bæltepladen er støbt i bronze og dekoreret med spiraler. Lignende bælteplader kendes fra Nordtyskland og Danmark fra samme tid. Bronze er kobber og tin – ingen af delene findes i Danmark.',
+      q: { id: 'k3q', type: 'choice', prompt: 'Hvad kan bæltepladen fortælle om hende?',
+        options: [
+          { t: 'At hun eller hendes familie havde adgang til kostbare importvarer. Det peger på høj status.', ok: true },
+          { t: 'At hun selv var smed og havde støbt den.', fb: 'At eje en ting er ikke det samme som at have lavet den. Det kan vi ikke se.' },
+          { t: 'At hun kom fra det land, hvor kobberet blev udvundet.', fb: 'Metal blev handlet over lange afstande. Metallets oprindelse fortæller om handel – ikke om hvor hun selv voksede op.' }
+        ],
+        note: 'Bæltepladen er lavet af importeret metal og peger på høj status (typologi).' } }
+  ],
+  dating: 'absolut',
+  datingFb: 'Kistens årringe giver et bestemt fældningsår (1391/90 f.v.t.). Dendrokronologi er en absolut datering.',
+  expert: 'Hun voksede op et sted med ældre bjergarter end Midtjylland – måske Mellemtyskland, måske Bornholm – og kom til området omkring 8–9-årsalderen. Hun døde som ung, 18–22 år, og blev begravet kort efter 1390 f.v.t. med en bælteplade af importeret bronze, så hun kom sandsynligvis fra en velhavende slægt. Vi kan ikke vide, hvorfor hun flyttede. Ægteskab, en aftale mellem to slægter eller noget helt tredje? Og vi ved ikke, om hun rejste frem og tilbage senere i livet.'
+},
+
+/* ---------------- 2 KULSTOF-14 ---------------- */
+{
+  id: 'kalvemosen', nr: '02', method: 'c14', widget: 'c14',
+  title: 'Manden i Kalvemosen', place: 'Kalvemosen, Sydfyn',
+  teaser: 'En gravko løfter en brun, læderagtig mand op af mosen. Politiet tilkaldes. Men hvor gammel er han egentlig?',
+  story: [
+    'En gravko i en tørvemose på Sydfyn løfter en brun, læderagtig skikkelse op. Politiet bliver tilkaldt – men det står hurtigt klart, at liget er meget gammelt. Mosens syre og mangel på ilt har bevaret hud, hår og mavesæk.',
+    'Om halsen sidder et reb flettet af lindebast. Han ligger under en stor sten, og ved siden af ham ligger et lille bronzespænde. Hvornår døde han – og hvad kan hans krop fortælle om hans liv?'
+  ],
+  finds: ['Mandens krop med hud, hår og mavesæk', 'Reb af lindebast om halsen', 'Stor sten over kroppen', 'Lille bronzespænde'],
+  primer: 'Alt levende optager kulstof – også den radioaktive slags, C-14. Når en plante eller et dyr dør, stopper optaget, og C-14 henfalder langsomt: efter 5.730 år er halvdelen væk. Måler man, hvor meget C-14 der er tilbage, kan man regne ud, hvor længe siden det døde. C-14-alder skrives som "år før nu" (BP), og "nu" er fastsat til år 1950.',
+  questions: [
+    { id: 'q1', type: 'multi', prompt: 'Hvilke af fundene kan C-14-dateres? Sæt flueben ved alle.',
+      options: [ { t: 'Rebet af lindebast', ok: true }, { t: 'Mandens lårben', ok: true }, { t: 'Mandens hår', ok: true }, { t: 'Bronzespændet' }, { t: 'Stenen over kroppen' } ],
+      hint: 'C-14 findes kun i ting, der engang har levet og optaget kulstof.',
+      note: 'Kun organisk materiale – noget der har levet – kan C-14-dateres (kulstof-14).' },
+    { id: 'q2', type: 'number', prompt: 'Rebet (prøve A) har 74,8 % af sit C-14 tilbage. Hvor mange år er det siden, lindetræet døde? Brug skyderen på kurven.',
+      answer: 2400, tol: 70, unit: 'år før nu',
+      hint: 'Flyt skyderen, til prikken på kurven ligger ud for den stiplede linje ved 74,8 %. Aflæs antal år.',
+      note: 'Rebet (prøve A): 74,8 % C-14 tilbage = ca. 2.400 år før nu (kulstof-14).' },
+    { id: 'q3', type: 'choice', prompt: 'C-14-alderen regnes fra år 1950. Hvilket årstal svarer 2.400 år før nu til?',
+      options: [
+        { t: 'Ca. 450 f.v.t.', ok: true },
+        { t: 'Ca. 450 e.v.t.', fb: 'I har trukket fra i den forkerte retning. 1950 minus 2.400 bliver et negativt tal – altså før vor tidsregning.' },
+        { t: 'Ca. 2400 f.v.t.', fb: '2.400 er alderen, ikke årstallet. Træk alderen fra 1950.' },
+        { t: 'Ca. 375 f.v.t.', fb: 'I har regnet fra i dag. C-14-alder regnes altid fra 1950.' }
+      ],
+      note: 'Rebet dateres til ca. 450 f.v.t. – ældre jernalder (kulstof-14).' },
+    { id: 'q4', type: 'number', prompt: 'Lårbenet (prøve B) har 72,3 % C-14 tilbage. Hvor mange år før nu giver det?',
+      answer: 2680, tol: 80, unit: 'år før nu',
+      hint: 'Samme fremgangsmåde: find den stiplede linje ved 72,3 %.',
+      note: 'Lårbenet (prøve B): 72,3 % = ca. 2.680 år før nu – ca. 280 år ældre end rebet (kulstof-14).' },
+    { id: 'q5', type: 'choice', prompt: 'Knoglen ser ca. 280 år ældre ud end rebet om halsen. Hvordan kan det hænge sammen?',
+      options: [
+        { t: 'Han har spist meget fisk fra søer. Søvand kan indeholde opløst, ældgammelt kalk, så fisken får "gammelt" kulstof – og det havner i knoglerne. Det kaldes reservoireffekt.', ok: true },
+        { t: 'Rebet var nyt, mens manden var 280 år gammel.', fb: 'Knoglen måler, hvornår kulstoffet kom ind i kroppen – ikke hvornår han blev født. Og ingen lever i 280 år.' },
+        { t: 'Mosevandet har nedbrudt rebet, så det ser yngre ud.', fb: 'Nedbrydning fjerner materiale, men ændrer ikke forholdet mellem C-14 og almindeligt kulstof i det, der er tilbage.' },
+        { t: 'Laboratoriet har lavet en fejl, så vi må se bort fra knoglen.', fb: 'Man smider ikke data væk, fordi de driller. Spørg først: Findes der en naturlig forklaring på, at knoglen har "gammelt" kulstof?' }
+      ],
+      note: 'Knoglen ser ca. 280 år for gammel ud. Det tyder på, at han spiste meget ferskvandsfisk (reservoireffekt). Rebet giver den sikreste datering (kulstof-14).' }
+  ],
+  cards: [
+    { id: 'k1', method: 'osteo', title: 'Krop og hænder', data: 'Kraniesømmene er delvist lukkede, og tænderne er tydeligt slidte. Det passer med en mand på ca. 30–45 år. Huden på hænderne er glat, uden hård hud eller ar.',
+      q: { id: 'k1q', type: 'choice', prompt: 'Hvad kan de glatte hænder pege på?',
+        options: [
+          { t: 'At han ikke lavede hårdt arbejde med hænderne i tiden før sin død. Måske havde han en særlig stilling.', ok: true },
+          { t: 'At han var bonde.', fb: 'En bonde, der arbejdede med hakke og økse, ville normalt få hård hud.' },
+          { t: 'At han var ung.', fb: 'Tænder og kraniesømme viser, at han var voksen, ca. 30–45 år.' }
+        ],
+        note: 'Han var ca. 30–45 år. Glatte hænder kan pege på, at han ikke lavede hårdt håndarbejde (osteologi).' } },
+    { id: 'k2', method: 'bot', title: 'Maveindholdet', data: 'I mavesækken ligger rester af hans sidste måltid: grød af byg og hørfrø, blandet med frø fra mange slags ukrudt. Der er ingen spor af kød eller fisk.',
+      q: { id: 'k2q', type: 'choice', prompt: 'Hvad kan maveindholdet fortælle?',
+        options: [
+          { t: 'At hans sidste måltid var en enkel grød. Om det var hverdagsmad eller et særligt måltid, kan vi ikke afgøre.', ok: true },
+          { t: 'At han aldrig spiste kød eller fisk.', fb: 'Ét måltid siger ikke noget om hele livet. Og knoglen fortalte jo, at han spiste fisk!' },
+          { t: 'At han døde af sult.', fb: 'Han havde spist lige før han døde. Maven var ikke tom.' }
+        ],
+        note: 'Hans sidste måltid var grød af byg, hørfrø og ukrudtsfrø. Det siger noget om den sidste dag – ikke om hele livet (botanik).' } },
+    { id: 'k3', method: 'typo', title: 'Bronzespændet', info: true, data: 'Spændet har en form, der kendes fra mange andre fund. Typen bruges fra ca. 500 til 300 f.v.t.',
+      note: 'Bronzespændet er en type fra ca. 500–300 f.v.t. Det passer med C-14-dateringen (typologi).' }
+  ],
+  dating: 'absolut',
+  datingFb: 'C-14 måler, hvor meget radioaktivt kulstof der er tilbage, og giver et antal år. Det er en absolut datering.',
+  expert: 'Manden døde omkring 450 f.v.t. i ældre jernalder, 30–45 år gammel. Hans knogler afslører, at han gennem livet spiste meget ferskvandsfisk. Hans sidste måltid var en enkel grød, og hans glatte hænder kan pege på, at han ikke levede af hårdt arbejde. Rebet om halsen og stenen over ham tyder på, at han blev dræbt og bevidst lagt i mosen – måske som et offer. Men hvorfor, og af hvem, kan laboratoriet ikke svare på.'
+},
+
+/* ---------------- 3 DENDROKRONOLOGI ---------------- */
+{
+  id: 'hvidesand', nr: '03', method: 'dendro', widget: 'dendro',
+  title: 'Bådgraven ved Hvidesand', place: 'Hvidesand, Limfjorden',
+  teaser: 'En død mand begravet i en båd, med sværd, økse og en lille vægt til sølv. Hvor kom båden fra – og kom han samme sted fra?',
+  story: [
+    'En detektorfører finder jernnagler i lange rækker på en mark ved Limfjorden. Da arkæologerne graver, viser det sig at være en 9 meter lang båd, gravet ned i jorden med en død mand i. Træet er bevaret, fordi båden ligger i vandmættet ler.',
+    'Ved manden ligger et sværd, en økse, en lille foldevægt med vægtlodder og en pung med en sølvmønt. Hvem var han – og hvor kom båden fra?'
+  ],
+  finds: ['Planke A: yderst sidder barkkanten', 'Planke B: de yderste årringe er høvlet væk', 'Sværd og økse', 'Foldevægt med vægtlodder', 'Pung med en sølvmønt, præget år 991'],
+  primer: 'Et træ vokser én årring om året. I gode år bliver ringen bred, i dårlige år smal. Træer i samme område får derfor det samme mønster af brede og smalle ringe. Forskerne har lange referencekurver, der går tusinder af år tilbage – én for hvert område. Ved at skubbe en prøves mønster hen langs en referencekurve, til det passer, kan man finde præcis det år, den yderste ring voksede – og ofte også hvor træet voksede.',
+  questions: [
+    { id: 'q1', type: 'choice', prompt: 'I må kun sende én planke til laboratoriet. Hvilken skal det være?',
+      options: [
+        { t: 'Planke A, hvor barkkanten sidder. Så er den sidste årring med, og vi kan finde det præcise år, træet blev fældet.', ok: true },
+        { t: 'Planke B. Den er pænest, fordi den er høvlet.', fb: 'Når de yderste ringe er høvlet væk, ved vi kun, at træet er fældet efter den sidste ring – men ikke hvor mange år efter.' },
+        { t: 'Den tykkeste planke, fordi den har flest årringe.', fb: 'Mange ringe hjælper, men det vigtigste er, at den sidste ring under barken er bevaret.' }
+      ],
+      note: 'Planke A med barkkant giver det præcise fældningsår (dendrokronologi).' },
+    { id: 'q2', type: 'number', prompt: 'Skub prøvens mønster langs referencekurven, til de passer bedst sammen. Hvilket år voksede den yderste årring?',
+      answer: 962, tol: 0, unit: '',
+      hint: 'Prøv begge referencekurver. Et sikkert match har en overensstemmelse over 0,7. Kig efter de meget smalle ringe – de er lette at genkende.',
+      special: [ { v: 961, tol: 0, fb: 'Meget tæt! Flyt skyderen ét år frem og se, om overensstemmelsen bliver højere.' }, { v: 963, tol: 0, fb: 'Meget tæt! Flyt skyderen ét år tilbage og se, om overensstemmelsen bliver højere.' } ],
+      note: 'Den yderste årring i planke A er fra år 962. Med barkkant betyder det, at træet er fældet i 962/963 (dendrokronologi).' },
+    { id: 'q3', type: 'choice', prompt: 'Hvor voksede træet til båden?',
+      options: [
+        { t: 'I Vestnorge. Mønstret passer næsten perfekt med den norske kurve og dårligt med den sydskandinaviske.', ok: true },
+        { t: 'I Sydskandinavien, fordi båden er fundet i Danmark.', fb: 'Findestedet siger ikke, hvor træet voksede. Sammenlign overensstemmelsen med de to kurver.' },
+        { t: 'Det kan man ikke se med årringe.', fb: 'Jo – fordi vejret er forskelligt fra område til område, har hvert område sit eget mønster.' }
+      ],
+      note: 'Årringsmønstret matcher Vestnorge og ikke Sydskandinavien. Båden er bygget af norsk træ (dendrokronologi).' },
+    { id: 'q4', type: 'choice', prompt: 'Sølvmønten i pungen er præget i år 991. Hvad betyder det sammen med årringene?',
+      options: [
+        { t: 'Manden er begravet tidligst i 991. Båden var altså mindst ca. 29 år gammel, da den kom i jorden.', ok: true },
+        { t: 'Båden er bygget i 991.', fb: 'Årringene fortæller, hvornår båden blev bygget. Mønten fortæller noget andet – hvad?' },
+        { t: 'Manden døde præcis i 991.', fb: 'Mønten viser kun, at han døde tidligst i 991. Den kan have ligget i pungen i mange år.' }
+      ],
+      note: 'Mønten fra 991 viser, at begravelsen skete tidligst i 991. Båden var da mindst ca. 29 år gammel.' },
+    { id: 'q5', type: 'choice', prompt: 'Kan vi sige, at manden var nordmand?',
+      options: [
+        { t: 'Nej. Vi ved kun, at båden er bygget af norsk træ. Den kan være købt, erobret eller arvet. Hans egne tænder kunne sige mere.', ok: true },
+        { t: 'Ja. Man sejler ikke i en båd fra et andet land.', fb: 'Både blev handlet, stjålet og arvet. En ting fortæller om tingens historie – ikke automatisk om ejerens.' },
+        { t: 'Nej, for dendrokronologi virker ikke på både.', fb: 'Den virker fint på både – det har I lige vist. Men hvad fortæller den om og hvad ikke?' }
+      ],
+      note: 'Bådens norske træ siger ikke, hvor manden selv kom fra (dendrokronologi).' }
+  ],
+  cards: [
+    { id: 'k1', method: 'osteo', title: 'Skelettet', data: 'Mand, ca. 50–60 år. Slidgigt i højre skulder og albue. Kraftige muskelfæster på begge overarme. Flere tænder mangler.',
+      q: { id: 'k1q', type: 'choice', prompt: 'Hvad kan slidgigt og kraftige muskelfæster pege på?',
+        options: [
+          { t: 'Mange års hårdt, gentaget arbejde med armene – fx roning, men andet arbejde kan give samme spor.', ok: true },
+          { t: 'At han var rig og ikke lavede noget.', fb: 'Kraftige muskelfæster opstår, når musklerne bruges meget over lang tid.' },
+          { t: 'At han døde af slidgigt.', fb: 'Slidgigt gør ondt, men man dør ikke af den.' }
+        ],
+        note: 'Mand, 50–60 år, med spor af mange års hårdt arbejde med armene (osteologi).' } },
+    { id: 'k2', method: 'typo', title: 'Foldevægten', data: 'En lille sammenfoldelig vægt af bronze med syv vægtlodder. Den kunne veje meget små mængder – fx sølv, som man betalte med efter vægt.',
+      q: { id: 'k2q', type: 'choice', prompt: 'Hvad peger foldevægten på?',
+        options: [
+          { t: 'At han var med i handel, hvor man betalte med sølv efter vægt.', ok: true },
+          { t: 'At han var guldsmed.', fb: 'Muligt, men en guldsmed ville typisk have værktøj med. Vægten alene peger mere bredt på handel.' },
+          { t: 'At han var fattig.', fb: 'En foldevægt og en sølvmønt tyder snarere på det modsatte.' }
+        ],
+        note: 'Foldevægten peger på, at han handlede og betalte med sølv efter vægt (typologi).' } },
+    { id: 'k3', method: 'sr', title: 'Hans tænder', info: true, data: 'Tandemaljen er sendt til strontiumanalyse. Svaret er ikke kommet endnu.',
+      note: 'Hvor manden selv voksede op, er endnu ikke undersøgt – strontiumsvaret mangler.' }
+  ],
+  dating: 'absolut',
+  datingFb: 'Årringene giver et præcist fældningsår (962), og mønten giver et tidligste år (991). Begge er faste årstal – absolut datering.',
+  expert: 'Manden blev begravet tidligst i 991 i en båd bygget af træ fra Vestnorge, fældet i 962. Båden var altså mindst ca. 30 år gammel, da den kom i jorden. Han var 50–60 år og havde brugt armene hårdt gennem mange år. Foldevægten peger på handel med sølv. Om han selv kom fra Norge, kan årringene ikke sige – det kræver fx en strontiumanalyse af hans tænder.'
+},
+
+/* ---------------- 4 STRATIGRAFI ---------------- */
+{
+  id: 'algade', nr: '04', method: 'strat', widget: 'strat',
+  title: 'Barnet under gulvet', place: 'Algade 14, en gammel købstad',
+  teaser: 'Håndværkere finder et lille skelet under et gammelt husgulv. Kirkegården lå kun 200 meter væk. Hvornår – og hvorfor her?',
+  story: [
+    'Under en kælderrenovering i Algade 14 støder håndværkerne på et lille skelet. Arbejdet stoppes, og arkæologerne tegner et profil: et lodret snit gennem jorden, hvor man kan se lagene som striber.',
+    'Skelettet ligger i en lille nedgravning inde i det, der engang var et hus. Byens kirkegård lå kun 200 meter væk og var i brug hele middelalderen. Hvornår blev barnet begravet – og hvorfor her?'
+  ],
+  finds: ['Profiltegning med fem lag og en nedgravning', 'Sølvmønt præget i 1241, fundet i lergulvet', 'Egebjælke under teglgulvet, fældet 1301/02', 'Lille skelet i nedgravningen'],
+  primer: 'Jordlag lægger sig oven på hinanden som sider i en bog. Det nederste lag er som regel det ældste. En nedgravning – fx en grav eller en brønd – er yngre end alle de lag, den skærer igennem, og ældre end de lag, der ligger ubrudt hen over den. Finder man noget, der kan dateres, i lagene, kan man sætte årstal på rækkefølgen.',
+  questions: [
+    { id: 'q1', type: 'order', prompt: 'Klik på lagene i rækkefølge fra ÆLDST til YNGST. (Tryk på lagene i tegningen for at læse om dem.)',
+      items: ['Undergrund (sand)', 'Brandlag', 'Lergulv', 'Teglgulv', 'Muld og moderne fyld'],
+      hint: 'Det nederste lag blev lagt først.',
+      note: 'Lagenes rækkefølge fra ældst til yngst: undergrund, brandlag, lergulv, teglgulv, muld (stratigrafi).' },
+    { id: 'q2', type: 'choice', prompt: 'Fra hvilket lag er graven gravet ned?',
+      options: [
+        { t: 'Fra toppen af lergulvet.', ok: true },
+        { t: 'Fra brandlaget.', fb: 'Graven skærer igennem brandlaget. Så var brandlaget der allerede, da graven blev gravet – den må være gravet fra et højere niveau.' },
+        { t: 'Fra undergrunden.', fb: 'Bunden af graven ligger i sandet, men hvor starter den? Se efter, hvor kanten begynder.' },
+        { t: 'Fra teglgulvet.', fb: 'Teglgulvet ligger ubrudt hen over graven. Det må være lagt, efter graven blev lukket.' }
+      ],
+      note: 'Graven er gravet ned fra toppen af lergulvet og dækket af teglgulvet (stratigrafi).' },
+    { id: 'q3', type: 'choice', prompt: 'Hvad er det tidligste tidspunkt, barnet kan være begravet?',
+      options: [
+        { t: 'Efter 1241. Mønten sidder i lergulvet, og graven er gravet ned gennem det gulv.', ok: true },
+        { t: 'Før 1241.', fb: 'Lergulvet med mønten fra 1241 var der allerede, da graven blev gravet.' },
+        { t: 'Efter 1302.', fb: 'Bjælken fra 1301/02 ligger i teglgulvet over graven. Den siger noget om det seneste tidspunkt – ikke det tidligste.' }
+      ],
+      note: 'Begravelsen skete efter 1241 (mønt i lergulvet) (stratigrafi).' },
+    { id: 'q4', type: 'choice', prompt: 'Og hvad er det seneste tidspunkt?',
+      options: [
+        { t: 'Omkring 1302, da teglgulvet blev lagt hen over graven.', ok: true },
+        { t: 'Efter 1302.', fb: 'Teglgulvet ligger ubrudt hen over graven. Graven var der altså, før gulvet kom.' },
+        { t: 'Det kan man ikke sige.', fb: 'Jo – det ubrudte teglgulv forsegler graven, og bjælken under det er dateret.' }
+      ],
+      note: 'Begravelsen skete senest omkring 1302 (teglgulv med bjælke fra 1301/02 over graven). Samlet: mellem 1241 og ca. 1302 (stratigrafi).' },
+    { id: 'q5', type: 'choice', prompt: 'Barnet ligger under gulvet i et hus – ikke på kirkegården, som lå 200 meter væk. Hvad er en rimelig tolkning?',
+      options: [
+        { t: 'Det er usædvanligt i den kristne middelalder. Det kan pege på et barn, der døde før dåben og derfor ikke måtte begraves i indviet jord. Men det er en tolkning, ikke et bevis.', ok: true },
+        { t: 'Familien var ikke kristne.', fb: 'Muligt, men meget usandsynligt i en dansk by i 1200-tallet – og intet i fundet peger på det.' },
+        { t: 'Det var helt almindeligt at begrave børn i husene.', fb: 'Kirkegården lå tæt på og var i brug. At begrave et barn under et gulv var en undtagelse.' }
+      ],
+      note: 'At barnet ligger under et husgulv og ikke på kirkegården, er usædvanligt. Én mulig forklaring er, at barnet døde udøbt (tolkning).' }
+  ],
+  cards: [
+    { id: 'k1', method: 'osteo', title: 'Skelettet', data: 'Lårbenet er 7,8 cm langt. Ingen tænder er brudt frem. Knoglerne passer med et fuldbårent, nyfødt barn. Der er ingen tegn på sygdom eller skader.',
+      q: { id: 'k1q', type: 'choice', prompt: 'Hvad kan vi IKKE sige ud fra skelettet?',
+        options: [
+          { t: 'Barnets køn. Det kan ikke bestemmes sikkert på skeletter af små børn.', ok: true },
+          { t: 'Barnets alder.', fb: 'Jo – knoglernes længde og tænderne viser, at barnet var nyfødt.' },
+          { t: 'Om barnet var født til tiden.', fb: 'Knoglernes størrelse passer med et fuldbårent barn.' }
+        ],
+        note: 'Barnet var nyfødt og fuldbårent. Køn kan ikke bestemmes (osteologi).' } },
+    { id: 'k2', method: 'tekstil', title: 'Stofrester', info: true, data: 'Ved kraniet og brystet ligger rester af fint uldstof og en lille nål af bronze.',
+      note: 'Barnet var sandsynligvis svøbt i uldstof, holdt sammen med en nål.' }
+  ],
+  dating: 'begge',
+  datingFb: 'Lagene giver en rækkefølge (relativ datering), men mønten og bjælkens årringe giver faste årstal (absolut). Her bruger I begge dele.',
+  expert: 'Et nyfødt, fuldbårent barn blev begravet under lergulvet i et hus en gang mellem 1241 og ca. 1302. Barnet var svøbt i uldstof. At det ligger under et husgulv og ikke på kirkegården 200 meter væk, er usædvanligt. En mulig forklaring er, at barnet døde før dåben og derfor ikke måtte begraves i indviet jord. Barnets køn og dødsårsag kan vi ikke kende.'
+},
+
+/* ---------------- 5 TYPOLOGI ---------------- */
+{
+  id: 'lynghoej', nr: '05', method: 'typo', widget: 'typo',
+  title: 'Grav 12 på Lynghøj', place: 'Lynghøj gravplads, Østjylland',
+  teaser: 'Ingen kul, intet træ, dårlige knogler. Kun genstandene kan datere graven. Og hvem var personen med sværdet?',
+  story: [
+    'På gravpladsen ved Lynghøj er der udgravet 40 grave. De fleste er fattige, men grav 12 skiller sig ud: Her ligger et dragtspænde med sølvtråd, et sværd i en skede med bronzebeslag og et grønligt glasbæger.',
+    'Skelettet er dårligt bevaret, og der er intet træ eller kul, der kan C-14-dateres. Arkæologerne må bruge genstandene selv til at datere graven – og til at forstå, hvem personen var.'
+  ],
+  finds: ['Dragtspænde (fibula) med sølvtråd', 'Sværd, slidt og med repareret greb', 'Grønligt glasbæger', 'Dårligt bevaret skelet'],
+  primer: 'Genstande ændrer form og stil over tid, ligesom mobiltelefoner og biler. Når arkæologer har mange fund af samme slags, kan de ordne dem i en udviklingsrække – en typologi. Nogle typer er dateret, fordi de er fundet sammen med mønter eller træ med årringe. Et nyt fund kan dateres ved at sammenligne det med typerne. Det giver et tidsrum, ikke et præcist år.',
+  questions: [
+    { id: 'q1', type: 'choice', prompt: 'Hvad bygger typologi på?',
+      options: [
+        { t: 'At genstande ændrer form og stil gradvist over tid, så genstande der ligner hinanden, er fra omtrent samme tid.', ok: true },
+        { t: 'At man kan måle, hvor gammelt metallet er.', fb: 'Metal kan ikke aldersbestemmes på den måde. Typologi handler om form og stil.' },
+        { t: 'At de nyeste genstande altid ligger dybest i jorden.', fb: 'Det er stratigrafi – og det er omvendt: dybest ligger som regel det ældste.' }
+      ],
+      note: 'Typologi bygger på, at form og stil ændrer sig gradvist over tid (typologi).' },
+    { id: 'q2', type: 'choice', prompt: 'Sammenlign dragtspændet fra grav 12 med typerne A–E. Hvilken type er det?',
+      options: [
+        { t: 'Type A', fb: 'Type A har kort fod og ingen sølvtråd. Se på foden af spændet fra graven.' },
+        { t: 'Type B', fb: 'Type B har et knæk på bøjlen. Bøjlen på spændet fra graven er jævnt buet.' },
+        { t: 'Type C', fb: 'Type C har en bred, flad bøjle med kam. Passer det?' },
+        { t: 'Type D', ok: true },
+        { t: 'Type E', fb: 'Type E har et tværstykke med tre knapper. Det har spændet fra graven ikke.' }
+      ],
+      note: 'Dragtspændet er type D: høj nåleholder og sølvtråd. Brugt ca. 200–300 e.Kr. (typologi).' },
+    { id: 'q3', type: 'choice', prompt: 'Sammenlign sværdet med typerne 1–4. Hvilken type er det?',
+      options: [
+        { t: 'Type 1', fb: 'Type 1 har en kort, bred klinge. Sværdet fra graven er langt.' },
+        { t: 'Type 2', fb: 'Type 2 har en ringformet knap for enden af grebet. Se efter mønstret i klingen.' },
+        { t: 'Type 3', ok: true },
+        { t: 'Type 4', fb: 'Type 4 har en rund knap og en hjaltplade af bronze. Passer det?' }
+      ],
+      note: 'Sværdet er type 3: mønstersvejset klinge og dupsko af bronze. Brugt ca. 180–320 e.Kr. (typologi).' },
+    { id: 'q4', type: 'choice', prompt: 'Dragtspænde: 200–300. Sværd: 180–320. Glasbæger: 180–280 e.Kr. I hvilket tidsrum passer ALLE tre genstande?',
+      options: [
+        { t: '200–280 e.Kr.', ok: true },
+        { t: '180–320 e.Kr.', fb: 'Det er det bredeste spænd. Men graven må passe med alle tre genstande på én gang – hvor overlapper de?' },
+        { t: '250–300 e.Kr.', fb: 'Tjek glasbægeret: Det bruges kun til 280.' },
+        { t: '180–200 e.Kr.', fb: 'Tjek dragtspændet: Det bruges først fra 200.' }
+      ],
+      note: 'Alle tre genstande passer kun sammen i tidsrummet ca. 200–280 e.Kr. (typologi).' },
+    { id: 'q5', type: 'choice', prompt: 'Sværdet er stærkt slidt, og grebet er repareret to gange. Hvad betyder det?',
+      options: [
+        { t: 'Sværdet var gammelt, da det kom i graven – måske arvet. Det er de nyeste genstande, der daterer graven bedst.', ok: true },
+        { t: 'At personen passede dårligt på sine ting.', fb: 'Reparationer viser tværtimod, at nogen ville bevare sværdet. Hvad siger det om dets alder?' },
+        { t: 'At graven må være fra 180, hvor sværdtypen begynder.', fb: 'Graven kan ikke være ældre end sin yngste genstand. Hvilken genstand begynder senest?' }
+      ],
+      note: 'Sværdet var gammelt og velbrugt, måske et arvestykke. Graven dateres bedst af de yngste genstande (typologi).' }
+  ],
+  cards: [
+    { id: 'k1', method: 'osteo', title: 'Skelettet', data: 'Skelettet er dårligt bevaret, og bækkenet mangler. Kraniet er lille med svage muskelfæster. Tænderne viser en voksen på ca. 25–40 år.',
+      q: { id: 'k1q', type: 'choice', prompt: 'Hvad kan vi sige om personens køn?',
+        options: [
+          { t: 'Det kan ikke afgøres sikkert. Våbnene fortæller om personens rolle eller status – ikke nødvendigvis om køn.', ok: true },
+          { t: 'Det er en mand, fordi der er våben i graven.', fb: 'Så bruger I en antagelse om fortiden i stedet for data. Hvad siger knoglerne?' },
+          { t: 'Det er en kvinde, fordi kraniet er lille.', fb: 'Et lille kranie er et svagt tegn alene. Osteologer vil helst have bækkenet – og det mangler.' }
+        ],
+        note: 'Voksen, ca. 25–40 år. Køn kan ikke bestemmes – bækkenet mangler (osteologi).' } },
+    { id: 'k2', method: 'typo', title: 'Glasbægeret', data: 'Der blev ikke lavet glas i Skandinavien på denne tid. Bægeret er en type, der blev fremstillet i Romerriget.',
+      q: { id: 'k2q', type: 'choice', prompt: 'Hvad peger glasbægeret på?',
+        options: [
+          { t: 'Kontakt til Romerriget – direkte eller gennem handel og gaver. Og en person med høj status.', ok: true },
+          { t: 'At personen var romer.', fb: 'At eje en romersk ting gør én ikke til romer. Tænk på alt det, vi selv ejer fra andre lande.' },
+          { t: 'At glasset blev lavet på Lynghøj.', fb: 'Der blev ikke lavet glas i Skandinavien på denne tid.' }
+        ],
+        note: 'Det romerske glasbæger peger på kontakt til Romerriget og høj status (typologi).' } }
+  ],
+  dating: 'relativ',
+  datingFb: 'Typologi sammenligner genstande med andre fund og giver et tidsrum. Intet i graven er målt med naturvidenskab – det er en relativ datering.',
+  expert: 'Graven er fra ca. 200–280 e.Kr. (yngre romersk jernalder). Personen var voksen, 25–40 år; køn kan ikke bestemmes. Et dragtspænde med sølvtråd, et gammelt og velholdt våben og et romersk glasbæger tyder på en person med høj status og forbindelser – direkte eller indirekte – til Romerriget. Sværdet kan have været et arvestykke, der gik i arv gennem slægten.'
+},
+
+/* ---------------- 6 OSTEOLOGI ---------------- */
+{
+  id: 'klosteret', nr: '06', method: 'osteo', widget: 'osteo',
+  title: 'Grav 47 ved klosteret', place: 'Skt. Hans Kloster, Fyn',
+  teaser: 'Et næsten helt skelet med et mærke i panden. Hvad kan knoglerne selv fortælle om det liv, personen levede?',
+  story: [
+    'Ved udgravningen af et nedrevet klosters kirkegård er der fundet over 300 grave. Grav 47 ligger nord for kirken. Skelettet er næsten komplet og ligger på ryggen.',
+    'Allerede ude i marken lagde arkæologerne mærke til et mærke i panden. Nu ligger knoglerne på bordet i laboratoriet. Hvad kan skelettet fortælle om det liv, personen levede?'
+  ],
+  finds: ['Næsten komplet skelet', 'Mærke i panden', 'Ingen gravgaver'],
+  primer: 'Human osteologi er studiet af menneskeknogler. Knoglerne ændrer sig gennem livet: de vokser sammen i bestemte aldre, tænderne slides, og hårdt arbejde, sygdom og skader efterlader spor. Ud fra træk på bækken og kranie kan man vurdere køn, og ud fra lårbenets længde kan man beregne, hvor høj personen var.',
+  questions: [
+    { id: 'q1', type: 'multi', prompt: 'Hvilke dele af skelettet er bedst til at bestemme køn hos en voksen? Undersøg skelettet, og sæt flueben.',
+      options: [ { t: 'Bækkenet', ok: true }, { t: 'Kraniet', ok: true }, { t: 'Lårbenet' }, { t: 'Fingerknoglerne' } ],
+      hint: 'Klik rundt på skelettet. Hvor står der kønstræk med point fra 1 til 5?',
+      note: 'Køn vurderes bedst ud fra bækken og kranie (osteologi).' },
+    { id: 'q2', type: 'choice', prompt: 'Kranie: 4, 4, 5. Bækken: 4, 5. Hvad er jeres vurdering af køn?',
+      options: [
+        { t: 'Sandsynligvis en mand.', ok: true },
+        { t: 'Helt sikkert en mand.', fb: 'Kønsbestemmelse ud fra skelettet er aldrig 100 % sikker. "Sandsynligvis" er det ærlige svar.' },
+        { t: 'Sandsynligvis en kvinde.', fb: 'Point på 4 og 5 betyder mandlige træk. Se skalaen igen.' },
+        { t: 'Kan ikke afgøres.', fb: 'Alle træk peger samme vej, og både bækken og kranie er bevaret. Så kan man godt give en vurdering.' }
+      ],
+      note: 'Kranie og bækken har tydeligt mandlige træk (gennemsnit ca. 4,4). Sandsynligvis en mand (osteologi).' },
+    { id: 'q3', type: 'choice', prompt: 'Brug observationerne af kraveben, tænder og kraniesømme sammen med alderstabellen. Hvor gammel var han?',
+      options: [
+        { t: 'Ca. 30–45 år.', ok: true },
+        { t: 'Ca. 17–23 år.', fb: 'Kravebenet er helt sammenvokset. Det sker først sidst i 20\'erne.' },
+        { t: 'Ca. 22–30 år.', fb: 'Kravebenet siger "mindst sidst i 20\'erne" – men tandslid og kraniesømme peger ældre. Kombinér dem.' },
+        { t: 'Over 60 år.', fb: 'Så ville tænderne være kraftigt slidte og kraniesømmene næsten helt lukkede.' }
+      ],
+      note: 'Han var ca. 30–45 år (kraveben, tandslid og kraniesømme) (osteologi).' },
+    { id: 'q4', type: 'number', prompt: 'Lårbenet er 47,2 cm. Brug den rigtige formel og beregn hans højde.',
+      answer: 173.7, tol: 1.2, unit: 'cm',
+      hint: 'Vælg formlen, der passer til jeres kønsvurdering. Gang lårbenets længde med tallet, og læg det andet tal til.',
+      special: [ { v: 170.7, tol: 1, fb: 'Det er kvindeformlen. Hvilket køn vurderede I?' }, { v: 112.3, tol: 1.5, fb: 'I har ganget rigtigt – men glemt at lægge 61,4 til.' } ],
+      note: 'Han var ca. 174 cm høj (lårben 47,2 cm, mandsformel) (osteologi).' },
+    { id: 'q5', type: 'choice', prompt: 'Venstre albueben har et helet brud på midten, og panden har et helet hug. Hvad er en rimelig tolkning?',
+      options: [
+        { t: 'Han har været udsat for vold og overlevet. Brud midt på albuebenet kaldes "parerbrud", fordi det ofte opstår, når man løfter armen for at beskytte sig.', ok: true },
+        { t: 'Han døde af huggene.', fb: 'Knoglen er vokset sammen igen. Det tager uger til måneder – han levede altså videre.' },
+        { t: 'Han faldt ned ad en trappe.', fb: 'Et fald kan forklare armen, men ikke så godt et skarpt hug i panden. Hvilken forklaring passer med begge skader?' }
+      ],
+      note: 'Helet parerbrud og helet hug i panden: han har overlevet vold (osteologi).' },
+    { id: 'q6', type: 'choice', prompt: 'Flere lændehvirvler har små fordybninger (Schmorl-knuder) og let slidgigt. Hvad kan det pege på?',
+      options: [
+        { t: 'Tunge løft og hårdt fysisk arbejde, måske allerede fra ung alder.', ok: true },
+        { t: 'At han sad stille det meste af livet.', fb: 'Schmorl-knuder opstår ved stort tryk på ryggen, fx ved tunge løft.' },
+        { t: 'Kun almindelig alderdom.', fb: 'Han var kun 30–45 år. Sporene er kraftigere, end alder alene forklarer.' }
+      ],
+      note: 'Ryggen viser spor af tunge løft og hårdt fysisk arbejde (osteologi).' }
+  ],
+  cards: [
+    { id: 'k1', method: 'c14', title: 'Ribbenet', info: true, data: 'Et stykke ribben er C-14-dateret. Kalibreret resultat: han døde mellem 1150 og 1220 e.Kr.',
+      note: 'Han døde mellem 1150 og 1220 e.Kr. (kulstof-14).' },
+    { id: 'k2', method: 'sr', title: 'Tandemaljen', data: 'Første kindtand måler 0,7095. Lokalområdet omkring klostret ligger mellem 0,7085 og 0,7110. Det samme gør store dele af Danmark og Nordtyskland.',
+      q: { id: 'k2q', type: 'choice', prompt: 'Voksede han op i nærheden af klostret?',
+        options: [
+          { t: 'Det kan han have gjort. Værdien passer med lokalområdet – men også med mange andre steder, så vi kan ikke vide det sikkert.', ok: true },
+          { t: 'Ja, det er bevist.', fb: 'Værdien passer med lokalområdet, men også med store dele af Danmark og Nordtyskland. Så er det ikke bevist.' },
+          { t: 'Nej, han var tilflytter.', fb: 'Værdien ligger inden for det lokale spænd. Intet peger på, at han kom langvejs fra.' }
+        ],
+        note: 'Strontium passer med lokalområdet (og mange andre steder). Han kan være vokset op i nærheden (strontium).' } },
+    { id: 'k3', method: 'grav', title: 'Gravskikken', data: 'Han ligger på ryggen med armene over bækkenet, uden gravgaver, på klostrets kirkegård. Klostre begravede både munke og lægfolk – fx folk, der arbejdede for klostret eller betalte for en grav.',
+      q: { id: 'k3q', type: 'choice', prompt: 'Betyder graven, at han var munk?',
+        options: [
+          { t: 'Ikke nødvendigvis. Klostre begravede også lægfolk, og hans krop tyder på hårdt fysisk arbejde og vold.', ok: true },
+          { t: 'Ja, alle på en klosterkirkegård var munke.', fb: 'Kortet fortæller, at klostre også begravede lægfolk.' },
+          { t: 'Nej, munke blev aldrig begravet på kirkegården.', fb: 'Munke blev netop ofte begravet ved klostret. Spørgsmålet er, om graven beviser det.' }
+        ],
+        note: 'Graven på klostrets kirkegård gør ham ikke nødvendigvis til munk (gravskik).' } }
+  ],
+  dating: 'absolut',
+  datingFb: 'C-14-målingen på ribbenet giver et tidsrum i årstal (1150–1220). Det er en absolut datering.',
+  expert: 'En mand på ca. 30–45 år og ca. 174 cm, som døde mellem 1150 og 1220. Han har udført tungt fysisk arbejde og har mindst én gang overlevet vold – et parerbrud og et hug i panden, der begge var helet. Strontium passer med lokalområdet, så han kan være vokset op i nærheden. At han ligger på klostrets kirkegård, gør ham ikke nødvendigvis til munk. Måske arbejdede han for klostret. Hvordan han døde, kan skelettet ikke fortælle.'
+}
+];
+
+/* ---------------- EKSEMPEL (udfyldt demo) ---------------- */
+const DEMO = {
+  id: 'demo', nr: 'Eksempel', method: 'c14', widget: 'table', demo: true,
+  title: 'Manden ved vadestedet', place: 'Ålebæk, Sydfyn',
+  teaser: 'Et færdigt eksempel, der viser, hvordan en sag løses.',
+  story: [
+    'Ved et gammelt vadested over Ålebækken finder en lodsejer knogler, da han graver en drængrøft. Arkæologerne afdækker skelettet af en mand, der ligger på siden i en lille grav. Ved hans bælte ligger en jernkniv og en brynesten. Lige ved siden af graven er der rester af et bål.',
+    'Hvornår levede han – og hvad kan fundet fortælle om ham?'
+  ],
+  finds: ['Skelet af en voksen mand', 'Jernkniv og brynesten', 'Trækul fra et bål ved siden af graven', 'Profiltegning af lagene omkring graven'],
+  primer: 'Alt levende optager kulstof – også den radioaktive slags, C-14. Når en plante eller et dyr dør, stopper optaget, og C-14 henfalder langsomt. Måler man, hvor meget C-14 der er tilbage, kan man regne ud, hvor længe siden det døde. C-14-alder skrives som "år før nu", og "nu" er fastsat til år 1950.',
+  questions: [
+    { id: 'q1', type: 'multi', prompt: 'Hvilke af fundene kan C-14-dateres? Sæt flueben ved alle.',
+      options: [ { t: 'Lårbenet', ok: true }, { t: 'Trækullet fra bålet', ok: true }, { t: 'Jernkniven' }, { t: 'Brynestenen' } ],
+      note: 'Kun organisk materiale – noget der har levet – kan C-14-dateres (kulstof-14).' },
+    { id: 'q2', type: 'number', prompt: 'Lårbenets C-14-alder er 1.050 år før nu. Hvilket årstal svarer det til? Husk, at "nu" er år 1950.',
+      answer: 900, tol: 5, unit: 'e.Kr.',
+      note: 'Lårbenet dateres til ca. 900 e.Kr. (± 30 år) – vikingetid (kulstof-14).' },
+    { id: 'q3', type: 'choice', prompt: 'Lårbenet og trækullet giver næsten samme alder. Hvad betyder det?',
+      options: [
+        { t: 'Bålet og begravelsen hører sandsynligvis sammen. To uafhængige prøver bekræfter hinanden.', ok: true },
+        { t: 'At én af målingerne må være forkert.', fb: 'Tværtimod – når to prøver passer sammen, bliver dateringen mere sikker.' },
+        { t: 'At manden selv tændte bålet.', fb: 'Det kan vi ikke se. Vi ved kun, at de to ting er fra omtrent samme tid.' }
+      ],
+      note: 'Trækullet (1.060 år før nu) og lårbenet (1.050 år før nu) passer sammen. Bål og begravelse hører sandsynligvis sammen (kulstof-14).' },
+    { id: 'q4', type: 'order', prompt: 'Sæt lag og grav i rækkefølge fra ÆLDST til YNGST.',
+      items: ['Grus', 'Tørv', 'Graven', 'Muld'],
+      note: 'Graven er gravet gennem tørven og dækket af muld. Den er yngre end tørven (stratigrafi).' },
+    { id: 'q5', type: 'choice', prompt: 'Tandemaljen måler 0,7098. Lokalområdet ligger mellem 0,7085 og 0,7110. Hvad kan vi sige?',
+      options: [
+        { t: 'Han kan være vokset op i området. Værdien passer – men den passer også med mange andre steder.', ok: true },
+        { t: 'Det er bevist, at han er født ved vadestedet.', fb: 'Mange områder har samme værdi. Strontium kan ikke bevise ét bestemt sted.' },
+        { t: 'Han var tilflytter.', fb: 'Værdien ligger inden for det lokale spænd.' }
+      ],
+      note: 'Strontium passer med lokalområdet (og mange andre steder). Han kan være vokset op i nærheden (strontium).' }
+  ],
+  cards: [
+    { id: 'k1', method: 'osteo', title: 'Skelettet', data: 'Mand, ca. 35–50 år. Slidgigt i knæ og hofter. Helede brud på to ribben.',
+      q: { id: 'k1q', type: 'choice', prompt: 'Hvad kan slidgigten i knæ og hofter pege på?',
+        options: [
+          { t: 'Mange års hårdt arbejde til fods eller med tunge byrder – men alderen spiller også ind.', ok: true },
+          { t: 'At han var ung og i god form.', fb: 'Han var 35–50 år, og slidgigt er tegn på slid.' },
+          { t: 'At han døde af slidgigt.', fb: 'Man dør ikke af slidgigt.' }
+        ],
+        note: 'Mand, 35–50 år, med slidgigt i knæ og hofter – spor af hårdt arbejde (osteologi).' } },
+    { id: 'k2', method: 'typo', title: 'Kniv og brynesten', info: true, data: 'Kniven er en almindelig type fra vikingetiden, fundet i mange grave. Brynestenen blev brugt til at slibe kniven.',
+      note: 'Kniv og brynesten er hverdagsredskaber fra vikingetiden – ingen tegn på høj status (typologi).' }
+  ],
+  dating: 'absolut',
+  datingFb: 'C-14 giver et antal år – en absolut datering.',
+  expert: 'En mand på 35–50 år, som døde omkring år 900 i vikingetiden. Han havde levet et liv med hårdt fysisk arbejde og var begravet med almindelige hverdagsredskaber. Bålet ved graven er fra samme tid og kan have været en del af begravelsen. Han kan være vokset op i området. Hvorfor han blev begravet ved vadestedet og ikke på en gravplads, ved vi ikke.',
+  guide: {
+    sagen: 'Start altid her. Læs sagen højt i gruppen. Læg mærke til listen over fund – det er dem, I kan undersøge i laboratoriet.',
+    lab: 'Her er alle opgaverne løst. Der findes fire slags opgaver: flueben, tal, rækkefølge og valg mellem svar. Hver gang I svarer rigtigt, bliver et bevis noteret nederst på siden. Forkerte svar koster ikke noget – I får en forklaring og kan prøve igen. Brug instrumentet øverst til at finde svarene.',
+    proever: 'Kortene her er ekstra undersøgelser. De giver flere beviser om personen og gør jeres rapport stærkere.',
+    rapport: 'Sådan ser en god rapport ud. Læg mærke til tre ting: Metoden er forklaret med egne ord. Hver påstand bygger på bevis-numre. Og sikkerheden passer til beviserne – "Muligt" er ikke en dårlig vurdering, det er ærligt. Tryk "Lav slides" nederst.',
+    slides: 'Det her er de tre slides, der bliver lavet ud fra jeres egen tekst. Tryk "Hent slides som HTML" for at få en fil, I kan fremlægge fra – den åbner i browseren, og I skifter slide med piletasterne. Når I fremlægger, skal I kunne forklare hver påstand ud fra beviserne. Fold arkæologens tolkning ud nederst og sammenlign.'
+  }
+};
+const DEMO_DRAFT = {
+  method: 'C-14 måler, hvor meget radioaktivt kulstof der er tilbage i noget, der engang har levet. Jo mindre der er tilbage, jo længere tid er det siden, det døde. Vi brugte metoden på mandens lårben og på trækul fra bålet. Begge gav ca. 1.050 år før nu – altså omkring år 900.',
+  claims: [
+    { t: 'Manden døde omkring år 900 i vikingetiden.', ev: [1, 2], c: 's' },
+    { t: 'Han levede et liv med hårdt fysisk arbejde, og intet i graven tyder på, at han var rig.', ev: [5, 6], c: 'p' },
+    { t: 'Han kan være vokset op i nærheden af vadestedet.', ev: [4], c: 'm' }
+  ],
+  dtype: 'absolut', dwhen: 'ca. 900 e.Kr. (± 30 år)',
+  unknown: 'Vi kan ikke vide, hvordan han døde, eller hvorfor han blev begravet ved vadestedet og ikke på en gravplads. Vi kan heller ikke vide sikkert, hvor han voksede op. Næste gang ville vi undersøge ribbensbruddene nærmere.'
+};
+function seedDemo() {
+  const st = S.cases.demo = { done: {}, notes: [], draft: JSON.parse(JSON.stringify(DEMO_DRAFT)), report: false };
+  const ans = { q1: 'Lårbenet, Trækullet fra bålet', q2: '900 e.Kr.', q3: DEMO.questions[2].options[0].t, q4: 'Grus → Tørv → Graven → Muld', q5: DEMO.questions[4].options[0].t };
+  DEMO.questions.forEach(q => { st.done[q.id] = ans[q.id]; st.notes.push({ text: q.note, method: DEMO.method }); });
+  DEMO.cards.forEach(k => { if (k.info) st.notes.push({ text: k.note, method: k.method }); else { st.done[k.q.id] = k.q.options.find(o => o.ok).t; st.notes.push({ text: k.q.note, method: k.method }); } });
+  save();
+}
+function guideBox(c, key) { return c.demo ? h('div', { class: 'guide' }, h('h4', {}, 'Eksempel: sådan gør I'), h('p', {}, c.guide[key])) : null; }
+const SOLUTIONS = {
+  'kalvemosen.q2': 'Ved 74,8 % rammer kurven ca. 2.400 år.',
+  'kalvemosen.q4': 'Ved 72,3 % rammer kurven ca. 2.680 år.',
+  'hvidesand.q2': 'Med Vestnorge-kurven bliver overensstemmelsen højest (ca. 0,94), når den yderste ring placeres i år 962.',
+  'klosteret.q4': '2,38 × 47,2 = 112,3. Læg 61,4 til: 112,3 + 61,4 = 173,7 cm.',
+  'demo.q2': '1950 − 1050 = 900, altså år 900 e.Kr.'
+};
+function solutionText(c, q) {
+  const s = SOLUTIONS[c.id + '.' + q.id];
+  if (s) return s;
+  if (q.type === 'number') return q.answer.toString().replace('.', ',') + (q.unit ? ' ' + q.unit : '');
+  if (q.type === 'multi') return q.options.filter(o => o.ok).map(o => o.t).join(', ');
+  if (q.type === 'order') return q.items.join(' → ');
+  return '';
+}
+const byId = id => id === 'demo' ? DEMO : CASES.find(c => c.id === id);
+
+/* =====================================================================
+   INSTRUMENTER
+   ===================================================================== */
+const WIDGETS = {};
+
+/* ---- Eksempel: laboratorieskema ---- */
+WIDGETS.table = function (root) {
+  root.append(h('h3', {}, 'Laboratorieskema'));
+  root.append(h('table', { class: 'datatable' },
+    h('thead', {}, h('tr', {}, h('th', {}, 'Prøve'), h('th', {}, 'Metode'), h('th', {}, 'Resultat'))),
+    h('tbody', {},
+      h('tr', {}, h('td', {}, 'Lårben'), h('td', {}, 'Kulstof-14'), h('td', { class: 'num' }, '1.050 år før nu (± 30)')),
+      h('tr', {}, h('td', {}, 'Trækul fra bålet'), h('td', {}, 'Kulstof-14'), h('td', { class: 'num' }, '1.060 år før nu (± 30)')),
+      h('tr', {}, h('td', {}, 'Tandemalje'), h('td', {}, 'Strontium'), h('td', { class: 'num' }, '0,7098')))));
+  root.append(h('p', { class: 'cap' }, 'Profilet: Graven er gravet ned gennem et lag tørv og ned i gruset nedenunder. Over graven ligger muld.'));
+};
+
+/* ---- Strontium ---- */
+WIDGETS.sr = function (root) {
+  const regions = [
+    { n: 'Findestedet (Rævehøj)', a: 0.7085, b: 0.7105, here: true },
+    { n: 'Nordtyske slette', a: 0.7090, b: 0.7112 },
+    { n: 'Bornholm', a: 0.7118, b: 0.7142 },
+    { n: 'Mellemtyske bjerge', a: 0.7122, b: 0.7155 },
+    { n: 'Sydnorsk grundfjeld', a: 0.7175, b: 0.7250 }
+  ];
+  const teeth = [ { n: 'M1', v: 0.7132, age: '0–3 år' }, { n: 'M2', v: 0.7128, age: '3–8 år' }, { n: 'M3', v: 0.7097, age: '9–15 år' } ];
+  const W = 780, L = 180, R = 16, T = 54, RH = 36, H = T + regions.length * RH + 40;
+  const x0 = 0.706, x1 = 0.727, X = v => L + (v - x0) / (x1 - x0) * (W - L - R);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Strontiumværdier for fem områder og tre tænder">`;
+  for (let v = 0.706; v <= 0.72701; v += 0.002) {
+    const x = X(v);
+    s += `<line x1="${x}" y1="${T - 6}" x2="${x}" y2="${T + regions.length * RH}" style="stroke:var(--line)"/>`;
+    s += `<text x="${x}" y="${H - 14}" text-anchor="middle" font-size="12" style="fill:var(--muted)">${dk(v, 3)}</text>`;
+  }
+  regions.forEach((r, i) => {
+    const y = T + i * RH;
+    s += `<text x="${L - 10}" y="${y + RH / 2 + 5}" text-anchor="end" font-size="14" style="fill:var(--ink);font-weight:${r.here ? 700 : 400}">${r.n}</text>`;
+    s += `<rect x="${X(r.a)}" y="${y + 7}" width="${X(r.b) - X(r.a)}" height="${RH - 14}" rx="4" style="fill:${r.here ? 'var(--accent)' : 'var(--m-sr)'};fill-opacity:${r.here ? .35 : .28};stroke:${r.here ? 'var(--accent)' : 'var(--m-sr)'}"/>`;
+  });
+  teeth.forEach((t, i) => {
+    const x = X(t.v);
+    s += `<line x1="${x}" y1="${T - 4}" x2="${x}" y2="${T + regions.length * RH}" style="stroke:var(--ink);stroke-width:2"/>`;
+    const lx = x + (i === 1 ? -4 : 4), anchor = i === 1 ? 'end' : 'start';
+    s += `<text x="${lx}" y="${T - 12 - (i === 1 ? 0 : 0)}" text-anchor="${anchor}" font-size="13" style="fill:var(--ink);font-weight:700">${t.n}</text>`;
+  });
+  s += `<text x="${W - R}" y="18" text-anchor="end" font-size="12" style="fill:var(--muted)">Strontiumforhold (⁸⁷Sr/⁸⁶Sr)</text></svg>`;
+  root.append(h('h3', {}, 'Laboratorieresultat: strontium i tandemalje'));
+  root.append(h('p', { class: 'cap' }, 'De farvede felter viser, hvilke værdier man finder i hvert område. De lodrette streger er kvindens tre tænder.'));
+  root.append(h('div', { html: s }));
+  const tb = h('table', { class: 'datatable' },
+    h('thead', {}, h('tr', {}, h('th', {}, 'Tand'), h('th', {}, 'Dannes i alderen'), h('th', {}, 'Målt værdi'))),
+    h('tbody', {}, teeth.map(t => h('tr', {}, h('td', {}, t.n + (t.n === 'M3' ? ' (visdomstand)' : '')), h('td', {}, t.age), h('td', { class: 'num' }, dk(t.v, 4))))));
+  root.append(tb);
+  root.append(h('p', { class: 'cap' }, 'Obs: Kun fem områder er målt. Der kan findes andre steder med de samme værdier.'));
+};
+
+/* ---- Kulstof-14 ---- */
+WIDGETS.c14 = function (root) {
+  const W = 780, H = 340, L = 56, R = 18, T = 16, B = 46, tMax = 8000;
+  const X = t => L + t / tMax * (W - L - R), Y = p => T + (100 - p) / 100 * (H - T - B);
+  const pct = t => 100 * Math.pow(0.5, t / 5730);
+  let path = ''; for (let t = 0; t <= tMax; t += 50) path += (t ? 'L' : 'M') + X(t).toFixed(1) + ',' + Y(pct(t)).toFixed(1);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Henfaldskurve for C-14">`;
+  for (let p = 0; p <= 100; p += 20) s += `<line x1="${L}" y1="${Y(p)}" x2="${W - R}" y2="${Y(p)}" style="stroke:var(--line)"/><text x="${L - 8}" y="${Y(p) + 4}" text-anchor="end" font-size="12" style="fill:var(--muted)">${p} %</text>`;
+  for (let t = 0; t <= tMax; t += 1000) s += `<line x1="${X(t)}" y1="${T}" x2="${X(t)}" y2="${H - B}" style="stroke:var(--line)"/><text x="${X(t)}" y="${H - B + 18}" text-anchor="middle" font-size="12" style="fill:var(--muted)">${t.toLocaleString('da-DK')}</text>`;
+  s += `<text x="${(L + W - R) / 2}" y="${H - 6}" text-anchor="middle" font-size="12" style="fill:var(--muted)">År siden organismen døde</text>`;
+  [[74.8, 'A: rebet 74,8 %'], [72.3, 'B: lårbenet 72,3 %']].forEach(([p, lab], i) => {
+    s += `<line x1="${L}" y1="${Y(p)}" x2="${W - R}" y2="${Y(p)}" style="stroke:var(--m-c14);stroke-dasharray:6 5;stroke-width:1.5"/>`;
+    s += `<text x="${W - R - 4}" y="${Y(p) + (i ? 16 : -6)}" text-anchor="end" font-size="12" style="fill:var(--m-c14);font-weight:700">${lab}</text>`;
+  });
+  s += `<path d="${path}" style="fill:none;stroke:var(--ink);stroke-width:2.5"/>`;
+  s += `<line id="c14v" style="stroke:var(--accent);stroke-width:1.5"/><line id="c14h" style="stroke:var(--accent);stroke-width:1.5"/><circle id="c14dot" r="7" style="fill:var(--accent)"/>`;
+  s += `</svg>`;
+  root.append(h('h3', {}, 'Henfaldskurve for C-14'));
+  root.append(h('table', { class: 'datatable' },
+    h('thead', {}, h('tr', {}, h('th', {}, 'Prøve'), h('th', {}, 'Materiale'), h('th', {}, 'C-14 tilbage'))),
+    h('tbody', {}, h('tr', {}, h('td', {}, 'A'), h('td', {}, 'Reb af lindebast'), h('td', { class: 'num' }, '74,8 % (± 0,4)')), h('tr', {}, h('td', {}, 'B'), h('td', {}, 'Lårben'), h('td', { class: 'num' }, '72,3 % (± 0,4)')))));
+  const box = h('div', { html: s }); root.append(box);
+  const lab = h('label', { for: 'c14r', class: 'cap' }, 'Flyt skyderen langs kurven');
+  const inp = h('input', { type: 'range', id: 'c14r', min: 0, max: tMax, step: 10, value: 1000 });
+  const out = h('div', { class: 'readout', 'aria-live': 'polite' });
+  root.append(lab, inp, out);
+  function upd() {
+    const t = +inp.value, p = pct(t);
+    const dot = box.querySelector('#c14dot'), v = box.querySelector('#c14v'), hz = box.querySelector('#c14h');
+    dot.setAttribute('cx', X(t)); dot.setAttribute('cy', Y(p));
+    v.setAttribute('x1', X(t)); v.setAttribute('x2', X(t)); v.setAttribute('y1', Y(p)); v.setAttribute('y2', H - B);
+    hz.setAttribute('x1', L); hz.setAttribute('x2', X(t)); hz.setAttribute('y1', Y(p)); hz.setAttribute('y2', Y(p));
+    out.innerHTML = `Efter <b>${t.toLocaleString('da-DK')}</b> år er der <b>${dk(p, 1)} %</b> C-14 tilbage.`;
+  }
+  inp.addEventListener('input', upd); upd();
+};
+
+/* ---- Dendrokronologi ---- */
+function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+const DY0 = 850, DY1 = 1000, DN = 40, DEND = 962;
+function makeSeries(seed, dry) { const r = rng(seed), a = []; for (let y = DY0; y <= DY1; y++) a.push(0.55 + (r() + r() + r()) / 3 * 1.0); dry.forEach(y => a[y - DY0] = 0.2 + r() * 0.08); return a; }
+const REF = { nor: makeSeries(11, [931, 947, 958]), dk: makeSeries(47, [918, 940, 953, 974]) };
+const SAMPLE = (() => { const r = rng(5), s = []; for (let i = 0; i < DN; i++) { const y = DEND - DN + 1 + i; s.push(REF.nor[y - DY0] * 1.1 + (r() - .5) * .34); } return s; })();
+function corr(a, b) { const n = a.length; const ma = a.reduce((x, y) => x + y) / n, mb = b.reduce((x, y) => x + y) / n; let num = 0, da = 0, db = 0; for (let i = 0; i < n; i++) { num += (a[i] - ma) * (b[i] - mb); da += (a[i] - ma) ** 2; db += (b[i] - mb) ** 2; } return num / Math.sqrt(da * db); }
+WIDGETS.dendro = function (root) {
+  root.append(h('h3', {}, 'Match prøven med en referencekurve'));
+  root.append(h('p', { class: 'cap' }, 'Planke A har 40 årringe. Øverst ses referencekurven for de år, prøven lige nu er placeret ud for. Nederst ses prøven. Høj søjle = bred ring = godt år.'));
+  let ref = 'nor';
+  const seg = h('div', { class: 'seg', role: 'radiogroup', 'aria-label': 'Referencekurve' });
+  [['nor', 'Vestnorge'], ['dk', 'Sydskandinavien']].forEach(([k, n]) => {
+    const i = h('input', { type: 'radio', name: 'dref', value: k, checked: k === ref ? true : null });
+    i.addEventListener('change', () => { ref = k; upd(); });
+    seg.append(h('label', {}, i, h('span', {}, n)));
+  });
+  root.append(h('div', { class: 'row', style: 'margin:6px 0 10px' }, h('span', { class: 'cap' }, 'Referencekurve:'), seg));
+  const box = h('div'); root.append(box);
+  const inp = h('input', { type: 'range', id: 'dr', min: DY0 + DN - 1, max: DY1, step: 1, value: 905, 'aria-label': 'Prøvens yderste årring' });
+  const nudge = (d) => { inp.value = Math.min(DY1, Math.max(DY0 + DN - 1, +inp.value + d)); upd(); };
+  root.append(h('label', { for: 'dr', class: 'cap' }, 'Skub prøven: hvilket år er den yderste årring?'), inp,
+    h('div', { class: 'row' }, h('button', { class: 'btn ghost small', type: 'button', onclick: () => nudge(-1) }, '− 1 år'), h('button', { class: 'btn ghost small', type: 'button', onclick: () => nudge(1) }, '+ 1 år')));
+  const out = h('div', { class: 'readout', 'aria-live': 'polite' }); const meter = h('div', { class: 'meter' }, h('i'));
+  root.append(out, meter, h('p', { class: 'cap', style: 'margin-top:8px' }, 'Overensstemmelsen går fra 0 (ingen sammenhæng) til 1 (perfekt). Over 0,7 regnes som et sikkert match.'));
+  inp.addEventListener('input', upd);
+  function upd() {
+    const end = +inp.value, st = end - DN + 1;
+    const rs = REF[ref].slice(st - DY0, end - DY0 + 1);
+    const r = corr(rs, SAMPLE);
+    const W = 780, L = 10, R = 10, bw = (W - L - R) / DN, mh = 70, max = 1.7;
+    let s = `<svg viewBox="0 0 ${W} 210" role="img" aria-label="Søjler for referencekurve og prøve">`;
+    s += `<text x="${L}" y="14" font-size="12" style="fill:var(--muted)">Reference: ${ref === 'nor' ? 'Vestnorge' : 'Sydskandinavien'}</text>`;
+    rs.forEach((v, i) => { const hgt = Math.min(v, max) / max * mh; s += `<rect x="${L + i * bw + 1}" y="${20 + mh - hgt}" width="${bw - 2}" height="${hgt}" style="fill:var(--m-dendro);fill-opacity:.55"/>`; });
+    s += `<text x="${L}" y="${118}" font-size="12" style="fill:var(--muted)">Planke A</text>`;
+    SAMPLE.forEach((v, i) => { const hgt = Math.min(v, max) / max * mh; s += `<rect x="${L + i * bw + 1}" y="${124 + mh - hgt}" width="${bw - 2}" height="${hgt}" style="fill:var(--ink);fill-opacity:.75"/>`; });
+    for (let i = 0; i < DN; i++) { const y = st + i; if (y % 5 === 0) s += `<text x="${L + i * bw + bw / 2}" y="206" text-anchor="middle" font-size="11" style="fill:var(--muted)">${y}</text>`; }
+    s += `</svg>`;
+    box.innerHTML = s;
+    out.innerHTML = `Prøven dækker årene <b>${st}–${end}</b>. Overensstemmelse: <b>${dk(Math.max(0, r), 2)}</b>`;
+    meter.firstChild.style.width = Math.max(0, r) * 100 + '%';
+  }
+  upd();
+};
+
+/* ---- Stratigrafi ---- */
+WIDGETS.strat = function (root) {
+  const info = {
+    muld: ['Muld og moderne fyld', 'Løs, mørk jord med plastikstumper og et stykke kloakrør.'],
+    tegl: ['Teglgulv', 'Gulv af flade teglsten lagt i sand. Under gulvet ligger en egebjælke. Dendrokronologi: bjælken er fældet i vinteren 1301/02. Gulvet ligger ubrudt hen over graven.'],
+    ler: ['Lergulv', 'Hårdt, trampet ler – gulvet i et ældre hus. I gulvet sidder en sølvmønt præget i 1241, trådt ned i leret.'],
+    brand: ['Brandlag', 'Sod, trækul og brændt ler. Et endnu ældre hus på stedet er brændt ned.'],
+    sand: ['Undergrund (sand)', 'Gult sand uden spor af mennesker. Her boede ingen, før byen opstod.'],
+    grav: ['Nedgravning med skelet', 'Gravens kant kan ses fra toppen af lergulvet og ned i sandet. Graven er fyldt med blandet jord. Teglgulvet ligger ubrudt hen over den.']
+  };
+  const W = 780, H = 380;
+  const wave = (y, amp, ph) => { let d = ''; for (let x = 0; x <= W; x += 20) d += (x ? 'L' : 'M') + x + ',' + (y + Math.sin(x / 70 + ph) * amp).toFixed(1); return d; };
+  const band = (yTop, yBot, a1, a2, p1, p2) => { let top = '', bot = ''; for (let x = 0; x <= W; x += 20) top += (x ? 'L' : 'M') + x + ',' + (yTop + Math.sin(x / 70 + p1) * a1).toFixed(1); for (let x = W; x >= 0; x -= 20) bot += 'L' + x + ',' + (yBot + Math.sin(x / 70 + p2) * a2).toFixed(1); return top + bot + 'Z'; };
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Profiltegning med fem lag og en grav">`;
+  s += `<defs><pattern id="brk" width="40" height="14" patternUnits="userSpaceOnUse"><rect width="40" height="14" style="fill:var(--brick)"/><path d="M0 13.5H40M20 0V14" style="stroke:var(--card);stroke-width:1.5;opacity:.6"/></pattern>
+  <pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" style="fill:var(--sand)"/><circle cx="3" cy="4" r="1" style="fill:var(--soil3)"/><circle cx="8" cy="8" r=".8" style="fill:var(--soil3)"/></pattern>
+  <pattern id="mix" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="16" height="16" style="fill:var(--soil2)"/><circle cx="4" cy="5" r="2" style="fill:var(--soil1)"/><circle cx="12" cy="12" r="1.6" style="fill:var(--char)"/><circle cx="12" cy="3" r="1.2" style="fill:var(--sand)"/></pattern></defs>`;
+  const layers = [
+    ['muld', 10, 70, 'fill:var(--soil1)'],
+    ['tegl', 70, 104, 'fill:url(#brk)'],
+    ['ler', 104, 160, 'fill:var(--soil3)'],
+    ['brand', 160, 188, 'fill:var(--char)'],
+    ['sand', 188, 370, 'fill:url(#dots)']
+  ];
+  layers.forEach(([k, a, b, st], i) => {
+    const d = k === 'muld' ? `M0,${a}L${W},${a}` + wave(b, 3, 1).replace('M', 'L').split('L').reverse().join('L') : null;
+    s += `<g class="hot layer" data-k="${k}" tabindex="0" role="button" aria-label="${info[k][0]}"><path d="${band(a, b, k === 'muld' ? 0 : 3, 3, i, i + 1)}" style="${st};stroke:var(--ink);stroke-width:1"/></g>`;
+  });
+  // bjælke i teglgulvet
+  s += `<rect x="470" y="96" width="190" height="10" style="fill:var(--m-dendro);stroke:var(--ink)" pointer-events="none"/>`;
+  // mønt i lergulvet
+  s += `<circle cx="600" cy="132" r="7" style="fill:var(--gold);stroke:var(--ink)" pointer-events="none"/>`;
+  // graven
+  s += `<g class="hot" data-k="grav" tabindex="0" role="button" aria-label="Nedgravning med skelet"><path d="M240,104 L420,104 L402,262 Q330,284 258,262 Z" style="fill:url(#mix);stroke:var(--ink);stroke-width:2;stroke-dasharray:7 4"/>
+    <g style="stroke:var(--card);stroke-width:3;fill:none" pointer-events="none"><circle cx="292" cy="236" r="9"/><path d="M301,238 L360,240 M318,238 L314,228 M318,239 L316,250 M360,240 L378,232 M360,240 L380,248"/></g></g>`;
+  // labels
+  const labs = [['Muld og moderne fyld', 42], ['Teglgulv', 90], ['Lergulv', 136], ['Brandlag', 178], ['Undergrund (sand)', 330]];
+  labs.forEach(([t, y]) => { s += `<text x="${W - 10}" y="${y}" text-anchor="end" font-size="13" style="fill:var(--card);font-weight:700;paint-order:stroke;stroke:var(--ink);stroke-width:3px" pointer-events="none">${t}</text>`; });
+  s += `<text x="16" y="136" font-size="12" style="fill:var(--card);paint-order:stroke;stroke:var(--ink);stroke-width:3px" pointer-events="none">mønt ●  bjælke ▬ (se lagene)</text>`;
+  s += `</svg>`;
+  root.append(h('h3', {}, 'Profiltegning: Algade 14'));
+  root.append(h('p', { class: 'cap' }, 'Tryk på et lag eller på graven for at læse arkæologens beskrivelse.'));
+  const box = h('div', { html: s }); root.append(box);
+  const panel = h('div', { class: 'obs', 'aria-live': 'polite' }, h('p', { class: 'empty' }, 'Vælg et lag i tegningen.'));
+  root.append(panel);
+  box.querySelectorAll('[data-k]').forEach(g => {
+    const act = () => { const [t, d] = info[g.dataset.k]; panel.replaceChildren(h('h4', {}, t), h('p', {}, d)); g.classList.add('seen'); };
+    g.addEventListener('click', act); g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); act(); } });
+  });
+};
+
+/* ---- Typologi ---- */
+function drawFibula(o) {
+  const hgt = o.h || 16;
+  let s = `<svg viewBox="0 0 170 86" width="170" height="86" aria-hidden="true"><g style="fill:none;stroke:var(--ink);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round">`;
+  // nål
+  s += `<path d="M22,66 L${o.foot === 'long' || o.foot === 'knob' ? 146 : 132},66" style="stroke-width:1.5"/>`;
+  // spiral
+  if (o.spring === 'short') s += `<circle cx="20" cy="60" r="6"/>`;
+  if (o.spring === 'long') s += `<path d="M8,56 l3,9 l3,-9 l3,9 l3,-9 l3,9 l3,-9"/>`;
+  if (o.spring === 'cross') s += `<path d="M4,60 L36,60" style="stroke-width:5"/><circle cx="4" cy="60" r="4" style="fill:var(--ink)"/><circle cx="36" cy="60" r="4" style="fill:var(--ink)"/><circle cx="20" cy="50" r="4" style="fill:var(--ink)"/>`;
+  // bøjle
+  if (o.bow === 'knee') s += `<path d="M22,58 L58,${hgt + 6} L122,58"/>`;
+  else if (o.bow === 'flat') s += `<path d="M22,58 Q72,${hgt} 122,58" style="stroke-width:9"/>`;
+  else s += `<path d="M22,58 C44,${hgt - 8} 100,${hgt - 8} 122,58"/>`;
+  if (o.crest) s += `<path d="M62,${hgt + 12} L82,${hgt + 12}" style="stroke-width:3;stroke:var(--card)"/>`;
+  if (o.wire) { [[44, 34], [58, 26], [72, 23], [86, 24], [100, 30]].forEach(([x, y]) => { s += `<circle cx="${x}" cy="${y + (hgt - 16)}" r="2.6" style="fill:var(--gold);stroke:none"/>`; }); }
+  // fod
+  if (o.foot === 'short') s += `<path d="M122,58 L134,62 L134,68"/>`;
+  if (o.foot === 'long') s += `<path d="M122,58 L150,62 L150,68"/>`;
+  if (o.foot === 'knob') s += `<path d="M122,58 L150,62"/><circle cx="154" cy="62" r="5" style="fill:var(--ink)"/>`;
+  if (o.foot === 'catch') s += `<path d="M112,58 L140,58 L140,70 L112,70" /><path d="M118,46 L140,46 L140,58" />`;
+  s += `</g></svg>`;
+  return s;
+}
+function drawSword(o) {
+  const L = o.len, W = o.w, x0 = 40;
+  let s = `<svg viewBox="0 0 300 60" width="300" height="60" aria-hidden="true"><g style="stroke:var(--ink);stroke-width:1.8;stroke-linejoin:round">`;
+  // greb
+  s += `<rect x="${x0 - 30}" y="${30 - 4}" width="30" height="8" style="fill:var(--m-dendro)"/>`;
+  if (o.repair) s += `<path d="M${x0 - 22},25 v10 M${x0 - 12},25 v10" style="stroke:var(--gold);stroke-width:3"/>`;
+  if (o.pommel === 'ring') s += `<circle cx="${x0 - 36}" cy="30" r="6" style="fill:none;stroke-width:3"/>`;
+  if (o.pommel === 'round') s += `<circle cx="${x0 - 34}" cy="30" r="6" style="fill:var(--gold)"/>`;
+  if (o.guard) s += `<rect x="${x0 - 3}" y="${30 - W / 2 - 7}" width="6" height="${W + 14}" style="fill:var(--gold)"/>`;
+  // klinge
+  const tip = x0 + L;
+  const nick = o.worn ? ` L${x0 + L * .35},${30 - W / 2} L${x0 + L * .37},${30 - W / 2 + 2} L${x0 + L * .39},${30 - W / 2} L${x0 + L * .6},${30 - W / 2} L${x0 + L * .62},${30 - W / 2 + 2.5} L${x0 + L * .64},${30 - W / 2}` : '';
+  s += `<path d="M${x0},${30 - W / 2}${nick} L${tip - 14},${30 - W / 2} L${tip},30 L${tip - 14},${30 + W / 2} L${x0},${30 + W / 2} Z" style="fill:var(--soft)"/>`;
+  if (o.pattern) { let p = ''; for (let x = x0 + 8; x < tip - 20; x += 12) p += `M${x},30 q3,-3 6,0 q3,3 6,0 `; s += `<path d="${p}" style="fill:none;stroke:var(--muted);stroke-width:1.2"/>`; }
+  else s += `<path d="M${x0 + 4},30 L${tip - 18},30" style="stroke:var(--muted);stroke-width:1"/>`;
+  if (o.chape) s += `<path d="M${tip - 20},${30 - W / 2 - 4} L${tip + 4},30 L${tip - 20},${30 + W / 2 + 4}" style="fill:none;stroke:var(--gold);stroke-width:4"/>`;
+  s += `</g></svg>`;
+  return s;
+}
+WIDGETS.typo = function (root) {
+  const fib = [
+    ['A', { bow: 'high', foot: 'short', spring: 'short', h: 10 }, 'Høj, jævn bøjle. Kort fod. Kort spiral.', '0–70 e.Kr.'],
+    ['B', { bow: 'knee', foot: 'long', spring: 'long', h: 14 }, 'Knæk på bøjlen. Lang fod. Lang spiral.', '50–150 e.Kr.'],
+    ['C', { bow: 'flat', foot: 'knob', spring: 'long', crest: true, h: 22 }, 'Bred, flad bøjle med kam. Knap på foden.', '150–250 e.Kr.'],
+    ['D', { bow: 'high', foot: 'catch', spring: 'long', wire: true, h: 16 }, 'Jævn bøjle med sølvtråd. Høj nåleholder.', '200–300 e.Kr.'],
+    ['E', { bow: 'flat', foot: 'long', spring: 'cross', h: 24 }, 'Tværstykke med tre knapper. Flad bøjle.', '350–450 e.Kr.']
+  ];
+  const sw = [
+    ['1', { len: 150, w: 16 }, 'Kort, bred klinge. Ingen knap, ingen hjaltplade.', '0–100 e.Kr.'],
+    ['2', { len: 220, w: 10, pommel: 'ring' }, 'Lang, smal klinge. Ringformet knap.', '100–250 e.Kr.'],
+    ['3', { len: 220, w: 11, pattern: true, chape: true }, 'Lang klinge med mønstersvejsning. Skede med dupsko af bronze.', '180–320 e.Kr.'],
+    ['4', { len: 210, w: 11, pommel: 'round', guard: true }, 'Lang klinge. Rund bronzeknap og hjaltplade af bronze.', '300–400 e.Kr.']
+  ];
+  root.append(h('h3', {}, 'Referenceplanche: dragtspænder (fibler)'));
+  root.append(h('p', { class: 'cap' }, 'Tidsrummene kommer fra andre fund, hvor typerne er fundet sammen med mønter eller træ med årringe.'));
+  const pl = h('div', { class: 'plates' });
+  fib.forEach(([n, o, d, t]) => pl.append(h('div', { class: 'plate' }, h('b', {}, 'Type ' + n), h('div', { html: drawFibula(o) }), h('div', {}, d), h('div', { class: 'd' }, t))));
+  pl.append(h('div', { class: 'plate find', style: '--c:var(--m-typo)' }, h('b', {}, 'Fra grav 12'), h('div', { html: drawFibula({ bow: 'high', foot: 'catch', spring: 'long', wire: true, h: 19 }) }), h('div', {}, 'Nålen er brækket af. Sølvtråden er delvist løsnet.'), h('div', { class: 'd' }, 'Datering: ?')));
+  root.append(pl);
+  root.append(h('h3', {}, 'Referenceplanche: sværd'));
+  const sp = h('div', { class: 'swords' });
+  sw.forEach(([n, o, d, t]) => sp.append(h('div', { class: 'plate' }, h('b', {}, 'Type ' + n), h('div', { html: drawSword(o) }), h('div', {}, d), h('div', { class: 'd' }, t))));
+  sp.append(h('div', { class: 'plate find', style: '--c:var(--m-typo)' }, h('b', {}, 'Fra grav 12'), h('div', { html: drawSword({ len: 216, w: 11, pattern: true, chape: true, worn: true, repair: true }) }), h('div', {}, 'Hakker i æggen. Grebet er repareret med to bånd.'), h('div', { class: 'd' }, 'Datering: ?')));
+  root.append(sp);
+  root.append(h('div', { class: 'plate', style: 'max-width:420px' }, h('b', {}, 'Glasbægeret'), h('div', {}, 'Romersk importglas. Typen kendes fra ca. 180–280 e.Kr.')));
+};
+
+/* ---- Osteologi ---- */
+WIDGETS.osteo = function (root) {
+  const obs = {
+    kranie: ['Kraniet', 'Nakkeknuden er kraftig (4). Øjenbrynsbuen er markeret (4). Knoglen bag øret er stor (5). Kraniesømmene er delvist lukkede. I panden: et 6 cm langt, helet mærke efter et skarpt hug – kanterne er afrundede og vokset til.'],
+    taender: ['Tænderne', 'Moderat slid: Tandbenet ses som små øer på alle kindtænder. Visdomstænderne er brudt frem og slidte. To huller i tænderne.'],
+    kraveben: ['Kravebenet', 'Inderenden af kravebenet er helt vokset sammen med resten af knoglen.'],
+    ryg: ['Ryghvirvlerne', 'Flere lændehvirvler har små fordybninger i top- og bundfladen (Schmorl-knuder). Lette kanter af slidgigt.'],
+    arm: ['Venstre underarm', 'Albuebenet har et helet brud midt på skaftet. Knoglen er vokset lidt skævt sammen.'],
+    baekken: ['Bækkenet', 'Hoftehakket er smalt og dybt (4). Vinklen under skambenet er smal, ca. 70° (5).'],
+    laar: ['Lårbenet', 'Højre lårben er 47,2 cm langt. Kraftige muskelfæster.']
+  };
+  const spots = [['kranie', 130, 34], ['taender', 130, 88], ['kraveben', 100, 116], ['ryg', 130, 236], ['arm', 196, 272], ['baekken', 130, 312], ['laar', 152, 392]];
+  let s = `<svg viewBox="0 0 260 560" role="img" aria-label="Skelet med punkter, der kan undersøges" style="max-height:520px"><g style="fill:none;stroke:var(--muted);stroke-width:5;stroke-linecap:round;stroke-linejoin:round">
+    <ellipse cx="130" cy="50" rx="32" ry="38"/><path d="M110,82 Q130,102 150,82"/>
+    <path d="M96,120 L127,112 M133,112 L164,120"/>
+    <path d="M130,104 L130,300" style="stroke-dasharray:7 4"/>
+    <ellipse cx="130" cy="180" rx="44" ry="56" style="stroke-width:4"/><path d="M92,160 Q130,176 168,160 M90,190 Q130,206 170,190" style="stroke-width:3"/>
+    <path d="M96,124 L80,226 L68,318 M84,226 L76,318"/><path d="M164,124 L180,226 L192,318 M176,226 L184,318"/>
+    <path d="M96,296 Q130,280 164,296 L158,332 Q130,346 102,332 Z"/>
+    <path d="M112,338 L106,446 L104,536 M148,338 L154,446 L156,536"/>
+  </g><path d="M186,260 L184,276" style="stroke:var(--bad);stroke-width:3"/>`;
+  spots.forEach(([k, x, y]) => { s += `<g class="hot" data-k="${k}" tabindex="0" role="button" aria-label="${obs[k][0]}"><circle class="hs" cx="${x}" cy="${y}" r="14"/></g>`; });
+  s += `</svg>`;
+  root.append(h('h3', {}, 'Undersøg skelettet'));
+  root.append(h('p', { class: 'cap' }, 'Tryk på punkterne. Kønstræk er givet point: 1 = meget kvindeligt, 3 = uafklaret, 5 = meget mandligt.'));
+  const panel = h('div', { class: 'obs', 'aria-live': 'polite' }, h('p', { class: 'empty' }, 'Vælg et punkt på skelettet.'));
+  const box = h('div', { html: s });
+  root.append(h('div', { class: 'osteo-grid' }, box, panel));
+  box.querySelectorAll('[data-k]').forEach(g => {
+    const act = () => { const [t, d] = obs[g.dataset.k]; panel.replaceChildren(h('h4', {}, t), h('p', {}, d)); g.classList.add('seen'); };
+    g.addEventListener('click', act); g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); act(); } });
+  });
+  root.append(h('div', { class: 'reftabs' },
+    h('div', { class: 'refbox' }, h('h4', {}, 'Alderstabel'),
+      h('table', { class: 'datatable' }, h('tbody', {},
+        h('tr', {}, h('td', {}, 'Hoftekammen vokser fast'), h('td', {}, '17–23 år')),
+        h('tr', {}, h('td', {}, 'Kravebenets inderende vokser fast'), h('td', {}, '25–30 år')),
+        h('tr', {}, h('td', {}, 'Moderat tandslid (små dentinøer)'), h('td', {}, '30–45 år')),
+        h('tr', {}, h('td', {}, 'Kraniesømme delvist lukkede'), h('td', {}, '30–50 år')),
+        h('tr', {}, h('td', {}, 'Kraftigt tandslid, sømme næsten lukkede'), h('td', {}, 'over 50 år'))))),
+    h('div', { class: 'refbox' }, h('h4', {}, 'Højdeformler (lårben i cm)'),
+      h('p', {}, 'Mand: højde = 2,38 × lårben + 61,4'),
+      h('p', {}, 'Kvinde: højde = 2,47 × lårben + 54,1'),
+      h('p', { class: 'cap' }, 'Resultatet er i cm og har en usikkerhed på ca. ± 3–4 cm.'))));
+};
+
+/* =====================================================================
+   OPGAVE-MOTOR
+   ===================================================================== */
+function renderQ(c, q, label, state, onDone) {
+  const st = cs(c.id);
+  const wrap = h('div', { class: 'q ' + state });
+  const head = h('div', { class: 'qh' }, h('span', { class: 'qn' }, label), state !== 'locked' ? sayBtn(q.prompt) : null);
+  wrap.append(head);
+  if (state === 'locked') { wrap.append(h('p', { class: 'empty', style: 'margin:0' }, 'Låses op, når I har løst opgaven før.')); return wrap; }
+  wrap.append(h('div', { class: 'prompt' }, q.prompt));
+  if (state === 'done') {
+    const ans = st.done[q.id];
+    if (typeof ans === 'string') wrap.append(h('div', { class: 'answer' }, '✓ ' + ans));
+    if (q.note) wrap.append(h('div', { class: 'noted' }, 'Noteret som bevis: ' + q.note));
+    return wrap;
+  }
+  const fb = h('div', { 'aria-live': 'polite' });
+  let tries = 0;
+  const showFb = (cls, txt) => {
+    const box = h('div', { class: 'fb ' + cls }, txt);
+    if (q.type !== 'choice' && tries >= 3) {
+      box.append(h('div', { style: 'margin-top:8px' }, h('button', { class: 'btn ghost small', type: 'button', onclick: () => success('Løsningen blev vist: ' + solutionText(c, q)) }, 'Vis løsningen')));
+    }
+    fb.replaceChildren(box);
+  };
+  const success = (ansText) => { st.done[q.id] = ansText || true; if (q.note) addNote(c.id, q.note, c.method); save(); onDone(); };
+
+  if (q.type === 'choice') {
+    const box = h('div', { class: 'opts' });
+    shuffle(q.options).forEach(o => {
+      const b = h('button', { class: 'opt', type: 'button' }, o.t);
+      b.addEventListener('click', () => {
+        if (o.ok) success(o.t);
+        else { tries++; b.classList.add('tried'); b.disabled = true; showFb('bad', o.fb || 'Ikke helt. Se på data igen.'); }
+      });
+      box.append(b);
+    });
+    wrap.append(box);
+  }
+  if (q.type === 'multi') {
+    const box = h('div', { class: 'checks' });
+    const inputs = q.options.map(o => { const i = h('input', { type: 'checkbox' }); box.append(h('label', {}, i, h('span', {}, o.t))); return i; });
+    const btn = h('button', { class: 'btn', type: 'button' }, 'Tjek svar');
+    btn.addEventListener('click', () => {
+      const picked = inputs.map(i => i.checked);
+      if (!picked.some(Boolean)) { showFb('hint', 'Sæt mindst ét flueben.'); return; }
+      const wrong = q.options.some((o, i) => picked[i] && !o.ok), missing = q.options.some((o, i) => !picked[i] && o.ok);
+      if (!wrong && !missing) success(q.options.filter(o => o.ok).map(o => o.t).join(', '));
+      else { tries++; showFb('bad', (wrong ? 'Mindst ét af jeres flueben passer ikke. ' : 'I mangler mindst ét, der også passer. ') + (tries >= 1 && q.hint ? q.hint : '')); }
+    });
+    wrap.append(box, btn);
+  }
+  if (q.type === 'number') {
+    const inp = h('input', { type: 'text', inputmode: 'decimal', 'aria-label': 'Jeres svar' });
+    const btn = h('button', { class: 'btn', type: 'button' }, 'Tjek svar');
+    const check = () => {
+      const v = parseNum(inp.value);
+      if (isNaN(v)) { showFb('hint', 'Skriv et tal.'); return; }
+      if (Math.abs(v - q.answer) <= q.tol) { success(inp.value.trim() + (q.unit ? ' ' + q.unit : '')); return; }
+      tries++;
+      const sp = (q.special || []).find(x => Math.abs(v - x.v) <= x.tol);
+      if (sp) showFb('hint', sp.fb);
+      else showFb('bad', (Math.abs(v - q.answer) <= q.tol * 3 + 1 ? 'Tæt på, men ikke helt. ' : 'Det passer ikke med data. ') + (q.hint || ''));
+    };
+    btn.addEventListener('click', check);
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
+    wrap.append(h('div', { class: 'numrow' }, inp, q.unit ? h('span', {}, q.unit) : null, btn));
+  }
+  if (q.type === 'order') {
+    const seq = [];
+    const pool = h('div', { class: 'pool' }), seqBox = h('div', { class: 'seq', 'aria-label': 'Jeres rækkefølge' });
+    const btns = shuffle(q.items).map(t => {
+      const b = h('button', { class: 'chip', type: 'button' }, t);
+      b.addEventListener('click', () => { seq.push(t); b.disabled = true; drawSeq(); });
+      pool.append(b); return b;
+    });
+    function drawSeq() { seqBox.replaceChildren(...(seq.length ? seq.map((t, i) => h('span', { class: 'chip' }, (i + 1) + '. ' + t)) : [h('span', { class: 'empty' }, 'Ældst først …')])); }
+    drawSeq();
+    const reset = h('button', { class: 'btn ghost', type: 'button' }, 'Start forfra');
+    reset.addEventListener('click', () => { seq.length = 0; btns.forEach(b => b.disabled = false); drawSeq(); fb.replaceChildren(); });
+    const btn = h('button', { class: 'btn', type: 'button' }, 'Tjek rækkefølge');
+    btn.addEventListener('click', () => {
+      if (seq.length < q.items.length) { showFb('hint', 'Placér alle lagene først.'); return; }
+      const right = seq.filter((t, i) => t === q.items[i]).length;
+      if (right === q.items.length) success(seq.join(' → '));
+      else { tries++; showFb('bad', `${right} af ${q.items.length} står på den rigtige plads. ${q.hint || ''}`); }
+    });
+    wrap.append(h('div', { class: 'cap' }, 'Klik i rækkefølge:'), pool, seqBox, h('div', { class: 'row' }, btn, reset));
+  }
+  wrap.append(fb);
+  return wrap;
+}
+
+/* =====================================================================
+   VISNINGER
+   ===================================================================== */
+const app = $('#app');
+const homeBtn = $('#homebtn');
+homeBtn.addEventListener('click', () => showHome());
+
+function mainDone(c) { const st = cs(c.id); return c.questions.every(q => st.done[q.id]); }
+function statusText(c) {
+  const st = cs(c.id), n = c.questions.filter(q => st.done[q.id]).length;
+  if (st.report) return ['Rapport færdig', true];
+  if (n === 0) return ['Ikke startet', false];
+  if (n < c.questions.length) return [`Laboratoriet: ${n} af ${c.questions.length}`, false];
+  return ['Klar til rapport', false];
+}
+
+function showHome() {
+  if (canSpeak) speechSynthesis.cancel();
+  homeBtn.hidden = true;
+  app.replaceChildren();
+  app.append(h('section', { class: 'hero' },
+    h('h1', {}, 'Hvem var de?'),
+    h('p', {}, 'Seks fund, seks metoder. I skal bruge data fra laboratoriet til at sige noget sandt – og ærligt – om menneskerne bag fundene. Vælg jeres sag.')));
+  app.append(h('button', { class: 'demo-entry', type: 'button', onclick: () => { seedDemo(); openCase('demo', 'sagen'); } },
+    h('div', {}, h('h3', {}, 'Se et færdigt eksempel først'), h('p', {}, 'En udfyldt sag, der viser hvert trin: laboratoriet, flere prøver, rapporten og de færdige slides.')),
+    h('span', { class: 'btn' }, 'Åbn eksemplet')));
+  const grid = h('div', { class: 'tags' });
+  CASES.forEach(c => {
+    const [txt, done] = statusText(c);
+    const t = h('button', { class: 'tag', type: 'button', onclick: () => openCase(c.id, cs(c.id).report ? 'rapport' : 'sagen') },
+      h('span', { class: 'nr' }, 'Fund ' + c.nr),
+      h('h3', {}, c.title),
+      h('span', { class: 'place' }, c.place),
+      h('p', { class: 'teaser' }, c.teaser),
+      h('span', { class: 'foot' }, stamp(c.method), h('span', { class: 'status' + (done ? ' done' : '') }, txt)));
+    grid.append(t);
+  });
+  app.append(grid);
+  let armed = false;
+  const reset = h('button', { class: 'btn ghost small', type: 'button' }, 'Nulstil alle sager');
+  reset.addEventListener('click', () => {
+    if (!armed) { armed = true; reset.textContent = 'Klik igen for at slette alt'; setTimeout(() => { armed = false; reset.textContent = 'Nulstil alle sager'; }, 4000); return; }
+    S = { cases: {} }; save(); showHome();
+  });
+  app.append(h('div', { class: 'foot-note' }, h('span', {}, 'Sagerne er opdigtede. Metoderne virker sådan her i virkeligheden, og tallene ligger tæt på rigtige måleresultater.'), reset));
+  window.scrollTo(0, 0);
+}
+
+const TABS = [['sagen', '1 Sagen'], ['lab', '2 Laboratoriet'], ['proever', '3 Flere prøver'], ['rapport', '4 Rapport']];
+function openCase(id, tab) {
+  if (canSpeak) speechSynthesis.cancel();
+  const c = byId(id);
+  homeBtn.hidden = false;
+  app.replaceChildren();
+  app.append(h('div', { class: 'casehead no-print' },
+    h('div', {}, h('div', { class: 'cap', style: 'color:var(--muted)' }, c.demo ? 'Eksempel' : 'Fund ' + c.nr), h('h2', {}, c.title), h('div', { class: 'place' }, c.place)),
+    stamp(c.method)));
+  const nav = h('div', { class: 'tabs no-print', role: 'tablist' });
+  TABS.forEach(([k, n]) => nav.append(h('button', { role: 'tab', type: 'button', 'aria-selected': k === tab ? 'true' : 'false', onclick: () => openCase(id, k) }, n)));
+  app.append(nav);
+  const body = h('div'); app.append(body);
+  ({ sagen: viewStory, lab: viewLab, proever: viewCards, rapport: viewReport })[tab](c, body);
+  window.scrollTo(0, 0);
+}
+
+function viewStory(c, el) {
+  el.append(guideBox(c, 'sagen') || '');
+  const p = h('div', { class: 'panel' });
+  p.append(h('div', { class: 'row between' }, h('h3', {}, 'Sagsmappen'), sayBtn(() => c.story.join(' '))));
+  c.story.forEach(t => p.append(h('p', { class: 'story' }, t)));
+  p.append(h('h3', { style: 'margin-top:14px' }, 'I laboratoriet ligger'));
+  p.append(h('ul', { class: 'finds' }, c.finds.map(f => h('li', {}, f))));
+  p.append(h('div', { class: 'next', style: 'background:var(--soft)' }, h('span', {}, 'Hovedmetode: ' + METHODS[c.method].name), h('button', { class: 'btn', type: 'button', onclick: () => openCase(c.id, 'lab') }, 'Gå til laboratoriet')));
+  el.append(p);
+}
+
+function evidenceBlock(c) {
+  const st = cs(c.id);
+  const b = h('div', { class: 'evidence' }, h('h3', {}, `Jeres beviser (${st.notes.length})`));
+  if (!st.notes.length) b.append(h('p', { class: 'empty' }, 'Løs opgaver for at samle beviser. I skal bruge dem i rapporten.'));
+  else b.append(h('ol', {}, st.notes.map(n => h('li', {}, n.text))));
+  return b;
+}
+
+function viewLab(c, el) {
+  el.append(guideBox(c, 'lab') || '');
+  const p = h('div', { class: 'panel' });
+  p.append(h('div', { class: 'primer', style: `--c:${METHODS[c.method].c}` }, h('div', { class: 'row between' }, h('h3', {}, 'Sådan virker ' + METHODS[c.method].name.toLowerCase().replace('(c-14)', '(C-14)')), sayBtn(c.primer)), h('p', {}, c.primer)));
+  const inst = h('div', { class: 'instrument' }); p.append(inst);
+  WIDGETS[c.widget](inst);
+  const qs = h('div'); p.append(qs);
+  el.append(p);
+  function draw(scrollTo) {
+    const st = cs(c.id); qs.replaceChildren();
+    let open = true, nextEl = null;
+    c.questions.forEach((q, i) => {
+      const done = !!st.done[q.id];
+      const state = done ? 'done' : open ? 'open' : 'locked';
+      const node = renderQ(c, q, `Opgave ${i + 1} af ${c.questions.length}`, state, () => draw(true));
+      if (state === 'open' && !nextEl) nextEl = node;
+      qs.append(node);
+      if (!done) open = false;
+    });
+    if (mainDone(c)) {
+      qs.append(h('div', { class: 'next' }, h('span', {}, 'Hovedanalysen er færdig. Flere prøver giver jer flere beviser om personen.'),
+        h('span', { class: 'row' }, h('button', { class: 'btn ghost', type: 'button', onclick: () => openCase(c.id, 'proever') }, 'Flere prøver'), h('button', { class: 'btn', type: 'button', onclick: () => openCase(c.id, 'rapport') }, 'Skriv rapport'))));
+    }
+    qs.append(evidenceBlock(c));
+    if (scrollTo) { const target = nextEl || qs.querySelector('.next'); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+  }
+  draw(false);
+}
+
+function viewCards(c, el) {
+  el.append(guideBox(c, 'proever') || '');
+  const p = h('div', { class: 'panel' });
+  p.append(h('h3', {}, 'Flere prøver fra samme fund'));
+  p.append(h('p', { class: 'cap', style: 'color:var(--muted)' }, 'Andre specialister har undersøgt fundet. Læs deres data og tag stilling. Hvert svar giver et bevis mere til rapporten.'));
+  const box = h('div', { class: 'cards' }); p.append(box);
+  el.append(p);
+  function draw() {
+    const st = cs(c.id); box.replaceChildren();
+    c.cards.forEach(k => {
+      const done = k.info ? st.notes.some(n => n.text === k.note) : !!st.done[k.q.id];
+      const card = h('div', { class: 'card' + (done ? ' done' : '') },
+        h('div', { class: 'row between' }, h('h4', { style: 'margin:0' }, k.title), stamp(k.method, true)),
+        h('div', { class: 'data' }, k.data));
+      if (k.info) {
+        if (done) card.append(h('div', { class: 'noted' }, 'Noteret som bevis: ' + k.note));
+        else card.append(h('button', { class: 'btn small', type: 'button', onclick: () => { addNote(c.id, k.note, k.method); draw(); } }, 'Notér som bevis'));
+      } else card.append(renderQ(c, k.q, '', done ? 'done' : 'open', draw));
+      box.append(card);
+    });
+    box.append(evidenceBlock(c));
+  }
+  draw();
+}
+
+/* ---------- Rapport ---------- */
+const CERTS = [['s', 'Sikkert'], ['p', 'Sandsynligt'], ['m', 'Muligt']];
+const words = t => (t.match(/[A-Za-zÆØÅæøåÄÖÜäöüéè0-9]{2,}/g) || []).length;
+const looksReal = t => { const w = t.match(/[A-Za-zÆØÅæøå]+/g) || []; return w.length > 0 && w.filter(x => x.length > 14).length / w.length < 0.3; };
+function viewReport(c, el) {
+  const st = cs(c.id);
+  if (!mainDone(c)) {
+    el.append(h('div', { class: 'panel' }, h('h3', {}, 'Rapporten låses op efter laboratoriet'),
+      h('p', {}, `I har løst ${c.questions.filter(q => st.done[q.id]).length} af ${c.questions.length} opgaver i laboratoriet. Når hovedanalysen er færdig, kan I skrive rapporten.`),
+      h('button', { class: 'btn', type: 'button', onclick: () => openCase(c.id, 'lab') }, 'Gå til laboratoriet')));
+    return;
+  }
+  if (st.report) { viewSlides(c, el); return; }
+  el.append(guideBox(c, 'rapport') || '');
+  const d = st.draft = Object.assign({ method: '', claims: [{ t: '', ev: [], c: '' }, { t: '', ev: [], c: '' }, { t: '', ev: [], c: '' }], dtype: '', dwhen: '', unknown: '' }, st.draft || {});
+  const persist = () => save();
+  const p = h('div', { class: 'panel' });
+  p.append(h('h3', {}, 'Skriv jeres rapport'));
+  p.append(h('p', { class: 'cap', style: 'color:var(--muted);max-width:70ch' }, 'Rapporten bliver til tre slides. Alt skal skrives med jeres egne ord. Hver påstand om personen skal bygge på mindst ét bevis fra laboratoriet.'));
+
+  const ta = (val, on, ph) => { const t = h('textarea', { placeholder: ph || '' }); t.value = val || ''; t.addEventListener('input', () => { on(t.value); persist(); }); return t; };
+
+  p.append(h('div', { class: 'field' }, h('label', {}, `Metoden: ${METHODS[c.method].name}`),
+    h('div', { class: 'help' }, 'Forklar med jeres egne ord, hvad metoden kan måle, og hvordan I brugte den i sagen.'),
+    ta(d.method, v => d.method = v, 'Metoden kan måle … Vi brugte den på … og fandt ud af …')));
+
+  const starters = ['Personen voksede op …', 'Personen døde …', 'Personen levede et liv med …'];
+  const claimsWrap = h('div', { class: 'field' }, h('div', { class: 'lbl' }, 'Påstande om personen'),
+    h('div', { class: 'help' }, 'Skriv mindst to påstande som hele sætninger. Vælg de beviser, påstanden bygger på, og hvor sikre I er.'));
+  d.claims.forEach((cl, i) => {
+    const box = h('div', { class: 'claim' }, h('h4', {}, `Påstand ${i + 1}` + (i === 2 ? ' (valgfri)' : '')));
+    box.append(ta(cl.t, v => cl.t = v, starters[i]));
+    box.append(h('div', { class: 'cap', style: 'margin-top:8px' }, 'Bygger på bevis nr.:'));
+    const ev = h('div', { class: 'evpick' });
+    st.notes.forEach((n, j) => {
+      const inp = h('input', { type: 'checkbox', checked: cl.ev.includes(j) ? true : null });
+      inp.addEventListener('change', () => { cl.ev = inp.checked ? [...new Set([...cl.ev, j])] : cl.ev.filter(x => x !== j); persist(); });
+      ev.append(h('label', { title: n.text }, inp, String(j + 1)));
+    });
+    box.append(ev);
+    const certs = h('div', { class: 'certs', role: 'radiogroup', 'aria-label': 'Hvor sikre er I?' });
+    CERTS.forEach(([k, n]) => { const inp = h('input', { type: 'radio', name: 'cert' + i, value: k, checked: cl.c === k ? true : null }); inp.addEventListener('change', () => { cl.c = k; persist(); }); certs.append(h('label', {}, inp, ' ' + n)); });
+    box.append(h('div', { class: 'row' }, h('span', { class: 'cap' }, 'Hvor sikre er I?'), certs));
+    claimsWrap.append(box);
+  });
+  p.append(claimsWrap);
+  p.append(h('details', { class: 'evref', open: true }, h('summary', {}, 'Se jeres beviser med numre'), h('ol', {}, st.notes.map(n => h('li', {}, n.text)))));
+
+  const sel = h('select', { 'aria-label': 'Type af datering' }, h('option', { value: '' }, 'Vælg …'), h('option', { value: 'absolut' }, 'Absolut – et årstal eller tidsrum målt med naturvidenskab'), h('option', { value: 'relativ' }, 'Relativ – en rækkefølge eller sammenligning med andre fund'), h('option', { value: 'begge' }, 'Begge dele'));
+  sel.value = d.dtype; sel.addEventListener('change', () => { d.dtype = sel.value; persist(); });
+  const when = h('input', { type: 'text', placeholder: 'fx "ca. 450 f.v.t." eller "mellem 1241 og 1302"', style: 'width:100%;padding:9px 10px;border:1.5px solid var(--line);border-radius:6px;background:var(--card);margin-top:8px' });
+  when.value = d.dwhen; when.addEventListener('input', () => { d.dwhen = when.value; persist(); });
+  p.append(h('div', { class: 'field', style: 'margin-top:16px' }, h('label', {}, 'Datering'), h('div', { class: 'help' }, 'Hvordan er fundet dateret, og hvornår levede eller døde personen?'), sel, when));
+
+  p.append(h('div', { class: 'field' }, h('label', {}, 'Det kan vi ikke vide'), h('div', { class: 'help' }, 'Hvad kan laboratoriet IKKE svare på? Hvad ville I undersøge næste gang?'), ta(d.unknown, v => d.unknown = v, 'Vi kan ikke vide …')));
+
+  const errs = h('div', { 'aria-live': 'assertive' });
+  p.append(errs);
+  p.append(h('button', { class: 'btn', type: 'button', onclick: () => {
+    const e = [];
+    if (words(d.method) < 12 || !looksReal(d.method)) e.push('Forklar metoden med mindst et par hele sætninger (ca. 12 ord eller mere).');
+    const filled = d.claims.map((cl, i) => [cl, i]).filter(([cl]) => cl.t.trim());
+    if (filled.length < 2) e.push('Skriv mindst to påstande om personen.');
+    filled.forEach(([cl, i]) => {
+      if (words(cl.t) < 5 || !looksReal(cl.t)) e.push(`Påstand ${i + 1} skal være en hel sætning på mindst 5 ord.`);
+      if (!cl.ev.length) e.push(`Påstand ${i + 1} mangler et bevis. Hvilket fund bygger den på?`);
+      if (!cl.c) e.push(`Vælg hvor sikre I er på påstand ${i + 1}.`);
+    });
+    if (!d.dtype) e.push('Vælg, hvordan fundet er dateret.');
+    else if (d.dtype !== c.dating) e.push('Tjek dateringen: ' + c.datingFb + (c.id === 'raevehoej' || c.id === 'klosteret' ? ' (Se kortene under "Flere prøver".)' : ''));
+    if (d.dwhen.trim().length < 4) e.push('Skriv, hvornår personen levede eller blev begravet.');
+    if (words(d.unknown) < 6 || !looksReal(d.unknown)) e.push('Skriv i en hel sætning, hvad I ikke kan vide ud fra data (mindst 6 ord).');
+    if (e.length) { errs.replaceChildren(h('div', { class: 'errors' }, h('strong', {}, 'Rapporten er ikke klar endnu:'), h('ul', {}, e.map(x => h('li', {}, x))))); errs.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+    st.report = true; save(); openCase(c.id, 'rapport');
+  } }, 'Lav slides'));
+  el.append(p);
+}
+
+const inClaude = !!(window.claude && typeof window.claude.use === 'function');
+let dlPromise = null;
+function getDownloads() { if (!dlPromise) dlPromise = inClaude ? Promise.resolve(window.claude.use('downloads')).catch(() => null) : Promise.resolve(null); return dlPromise; }
+function esc(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+function buildDeck(c, slidesEl) {
+  const body = [...slidesEl.querySelectorAll('.slide')].map(s => s.outerHTML).join('\n');
+  return `<!DOCTYPE html>
+<html lang="da"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${esc(c.title)} – fremlæggelse</title>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Zilla+Slab:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--m-sr:#6E4A9E;--m-c14:#1F5FA8;--m-dendro:#8A5A2B;--m-strat:#8C6A00;--m-typo:#257566;--m-osteo:#9C3D54;--m-other:#55666A}
+html,body{margin:0;height:100%;background:#1B2A2F;overflow:hidden}
+.slide{position:absolute;inset:0;margin:auto;box-sizing:border-box;width:min(100vw,177.78vh);height:min(56.25vw,100vh);font-size:calc(min(100vw,177.78vh)/58);background:#fff;color:#1B2A2F;padding:4.5% 5.5%;display:none;flex-direction:column;overflow:hidden;font-family:'Atkinson Hyperlegible','Segoe UI',Verdana,sans-serif;line-height:1.45}
+.slide.on{display:flex}
+.sk{font-size:.8em;color:#55666A;margin-bottom:.3em}
+h2{font-family:'Zilla Slab',Rockwell,Georgia,serif;font-size:2.3em;line-height:1.1;margin:0 0 .6em}
+p{margin:0 0 .7em}
+ul{padding-left:1.1em;margin:0} li{margin-bottom:.4em}
+.cols{display:grid;grid-template-columns:3fr 2fr;gap:5%;flex:1;min-height:0}
+.stamp{display:inline-block;font-family:'Zilla Slab',Georgia,serif;font-weight:700;color:var(--c);border:2px solid var(--c);border-radius:4px;padding:1px 9px;transform:rotate(-3deg)}
+.cert{display:inline-block;font-size:.78em;font-weight:700;border:1.5px solid currentColor;border-radius:4px;padding:0 6px;margin-right:6px;vertical-align:1px}
+.cert.s{color:#23764A}.cert.p{color:#1F5FA8}.cert.m{color:#8C6A00}
+.small{font-size:.85em;color:#55666A}
+.hud{position:fixed;right:14px;bottom:12px;display:flex;gap:8px;align-items:center;font:14px 'Atkinson Hyperlegible',sans-serif;color:#fff}
+.hud button{font:inherit;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:6px;padding:6px 10px;cursor:pointer}
+.hud button:hover{background:rgba(255,255,255,.25)}
+@media print{
+  @page{size:A4 landscape;margin:0}
+  html,body{height:auto;overflow:visible;background:#fff}
+  .slide{position:relative;display:flex!important;width:297mm;height:209mm;font-size:13pt;break-after:page;page-break-after:always}
+  .slide:last-of-type{break-after:auto;page-break-after:auto}
+  .hud{display:none}
+}
+</style></head><body>
+${body}
+<div class="hud"><button id="pv" aria-label="Forrige slide">‹</button><span id="nr"></span><button id="nx" aria-label="Næste slide">›</button><button id="fs">Fuld skærm</button><button id="pr">Udskriv / PDF</button></div>
+<script>
+var s=document.querySelectorAll('.slide'),i=0;
+function go(n){i=Math.max(0,Math.min(s.length-1,n));s.forEach(function(e,k){e.classList.toggle('on',k===i)});document.getElementById('nr').textContent=(i+1)+' / '+s.length;}
+document.getElementById('pv').onclick=function(){go(i-1)};
+document.getElementById('nx').onclick=function(){go(i+1)};
+document.getElementById('pr').onclick=function(){window.print()};
+document.getElementById('fs').onclick=function(){if(!document.fullscreenElement)document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();else document.exitFullscreen();};
+document.addEventListener('keydown',function(e){if(['ArrowRight','PageDown',' ','Enter'].indexOf(e.key)>-1){e.preventDefault();go(i+1)}if(['ArrowLeft','PageUp','Backspace'].indexOf(e.key)>-1){e.preventDefault();go(i-1)}if(e.key==='f')document.getElementById('fs').click();});
+s.forEach(function(e){e.addEventListener('click',function(){go(i+1)})});
+go(0);
+<\/script></body></html>`;
+}
+const slug = t => (t || '').toLowerCase().replace(/æ/g, 'ae').replace(/ø/g, 'oe').replace(/å/g, 'aa').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+async function saveDeck(c, slidesEl, btn) {
+  const status = btn.parentElement.querySelector('.dlstatus') || btn.parentElement.appendChild(h('span', { class: 'dlstatus cap', 'aria-live': 'polite' }));
+  const html = buildDeck(c, slidesEl), filename = 'laboratoriet-slides-' + (c.demo ? 'eksempel' : c.nr) + '-' + slug(c.title) + '.html';
+  btn.disabled = true;
+  try {
+    const dl = await getDownloads();
+    if (dl) {
+      try { await dl.save({ filename, data: html }); status.textContent = 'Filen er gemt. Åbn den for at fremlægge.'; }
+      catch (e) { status.textContent = e && e.code === 'declined' ? 'Download blev annulleret.' : 'Download er ikke muligt her lige nu.'; }
+    } else if (inClaude) {
+      status.textContent = 'Download er ikke muligt i denne visning.';
+    } else {
+      const url = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+      const a = h('a', { href: url, download: filename }); document.body.append(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 10000);
+      status.textContent = 'Filen er hentet – se under Overførsler.';
+    }
+  } finally { btn.disabled = false; }
+}
+function viewSlides(c, el) {
+  const g = guideBox(c, 'slides'); if (g) { g.classList.add('no-print'); el.append(g); }
+  const st = cs(c.id), d = st.draft;
+  const used = [...new Set(d.claims.filter(cl => cl.t.trim()).flatMap(cl => cl.ev))].sort((a, b) => a - b);
+  const slides = h('div', { class: 'slides' });
+  slides.append(h('section', { class: 'slide' },
+    h('div', { class: 'sk' }, 'Slide 1 · Fundet'),
+    h('h2', {}, c.title),
+    h('div', { class: 'cols' },
+      h('div', {}, h('p', {}, h('strong', {}, 'Findested: '), c.place), c.story.map(t => h('p', {}, t))),
+      h('div', {}, h('p', {}, h('strong', {}, 'Fundet består af')), h('ul', {}, c.finds.map(f => h('li', {}, f))), h('p', { style: 'margin-top:1em' }, stamp(c.method))))));
+  slides.append(h('section', { class: 'slide' },
+    h('div', { class: 'sk' }, 'Slide 2 · Metode og data'),
+    h('h2', {}, METHODS[c.method].name),
+    h('div', { class: 'cols' },
+      h('div', {}, h('p', {}, d.method)),
+      h('div', {}, h('p', {}, h('strong', {}, 'Vores beviser')), h('ul', {}, used.map(j => h('li', {}, `(${j + 1}) ${st.notes[j].text}`)))))));
+  const certName = k => (CERTS.find(x => x[0] === k) || ['', ''])[1];
+  slides.append(h('section', { class: 'slide' },
+    h('div', { class: 'sk' }, 'Slide 3 · Personen'),
+    h('h2', {}, 'Hvem var personen?'),
+    h('div', { class: 'cols' },
+      h('div', {}, h('ul', {}, d.claims.filter(cl => cl.t.trim()).map(cl => h('li', { style: 'margin-bottom:.6em' }, h('span', { class: 'cert ' + cl.c }, certName(cl.c)), cl.t.trim(), ' ', h('span', { class: 'small' }, '(bevis ' + cl.ev.map(j => j + 1).join(', ') + ')'))))),
+      h('div', {}, h('p', {}, h('strong', {}, 'Datering: '), d.dwhen.trim(), ' ', h('span', { class: 'small' }, `(${d.dtype === 'begge' ? 'relativ og absolut' : d.dtype})`)),
+        h('p', {}, h('strong', {}, 'Det kan vi ikke vide: '), d.unknown.trim())))));
+  el.append(slides);
+  el.append(h('div', { class: 'row no-print', style: 'margin-top:16px' },
+    h('button', { class: 'btn', type: 'button', onclick: (ev) => saveDeck(c, slides, ev.currentTarget) }, 'Hent slides som HTML'),
+    inClaude ? null : h('button', { class: 'btn ghost', type: 'button', onclick: () => window.print() }, 'Udskriv / gem som PDF'),
+    h('button', { class: 'btn ghost', type: 'button', onclick: () => { st.report = false; save(); openCase(c.id, 'rapport'); } }, 'Ret rapporten')));
+  el.append(h('details', { class: 'expert no-print' }, h('summary', {}, 'Sammenlign med arkæologens tolkning'),
+    h('p', {}, c.expert),
+    h('p', { class: 'cap', style: 'color:var(--muted)' }, 'Hvor er I enige med arkæologen? Har I været mere eller mindre sikre? Er der noget, I har set, som arkæologen ikke nævner?')));
+}
+
+showHome();
+</script>
+</body>
+</html>

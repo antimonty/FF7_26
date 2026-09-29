@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arkæologi og naturvidenskab – forløb for 7. klasse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Zilla+Slab:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --paper:#E8EDE9; --card:#FFFFFF; --soft:#F3F6F4; --ink:#1B2A2F; --muted:#55666A; --line:#C6D0CA;
+  --accent:#1F5FA8; --accent-ink:#FFFFFF; --gold:#B38A2E; --hint-bg:#FBF0D6;
+  --m-sr:#6E4A9E; --m-c14:#1F5FA8; --m-dendro:#8A5A2B; --m-strat:#8C6A00; --m-typo:#257566; --m-osteo:#9C3D54;
+  --serif:'Zilla Slab', Rockwell, 'Roboto Slab', Georgia, serif;
+  --sans:'Atkinson Hyperlegible', 'Segoe UI', Verdana, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#11181A; --card:#1A2326; --soft:#161E21; --ink:#E4ECE9; --muted:#9CAFB0; --line:#34423F;
+    --accent:#7BAAE8; --accent-ink:#0D1824; --gold:#D9B45A; --hint-bg:#342B14;
+    --m-sr:#B397DB; --m-c14:#7BAAE8; --m-dendro:#D39B63; --m-strat:#D8B447; --m-typo:#5DC4AE; --m-osteo:#E28BA1;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#11181A; --card:#1A2326; --soft:#161E21; --ink:#E4ECE9; --muted:#9CAFB0; --line:#34423F;
+  --accent:#7BAAE8; --accent-ink:#0D1824; --gold:#D9B45A; --hint-bg:#342B14;
+  --m-sr:#B397DB; --m-c14:#7BAAE8; --m-dendro:#D39B63; --m-strat:#D8B447; --m-typo:#5DC4AE; --m-osteo:#E28BA1;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:1.0625rem;line-height:1.55}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1,h2,h3,h4{font-family:var(--serif);line-height:1.15;margin:0 0 .4em}
+p{margin:0 0 .8em}
+.wrap{max-width:960px;margin:0 auto;padding:28px 20px 70px}
+.hero{max-width:66ch;margin:10px 0 26px}
+.hero .kicker{color:var(--muted);font-size:1rem;margin-bottom:6px}
+.hero h1{font-size:clamp(2.3rem,6.4vw,3.8rem);font-weight:700;letter-spacing:-.01em}
+.hero .q{font-family:var(--serif);font-size:clamp(1.25rem,2.8vw,1.6rem);font-weight:500;margin:14px 0 12px;max-width:40ch}
+.hero p{color:var(--muted);font-size:1.08rem}
+.stamp{display:inline-block;font-family:var(--serif);font-weight:700;color:var(--c);border:2px solid var(--c);border-radius:4px;padding:1px 9px;background:var(--card);white-space:nowrap}
+.stamps{display:flex;flex-wrap:wrap;gap:8px}
+.stamps .stamp:nth-child(odd){transform:rotate(-2.5deg)}
+.stamps .stamp:nth-child(even){transform:rotate(2deg)}
+.stamp.sm{font-size:.82rem;padding:0 6px;border-width:1.5px;transform:none!important}
+.jump{display:flex;flex-wrap:wrap;gap:8px;margin:26px 0 0}
+.jump a{display:inline-block;padding:9px 14px;border-radius:6px;font-weight:700;text-decoration:none;background:var(--accent);color:var(--accent-ink)}
+.jump a.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+section{margin-top:44px}
+section > h2{font-size:1.7rem}
+.lead{color:var(--muted);max-width:70ch}
+.gang{display:grid;grid-template-columns:62px 1fr;gap:16px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 20px 18px;margin:14px 0}
+.gang .n{font-family:var(--serif);font-weight:700;font-size:2.4rem;line-height:1;color:var(--muted);text-align:center}
+.gang h3{font-size:1.4rem;margin-bottom:2px}
+.gang .meta{color:var(--muted);font-size:.95rem;margin-bottom:10px}
+.gang .desc{max-width:68ch}
+.gang.work{border:2px solid var(--accent)}
+.mats{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:6px}
+.mats li{display:grid;grid-template-columns:92px 1fr;gap:10px;align-items:baseline}
+.kind{font-size:.8rem;font-weight:700;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:1px 6px;text-align:center;background:var(--soft)}
+.mats a{font-weight:700}
+.mats .sub{color:var(--muted);font-size:.93rem}
+.plan{margin:12px 0 4px;border-collapse:collapse;font-size:.97rem}
+.plan td{padding:5px 14px 5px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.plan td:first-child{white-space:nowrap;font-weight:700}
+.tip{background:var(--hint-bg);border-left:4px solid var(--gold);border-radius:0 8px 8px 0;padding:10px 14px;margin-top:12px;max-width:72ch}
+.cols{display:grid;grid-template-columns:1fr;gap:14px}
+@media (min-width:760px){.cols{grid-template-columns:1fr 1fr}}
+.box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+.box h3{font-size:1.25rem}
+details.teacher{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 20px;margin:12px 0}
+details.teacher summary{cursor:pointer;font-family:var(--serif);font-weight:700;font-size:1.2rem}
+details.teacher[open] summary{margin-bottom:10px}
+details.teacher table{border-collapse:collapse;font-size:.97rem;margin:6px 0 10px}
+details.teacher td,details.teacher th{border-bottom:1px solid var(--line);padding:5px 14px 5px 0;text-align:left;vertical-align:top}
+details.teacher ol,details.teacher ul{padding-left:1.3em;margin:0 0 10px}
+code{background:var(--soft);padding:1px 5px;border-radius:4px;font-size:.92em}
+footer{margin-top:50px;color:var(--muted);font-size:.93rem}
+@media (max-width:520px){.gang{grid-template-columns:1fr}.gang .n{text-align:left}.mats li{grid-template-columns:1fr}.kind{justify-self:start}}
+@media print{body{background:#fff}.jump{display:none}.gang,.box,details.teacher{break-inside:avoid}details.teacher{display:block}}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+<header class="hero">
+  <div class="kicker">Tværfagligt forløb i naturfag og kulturfag, 7. klasse</div>
+  <h1>Arkæologi og naturvidenskab</h1>
+  <p class="q">Hvordan ved vi noget om mennesker, der levede for tusinder af år siden – når de ikke har efterladt ét skrevet ord?</p>
+  <p>I seks gange undersøger eleverne de metoder, arkæologer og naturvidenskabsfolk bruger til at datere fund og fortælle om menneskerne bag dem. Til sidst løser de selv en sag og fremlægger den for 8. klasse.</p>
+  <div class="stamps" aria-label="Forløbets seks metoder">
+    <span class="stamp" style="--c:var(--m-typo)">Typologi</span>
+    <span class="stamp" style="--c:var(--m-strat)">Stratigrafi</span>
+    <span class="stamp" style="--c:var(--m-dendro)">Dendrokronologi</span>
+    <span class="stamp" style="--c:var(--m-c14)">Kulstof-14</span>
+    <span class="stamp" style="--c:var(--m-sr)">Strontiumanalyse</span>
+    <span class="stamp" style="--c:var(--m-osteo)">Human osteologi</span>
+  </div>
+  <nav class="jump" aria-label="Genveje">
+    <a href="laboratoriet.html">Åbn Laboratoriet</a>
+    <a class="ghost" href="#forloebet">Forløbet</a>
+    <a class="ghost" href="vaerktoejskassen.html">Værktøjskassen</a>
+    <a class="ghost" href="#laerer">Til læreren</a>
+  </nav>
+</header>
+
+<section id="forloebet">
+  <h2>Forløbet i seks gange</h2>
+  <p class="lead">Fire gange med oplæg om metoderne, én gang hvor eleverne arbejder i Laboratoriet og forbereder sig, og én gang med fremlæggelser.</p>
+
+  <article class="gang">
+    <div class="n">1</div>
+    <div>
+      <h3>Egtvedpigen</h3>
+      <div class="meta">Oplæg: Steen</div>
+      <div class="stamps" style="margin-bottom:10px"><span class="stamp sm" style="--c:var(--m-dendro)">Dendrokronologi</span><span class="stamp sm" style="--c:var(--m-sr)">Strontiumanalyse</span><span class="stamp sm" style="--c:var(--m-osteo)">Human osteologi</span><span class="stamp sm" style="--c:var(--m-typo)">Typologi</span></div>
+      <p class="desc">Eleverne ser dokumentaren om Egtvedpigen og følger forskerne fra fundet i 1921 til de naturvidenskabelige analyser. Undervejs skelner de mellem observation, analyse, fortolkning og konklusion.</p>
+      <ul class="mats">
+        <li><span class="kind">Film</span><span><a href="https://mitcfu.dk/MaterialeInfo/?faust=TV0000113200" target="_blank" rel="noopener">Dokumentaren på mitCFU</a> <span class="sub">– kræver skolelogin</span></span></li>
+        <li><span class="kind">Elevark</span><span><a href="materialer/gang-1-elevark-egtvedpigen.html">Elevark 1: Egtvedpigen</a> <span class="sub">– udfyldes på siden, eller <a href="materialer/gang-1-elevark-egtvedpigen.pdf" target="_blank">PDF til print</a></span></span></li>
+        <li><span class="kind">Ekstra</span><span><a href="https://natmus.dk/historisk-viden/danmark/oldtid-indtil-aar-1050/bronzealderen-1700-fkr-500-fkr/skrydstruppigen/" target="_blank" rel="noopener">Skrydstrupkvinden</a> <span class="sub">– Nationalmuseet. Et andet bronzealderfund at sammenligne med</span></span></li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="gang">
+    <div class="n">2</div>
+    <div>
+      <h3>Human osteologi</h3>
+      <div class="meta">Oplæg: John</div>
+      <div class="stamps" style="margin-bottom:10px"><span class="stamp sm" style="--c:var(--m-osteo)">Human osteologi</span></div>
+      <p class="desc">Hvad kan knogler og tænder fortælle om et menneske? Eleverne undersøger 3D-modeller af rigtige knogler og vurderer alder, udvikling og køn – og hvor sikre de er, på en skala fra 1 til 5.</p>
+      <ul class="mats">
+        <li><span class="kind">Elevark</span><span><a href="materialer/gang-2-elevark-knogledetektiver.html">Elevark: Knogledetektiver</a> <span class="sub">– udfyldes på siden med 3D-modellerne indbygget, eller <a href="materialer/gang-2-elevark-knogledetektiver.pdf" target="_blank">PDF til print</a> og <a href="materialer/gang-2-elevark-knogledetektiver.docx">Word</a></span></span></li>
+        <li><span class="kind">3D</span><span>
+          <a href="https://sketchfab.com/3d-models/the-anatomy-of-the-human-skull-baf6ac7b781a46218dca2b59dee58817" target="_blank" rel="noopener">Kraniet</a>,
+          <a href="https://sketchfab.com/3d-models/human-male-and-female-pelvis-6e04b899c5204a4eae1d20c4ec5c4ef7" target="_blank" rel="noopener">bækken</a>,
+          <a href="https://sketchfab.com/3d-models/human-femur-a9c1f1a88b104c3fbfe975fa10b31b31" target="_blank" rel="noopener">lårben</a>,
+          <a href="https://sketchfab.com/3d-models/human-humerus-3c9efda69bdc4791950e7253a94eb243" target="_blank" rel="noopener">overarmsknogle</a>,
+          <a href="https://sketchfab.com/welshhc/collections/sex-estimation-1af76dedfed1418696d109596ae75627" target="_blank" rel="noopener">sammenligning af køn</a> og
+          <a href="https://sketchfab.com/DurhamArchaeology/models" target="_blank" rel="noopener">Durham Archaeology</a>
+          <span class="sub">– Sketchfab, mysterie 1–6</span></span></li>
+        <li><span class="kind">Læs</span><span><a href="https://lex.dk/knogler" target="_blank" rel="noopener">Knogler</a> <span class="sub">– Lex</span></span></li>
+        <li><span class="kind">Læs</span><span><a href="https://www.osteoporose.dk/knoglernes-udvikling/skelettets-udvikling/" target="_blank" rel="noopener">Skelettets udvikling</a> <span class="sub">– Osteoporoseforeningen</span></span></li>
+        <li><span class="kind">Aktivitet</span><span><a href="https://www.edutainmenthuset.dk/undervisningsaktiviteter/mission-min-krop/missioner/mission-knogler/" target="_blank" rel="noopener">Mission knogler</a> <span class="sub">– Edutainmenthuset</span></span></li>
+        <li><span class="kind">Museum</span><span><a href="https://cphmuseum.kk.dk/for-boern/undervisning/undervisningsmaterialer/human-osteologi" target="_blank" rel="noopener">Human osteologi</a> <span class="sub">– Københavns Museum</span></span></li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="gang">
+    <div class="n">3</div>
+    <div>
+      <h3>Typologi og stratigrafi</h3>
+      <div class="meta">Oplæg: Steen</div>
+      <div class="stamps" style="margin-bottom:10px"><span class="stamp sm" style="--c:var(--m-typo)">Typologi</span><span class="stamp sm" style="--c:var(--m-strat)">Stratigrafi</span></div>
+      <p class="desc">Syv fund fra byernes jord – fra porcelæn fra Kina til en flintøkse og brandtomten i Perlegade. Eleverne ser, hvordan arkæologer læser form, stil og jordlag, og dyster i Arkæolog-duellen: eleverne mod lærerne.</p>
+      <ul class="mats">
+        <li><span class="kind">Film</span><span><a href="https://www.youtube.com/playlist?list=PLiKR-S4WWyPZy6alRtnwmtxrLCJv1lSUm" target="_blank" rel="noopener">Videoerne om fundene</a> <span class="sub">– playliste på YouTube</span></span></li>
+        <li><span class="kind">Spil</span><span><a href="arkaeolog-duellen.html" target="_blank">Arkæolog-duellen</a> <span class="sub">– to spillere pr. computer, syv sager</span></span></li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="gang">
+    <div class="n">4</div>
+    <div>
+      <h3>Årringsdatering, kulstof-14 og strontium</h3>
+      <div class="meta">Oplæg: John</div>
+      <div class="stamps" style="margin-bottom:10px"><span class="stamp sm" style="--c:var(--m-dendro)">Dendrokronologi</span><span class="stamp sm" style="--c:var(--m-c14)">Kulstof-14</span><span class="stamp sm" style="--c:var(--m-sr)">Strontiumanalyse</span></div>
+      <p class="desc">De tre naturvidenskabelige metoder: Hvordan kan årringe give et præcist år, hvordan kan radioaktivt kulstof måle tid, og hvordan kan tandemalje afsløre, hvor et menneske voksede op?</p>
+      <ul class="mats">
+        <li><span class="kind">Læs</span><span><a href="https://natmus.dk/museer-og-slotte/trelleborg/omtrelleborg/udstillinger/dateringsmetoder/" target="_blank" rel="noopener">Dateringsmetoder</a> <span class="sub">– Nationalmuseet, Trelleborg</span></span></li>
+        <li><span class="kind">Læs</span><span><a href="https://historienet.dk/kultur/arkaeologi/hvordan-bliver-arkaeologiske-fund-dateret" target="_blank" rel="noopener">Hvordan bliver arkæologiske fund dateret?</a> <span class="sub">– Historienet</span></span></li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="gang work">
+    <div class="n">5</div>
+    <div>
+      <h3>Laboratoriet: eleverne løser en sag</h3>
+      <div class="meta">Steen og John</div>
+      <p class="desc">Klassen deles i seks grupper, og hver gruppe får én sag med sin egen metode som hovedfokus. Grupperne arbejder med rigtige data, samler beviser og skriver en rapport, der bliver til tre slides.</p>
+      <table class="plan">
+        <tr><td>Ca. 10 min</td><td>Vis det udfyldte eksempel på storskærm, så alle ved, hvad der skal ske.</td></tr>
+        <tr><td>Ca. 40–50 min</td><td>Grupperne løser sagen i laboratoriet og tager "Flere prøver" med.</td></tr>
+        <tr><td>Ca. 20–30 min</td><td>Rapport, slides og øvning af fremlæggelsen.</td></tr>
+      </table>
+      <ul class="mats">
+        <li><span class="kind">Værktøj</span><span><a href="laboratoriet.html">Laboratoriet – seks sager fra jorden</a></span></li>
+      </ul>
+      <div class="tip">8. klasserne har ikke haft forløbet. Slide 2 er dér, grupperne lærer dem metoden – så forklaringen skal kunne forstås af en, der aldrig har hørt om den.</div>
+    </div>
+  </article>
+
+  <article class="gang work">
+    <div class="n">6</div>
+    <div>
+      <h3>Fremlæggelse for 8. klasse</h3>
+      <div class="meta">Steen og John</div>
+      <p class="desc">Hver gruppe fremlægger sin sag ud fra de tre slides: fundet, metoden og data – og hvad de kan sige om personen, og hvor sikre de er.</p>
+      <ul class="mats">
+        <li><span class="kind">Slides</span><span>Grupperne henter slides som HTML-fil i Laboratoriet. Filen åbner i browseren, og man skifter slide med piletasterne.</span></li>
+      </ul>
+      <div class="tip"><b>Lyt efter, 8. klasse:</b> Hvilken metode brugte gruppen? Hvad fandt de ud af om personen? Og hvad kunne de ikke vide?</div>
+    </div>
+  </article>
+</section>
+
+<section>
+  <h2>Efter forløbet</h2>
+  <div class="cols">
+    <div class="box">
+      <h3>Værktøjskassen</h3>
+      <p>Individuel opsamling på hele forløbet: de fire trin, alle seks metoder, sammenligning og Egtvedpigen igen. Tager ca. 45–60 minutter og kan laves hjemme.</p>
+      <p>Resultatet er et udfyldt ark, der svarer til elevark 2 og 3, og som eleverne kan hente og aflevere i Teams.</p>
+      <p style="margin:0"><a href="vaerktoejskassen.html"><b>Åbn Værktøjskassen</b></a></p>
+    </div>
+    <div class="box">
+      <h3>Elevark 2 og 3</h3>
+      <p>Arkæologens værktøjskasse, sammenligning af metoderne og den afsluttende vurdering – som almindeligt ark, hvor eleverne selv skriver det hele. Et alternativ til Værktøjskassen.</p>
+      <p style="margin:0"><a href="materialer/opsamling-elevark-vaerktoejskasse-og-sammenligning.html"><b>Udfyld på siden</b></a> <span style="color:var(--muted)">eller <a href="materialer/opsamling-elevark-vaerktoejskasse-og-sammenligning.pdf" target="_blank">PDF til print</a></span></p>
+    </div>
+  </div>
+</section>
+
+<section id="laerer">
+  <h2>Til læreren</h2>
+
+  <details class="teacher">
+    <summary>Facit til Laboratoriets tal- og rækkefølgeopgaver</summary>
+    <table>
+      <tr><th>Sag</th><th>Opgave</th><th>Facit</th></tr>
+      <tr><td>Kvinden i egekisten</td><td>Områder for M1 og M3</td><td>M1: Bornholm og Mellemtyske bjerge. M3: findestedet og Nordtyske slette</td></tr>
+      <tr><td>Manden i Kalvemosen</td><td>Alder på rebet og lårbenet</td><td>Ca. 2.400 og ca. 2.680 år før nu</td></tr>
+      <tr><td>Bådgraven ved Hvidesand</td><td>Yderste årring</td><td>År 962, Vestnorge-kurven</td></tr>
+      <tr><td>Barnet under gulvet</td><td>Lagenes rækkefølge</td><td>Undergrund, brandlag, lergulv, teglgulv, muld. Graven: 1241 – ca. 1302</td></tr>
+      <tr><td>Grav 12 på Lynghøj</td><td>Typer og tidsrum</td><td>Dragtspænde D, sværd 3, graven ca. 200–280 e.Kr.</td></tr>
+      <tr><td>Grav 47 ved klosteret</td><td>Højde</td><td>2,38 × 47,2 + 61,4 = 173,7 cm</td></tr>
+    </table>
+    <p>Efter tre forkerte forsøg på en tal-, flueben- eller rækkefølgeopgave kan eleverne selv vælge "Vis løsningen". Det markeres, så du kan se det bagefter.</p>
+  </details>
+
+  <details class="teacher">
+    <summary>Elevernes arbejde gemmes i browseren</summary>
+    <p>Laboratoriet og Værktøjskassen gemmer elevernes svar i den browser, de arbejder i. Lukker de siden, er arbejdet der stadig, når de åbner den igen på samme computer.</p>
+    <p>Skal en computer bruges af en ny gruppe, nulstiller man med knappen nederst på Laboratoriets forside ("Nulstil alle sager") eller i Værktøjskassen under "Min værktøjskasse". Knappen skal trykkes to gange.</p>
+  </details>
+
+  <details class="teacher">
+    <summary>Sådan lægger du siden online med GitHub Pages</summary>
+    <ol>
+      <li>Opret et gratis repository på github.com, fx <code>arkaeologi</code>.</li>
+      <li>Upload alle filerne fra denne mappe – også mappen <code>materialer</code>. Filen <code>index.html</code> er forsiden.</li>
+      <li>Gå til Settings, vælg Pages, og vælg grenen <code>main</code> som kilde.</li>
+      <li>Efter et minut ligger siden på <code>ditbrugernavn.github.io/arkaeologi</code>. Det link kan eleverne få.</li>
+    </ol>
+    <p>Siden kan også bruges uden internet: Åbn <code>index.html</code> direkte fra mappen. Film, 3D-modeller og links kræver dog internet.</p>
+  </details>
+
+  <details class="teacher">
+    <summary>Filer i mappen</summary>
+    <ul>
+      <li><code>index.html</code> – denne side</li>
+      <li><code>laboratoriet.html</code> – de seks sager og det udfyldte eksempel</li>
+      <li><code>vaerktoejskassen.html</code> – opsamlingen efter forløbet</li>
+      <li><code>arkaeolog-duellen.html</code> – spillet til gang 3</li>
+      <li><code>materialer/</code> – alle elevark. Navnet viser, hvornår arket bruges:
+        <ul>
+          <li><code>gang-1-elevark-egtvedpigen</code> – <code>.html</code> og <code>.pdf</code></li>
+          <li><code>gang-2-elevark-knogledetektiver</code> – <code>.html</code>, <code>.pdf</code> og <code>.docx</code></li>
+          <li><code>opsamling-elevark-vaerktoejskasse-og-sammenligning</code> – <code>.html</code> og <code>.pdf</code> (elevark 2 og 3)</li>
+        </ul>
+        HTML-udgaven udfyldes på siden, PDF-udgaven er til print.</li>
+      <li>Filer eleverne henter og afleverer:
+        <ul>
+          <li>Udfyldte elevark: <code>gang-1-elevark-egtvedpigen-ida-7-b.html</code> osv.</li>
+          <li>Slides: <code>laboratoriet-slides-01-kvinden-i-egekisten.html</code> osv.</li>
+          <li>Værktøjskassen: <code>vaerktoejskassen-ida-7-b.html</code></li>
+        </ul></li>
+    </ul>
+  </details>
+
+  <details class="teacher">
+    <summary>Flere gode links</summary>
+    <ul>
+      <li><a href="https://natmus.dk/museer-og-slotte/trelleborg/omtrelleborg/udstillinger/dateringsmetoder/" target="_blank" rel="noopener">Dateringsmetoder</a> – Nationalmuseet</li>
+      <li><a href="https://natmus.dk/historisk-viden/danmark/oldtid-indtil-aar-1050/bronzealderen-1700-fkr-500-fkr/skrydstruppigen/" target="_blank" rel="noopener">Skrydstrupkvinden</a> – Nationalmuseet</li>
+      <li><a href="https://historienet.dk/kultur/arkaeologi/hvordan-bliver-arkaeologiske-fund-dateret" target="_blank" rel="noopener">Hvordan bliver arkæologiske fund dateret?</a> – Historienet</li>
+      <li>"Bronzealderens historie skal genfortælles" – artikel i Kristeligt Dagblad</li>
+    </ul>
+  </details>
+</section>
+
+<footer>
+  Arkæologi og naturvidenskab. Tværfagligt forløb i naturfag og kulturfag ved Steen og John. Sagerne i Laboratoriet er opdigtede, men metoderne og tallene er realistiske.
+</footer>
+</main>
+</body>
+</html>
